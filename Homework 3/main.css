@@ -1,0 +1,215 @@
+:root {
+    --page_width: 725px;
+}
+
+body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    color: #ffffff;
+    font-family: FuturaPTW01-demi;
+    background-color: black;
+}
+
+#main_body {
+    display: block;
+    height: 100%;
+    width: var(--page_width);
+    margin: auto;
+    overflow-x: hidden;
+    perspective: 1px;
+    overflow-y: auto;
+}
+
+#parallax_back_1 {
+    position: absolute;
+    /* Offline */
+    /* background-image: url("http://csci571.com/hw/hw3/images/snow1.jpg"); */
+    background-image: url("./images/snow1.jpg");
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: 1000px 670px;
+    height: 700px;
+    width: var(--page_width);
+    z-index: 0;
+    object-fit: contain;
+    top: -42;
+    transform: translateZ(-3px) scale(4);
+}
+
+#parallax_front {
+    width: var(--page_width);
+    height: 100%;
+    position: absolute;
+    z-index: 2;
+    transform: translateZ(-1px) scale(2);
+}
+
+#parallax_blur_layer {
+    position: absolute;
+    z-index: 1;
+    background: black;
+    opacity: 0.1;
+    width: var(--page_width);
+    height: 300%;
+    transform: translateZ(-1px) scale(2);
+}
+
+#header {
+    width: var(--page_width);
+    font-weight: 100;
+}
+
+#header_title {
+    position: absolute;
+    left: 60px;
+    top: 23px;
+    font-size: 20px;
+    letter-spacing: 5px;
+}
+
+#header_menu > ul {
+    list-style-type: none;
+    position: absolute;
+    left: 387px;
+    top: 30px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    opacity: 0.8;
+    font-size: 8px;
+    letter-spacing: 1.8px;
+}
+
+#header_menu li {
+    padding-right: 6px;
+    padding-left: 5px;
+    display: inline;
+}
+
+
+#content_heading1 {
+    position: absolute;
+    left: 205px;
+    top: 156px;
+    font-size: 65px;
+    text-align: center;
+    width: 300px;
+    font-weight: 400;
+    font-stretch: expanded;
+    letter-spacing: 2px;
+}
+
+#content_heading2 {
+    position: absolute;
+    left: 215px;
+    top: 225px;
+    font-size: 62px;
+    text-align: center;
+    width: 300px;
+    font-weight: 400;
+    font-stretch: expanded;
+    letter-spacing: 4px;
+}
+
+
+#content {
+    position: absolute;
+    left: 172px;
+    top: 341px;
+    font-size: 13px;
+    text-align: center;
+    font-weight: 500;
+    width: 380px;
+    font-family: ProximaNovaW01-Thin;
+    letter-spacing: 1px;
+    font-stretch: extra-condensed;
+    line-height: 175%;
+}
+
+#button {
+    position: absolute;
+    left: 312px;
+    top: 452px;
+    font-size: 8.5px;
+    text-align: center;
+    font-weight: 100;
+    width: 100px;
+    height: 37px;
+    color: black;
+    letter-spacing: 1px;
+    background-color: #ffffff;
+}
+
+#button > p {
+    padding-top: 4px;
+}
+
+#front_middle {
+    position: absolute;
+    top: 608px;
+    background-color: #ffffff;
+    height: 1200px;
+    width: var(--page_width);
+    display: flex;
+    flex-direction: column;
+}
+
+#image_container {
+    margin-top: 60px;
+    margin-left: 60px;
+    display: flex;
+    flex-flow: wrap;
+    width: 603px;
+    height: 603px;
+    justify-content: space-between;
+    align-content: space-between;
+}
+
+#img1 {
+    /* Offline */
+    /* background-image: url("http://csci571.com/hw/hw3/images/snow2.jpg"); */
+    background-image: url("./images/snow2.jpg");
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: 447px 300px;
+    object-fit: contain;
+    height: 300px;
+    width: 295px;
+}
+
+#img2 {
+    /* Offline */
+    /* background-image: url("http://csci571.com/hw/hw3/images/snow3.jpg"); */
+    background-image: url("./images/snow3.jpg");
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: 447px 300px;
+    object-fit: contain;
+    height: 300px;
+    width: 295px;
+}
+
+#img3 {
+    /* Offline */
+    /* background-image: url("http://csci571.com/hw/hw3/images/snow4.jpg"); */
+    background-image: url("./images/snow4.jpg");
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: 447px 300px;
+    object-fit: contain;
+    height: 300px;
+    width: 295px;
+}
+
+#img4 {
+    /* Offline */
+    /* background-image: url("http://csci571.com/hw/hw3/images/snow5.jpg"); */
+    background-image: url("./images/snow5.jpg");
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: 447px 300px;
+    object-fit: contain;
+    height: 300px;
+    width: 295px;
+}
