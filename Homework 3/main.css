@@ -7,8 +7,8 @@ body {
     padding: 0;
     margin: 0;
     color: #ffffff;
-    font-family: FuturaPTW01-demi;
-    background-color: black;
+    font-family: 'Hind', serif;
+    background-color: white;
 }
 
 #main_body {
@@ -35,6 +35,7 @@ body {
     object-fit: contain;
     top: -42;
     transform: translateZ(-3px) scale(4);
+    -webkit-transform: translateZ(-3px) scale(4);
 }
 
 #parallax_front {
@@ -43,6 +44,7 @@ body {
     position: absolute;
     z-index: 2;
     transform: translateZ(-1px) scale(2);
+    -webkit-transform: translateZ(-1px) scale(2);
 }
 
 #parallax_blur_layer {
@@ -53,11 +55,11 @@ body {
     width: var(--page_width);
     height: 300%;
     transform: translateZ(-1px) scale(2);
+    -webkit-transform: translateZ(-1px) scale(2);
 }
 
 #header {
     width: var(--page_width);
-    font-weight: 100;
 }
 
 #header_title {
@@ -65,6 +67,7 @@ body {
     left: 60px;
     top: 23px;
     font-size: 20px;
+    font-weight: bolder;
     letter-spacing: 5px;
 }
 
@@ -78,6 +81,7 @@ body {
     text-align: center;
     opacity: 0.8;
     font-size: 8px;
+    font-weight: 100;
     letter-spacing: 1.8px;
 }
 
@@ -90,6 +94,7 @@ body {
 
 #content_heading1 {
     position: absolute;
+    font-family: FuturaPTW01-demi;
     left: 205px;
     top: 156px;
     font-size: 65px;
@@ -102,6 +107,7 @@ body {
 
 #content_heading2 {
     position: absolute;
+    font-family: FuturaPTW01-demi;
     left: 215px;
     top: 225px;
     font-size: 62px;
@@ -119,11 +125,9 @@ body {
     top: 341px;
     font-size: 13px;
     text-align: center;
-    font-weight: 500;
+    font-weight: 100;
     width: 380px;
-    font-family: ProximaNovaW01-Thin;
     letter-spacing: 1px;
-    font-stretch: extra-condensed;
     line-height: 175%;
 }
 
@@ -149,10 +153,11 @@ body {
     position: absolute;
     top: 608px;
     background-color: #ffffff;
-    height: 1200px;
+    height: 860px;
     width: var(--page_width);
     display: flex;
     flex-direction: column;
+    z-index: 1;
 }
 
 #image_container {
@@ -160,8 +165,8 @@ body {
     margin-left: 60px;
     display: flex;
     flex-flow: wrap;
-    width: 603px;
-    height: 603px;
+    width: 602px;
+    height: 613px;
     justify-content: space-between;
     align-content: space-between;
 }
@@ -212,4 +217,42 @@ body {
     object-fit: contain;
     height: 300px;
     width: 295px;
+}
+
+#middle_text_container {
+    font-size: 9px;
+    color: #000000;
+    width: 335px;
+    line-height: 175%;
+    opacity: 0.7;
+    word-spacing: 1px;
+    margin-top: 20px;
+    margin-left: 217px;
+}
+
+#front_bottom {
+    position: absolute;
+    top: 1400px;
+    height: 1200px;
+    width: var(--page_width);
+    display: flex;
+    flex-direction: column;
+    z-index: 0;
+}
+
+#parallax_back_1 {
+    position: absolute;
+    /* Offline */
+    /* background-image: url("http://csci571.com/hw/hw3/images/snow6.jpg"); */
+    background-image: url("./images/snow6.jpg");
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: 1000px 670px;
+    height: 700px;
+    width: var(--page_width);
+    z-index: 0;
+    object-fit: contain;
+    bottom: 0;
+    transform: translateZ(-3px) scale(4);
+    -webkit-transform: translateZ(-3px) scale(4);
 }
