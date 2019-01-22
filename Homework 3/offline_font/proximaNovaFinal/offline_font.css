@@ -1,8 +1,0 @@
-@font-face {font-family: "ProximaNovaW01-Thin";
-    src: url("./f6da49f473f35bc13562648b03591555.eot"); /* IE9*/
-    src: url("./f6da49f473f35bc13562648b03591555.eot") format("embedded-opentype"), /* IE6-IE8 */
-    url("./f6da49f473f35bc13562648b03591555.woff2") format("woff2"), /* chrome firefox */
-    url("./f6da49f473f35bc13562648b03591555.woff") format("woff"), /* chrome firefox */
-    url("./f6da49f473f35bc13562648b03591555.ttf") format("truetype"), /* chrome firefox opera Safari, Android, iOS 4.2+*/
-    url("./f6da49f473f35bc13562648b03591555.svg#ProximaNovaW01-Thin") format("svg"); /* iOS 4.1- */
-}
