@@ -33,6 +33,7 @@
 
             #input_button {
                 font-size: 12px;
+                padding: 1px 4px;
             }
         </style>
     </head>
@@ -43,8 +44,8 @@
                 <b>Enter URL for Highest-grossing films List JSON File</b>
             </p>
             <form id="form" method="POST" onsubmit="return false;">
-                <input id="input_text" type="text" name="url" size="25" />
-                <input id="input_button" type="button" value="Submit Query" onClick="viewFilmList(this.form.url.value)"/>
+                <input id="input_text" type="text" name="url" />
+                <input id="input_button" type="button" value="Submit Query" onClick="viewFilmList(this.form.url.value)" />
             </form>
         </div>
 
@@ -161,6 +162,7 @@
                     html += "<td style='max-width: 100px;width: 100px;'>" + row[objKeyYear] + "</td>";
 
                     var flag = true;
+                    var flag_bold = true;
                     if (row[objKeyHubs] != null) {
                         if (row[objKeyHubs].hasOwnProperty(objKeyHub)) {
                             hub = row[objKeyHubs][objKeyHub];
@@ -171,8 +173,9 @@
                                     if (hub[j] == null || hub[j].length == 0 || hub[j] == "") {
                                         continue;
                                     }
-                                    if (j == 0) {
+                                    if (flag_bold) {
                                         html += "<li><b>" + hub[j] + "</b></li>";
+                                        flag_bold = false;
                                     } else {
                                         html += "<li>" + hub[j] + "</li>";
                                     }
