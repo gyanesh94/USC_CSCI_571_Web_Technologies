@@ -69,7 +69,11 @@
 
                 if (jsonRequest.status == 200) {
                     try {
-                        return JSON.parse(jsonRequest.responseText);
+                        var jsonData = JSON.parse(jsonRequest.responseText);
+                        if (jsonData == null) {
+                            alert("JSON is Empty");
+                        }
+                        return jsonData;
                     } catch (exp) {
                         alert("Error while parsing JSON: " + exp);
                     }
@@ -98,6 +102,9 @@
                             return false;
                         }
                     }
+                } else {
+                    alert("JSON is Empty");
+                    return false;
                 }
                 alert("Invalid JSON Keys");
                 return false;
