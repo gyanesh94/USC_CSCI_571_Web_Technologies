@@ -7,9 +7,9 @@ Homework Assignments for Master's Course CSCI 571 Web Technologies
 
 ------
 
-Creating a static webpage having parallax effect using HTML and CSS only as shown in [screenshots](Homework%203/assingment_description/screenshots) and [video](Homework%203/assingment_description/hw3%20-%20Spring%202019.mp4).
+Creating a static webpage having parallax effect using HTML and CSS only as shown in [screenshots](Homework%203/assignment_description/screenshots) and [video](Homework%203/assignment_description/hw3%20-%20Spring%202019.mp4).
 
-[Description](Homework%203/assingment_description/HW3_Description.pdf)
+[Description](Homework%203/assignment_description/HW3_Description.pdf)
 
 
 
@@ -17,9 +17,9 @@ Creating a static webpage having parallax effect using HTML and CSS only as show
 
 ------
 
-Familarize with JavaSript and create website that fecth JSON file and parse the data into the table. [video](Homework%204/assingment_description/hw4%20-%20Spring%202019.mp4)
+Familarize with JavaSript and create website that fecth JSON file and parse the data into the table.
 
-[Description](Homework%204/assingment_description/HW4_Description.pdf)](Homework%203/assingment_description/HW3_Description.pdf)
+[video](Homework%204/assignment_description/hw4%20-%20Spring%202019.mp4) [Description](Homework%204/assignment_description/HW4_Description.pdf)
 
 
 
@@ -40,4 +40,4 @@ Using eBay API
 - Also search based on location near by or given zip code
 - Get a product detail, show seller's message as well as similar products
 
-[video](Homework%206/assingment_description/hw6%20-%20Spring%202019.mp4) [Description](Homework%206/assingment_description/HW6_Description.pdf)
+[video](Homework%206/assignment_description/hw6%20-%20Spring%202019.mp4) [Description](Homework%206/assignment_description/HW6_Description.pdf)
