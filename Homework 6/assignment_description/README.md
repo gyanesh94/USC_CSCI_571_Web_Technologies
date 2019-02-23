@@ -22,12 +22,12 @@
       - " Use HTML5 “placeholder” to show the string “zip code” in the zip code edit box and “10” in the distance edit box as the initial values." This is for the initial value when page loads but nothing is specified about performing a second query.
       - The video also does not show a situation like the one described. 
       - I will assume that the placeholder value should be displayed when here is selected and form is resubmitted. But will leave the old zipcode displayed if the user selects here but has not submitted the form yet.
-    - When the **zip code** **edit box** is selected, it is a **required field**, and a **5-digit zip code** must be entered. *Note: value Zipcode error handling to be done on server side see [**Error Handling 1**](#Error Handling 1)*
+    - When the **zip code** **edit box** is selected, it is a **required field**, and a **5-digit zip code** must be entered. *Note: value Zipcode error handling to be done on server side see [**Error Handling 1**](#Error%20Handling%201)*
     - The **default distance is 10 miles from the chosen location**. Use **HTML5 “placeholder”** to **show** the string **“zip code”** in the zip code edit box and **“10” in the distance edit box as the initial values.** An example is shown in Figure 1.
       - ![figure 1](images/figure%201.png)
 
   - **Search button**
-    - You should use the ip-api.com **HTTP API** (See [hint 3.3](#Parsing JSON-formatted data in PHP)) to fetch the **user’s geolocation**,
+    - You should use the ip-api.com **HTTP API** (See [hint 3.3](#Parsing%20JSON-formatted%20data%20in%20PHP)) to fetch the **user’s geolocation**,
 
       - after which the **search button should be enabled** (it is **initially greyed** out and **disabled** when the page loads)
 
@@ -130,7 +130,7 @@
 
 
 
-## Displaying Product Details ([Product details](#Product details) and [Seller Message](#Seller Message) and [Similar Items](#Similar Items))
+## Displaying Product Details ([Product details](#Product%20details) and [Seller Message](#Seller%20Message) and [Similar Items](#Similar%20Items))
 
 ### Product details
 
@@ -279,7 +279,7 @@
 
 ## Error Handlings
 
-- [Error Handling 1](#Error Handling 1) Related to search button
+- [Error Handling 1](#Error%20Handling%201) Related to search button
 
 - It seems some items we get from the **Merchandising API** are no longer existent.
 
@@ -354,9 +354,9 @@
 - You **should not use JQuery** for Homework 6.
 - You **should not call the eBay APIs** directly from JavaScript, bypassing the Apache/HTTP proxy. Implementing any one of them in JavaScript instead of PHP will result in a 4-point penalty.
 - The link to the video is: [Youtube](https://www.youtube.com/watch?v=VtVYSgOwHbI&feature=youtu.be)
-- **Parsing** **using** **only JavaScript** [Important 1](#Important 1), [Important 3](#Important 3)
-- How to handle **empty response** and **missing field data in results, Product JSON** [Important 2](#Important 2), [Important 4](#Important 4)
-- **Behavior of Seller message and Similar Items** when Seller message clicked [Important 5](#Important 5)
-- **Empty Seller Message and Similar Items** JSON Response [Important 6](#Important 6)
-- Which **requests** to be **made** by **PHP** and **Javascript** [Important 7](#Important 7)
+- **Parsing** **using** **only JavaScript** [Important1](#Important%201), [Important 3](#Important%203)
+- How to handle **empty response** and **missing field data in results, Product JSON** [Important 2](#Important%202), [Important 4](#Important%204)
+- **Behavior of Seller message and Similar Items** when Seller message clicked [Important 5](#Important%205)
+- **Empty Seller Message and Similar Items** JSON Response [Important 6](#Important%206)
+- Which **requests** to be **made** by **PHP** and **Javascript** [Important 7](#Important%207)
 - **session** **can not be used in this homework** @332
