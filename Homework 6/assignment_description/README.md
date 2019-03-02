@@ -84,9 +84,11 @@
     - If there are multiple values for a filter append it to the url using & operator:
       - itemFilter[0].name=filter1NAME&itemFilter[0].value=filter1V alue&itemFilter[0].value=filt
         er1V alue.
+    - **HideDuplicateItems** always set to **true** @414
   - **buyerPostalCode**: **Zip code** of where the **product needs to be searched**. You can locate items that have been listed for nearby-markets only by specifying a buyerPostalCode and item filters and MaxDistance.
   - **MaxDistance**: By **default, it is set to 10**. The user can set it to any number which specifies the radius from his location.
     - Should we check the distance value? I believe displaying such error messages is an implementation detail. You should check what are the acceptable data type and values from the API documentation. @344
+    - MaxDistance has to work with buyerPostalCode. Otherwise, there is no meaning for this filter @414
 
 - An **example of an HTTP request to the eBay Finding API** that searches for the products related to USC within a 10 miles radius from the user’s current location is shown below:
 
@@ -328,6 +330,8 @@
    - This article introduces some similar APIs, so you have more choice for your homework 6:
      - https://ahmadawais.com/best-api-geolocating-an-ip-address/
    - Note: Use of Freegeoip API is not recommended.
+   - **Error on Server** @416
+     - The http traffic looked normal for localhost/XAMPP (TCP SYN/ACKs, HTTP POST requesting IP-API JSON, and HTTP response 200 OK). The traffic for cloud server was completely empty because the default protocol was https instead of http (as Mi Li pointed out). When I changed the URL to http instead of https, everything works the same as on XAMPP. Thanks for the assistance in tracking down the issue.
 
 3. ##### Parsing JSON-formatted data in PHP
 
