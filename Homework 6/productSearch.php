@@ -1,11 +1,18 @@
-<html>
+<?php
+if (isset($_GET['submit']) and $_GET['submit'] == true) {
+    echo "True";
+}
+?>
+
+<html lang="en">
     <head>
         <title>Product Search</title>
         <style>
             body {
                 display: flex;
-                justify-content: center;
-                align-items: flex-start;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
                 overflow-x: hidden;
                 height: 100vh;
             }
@@ -82,6 +89,19 @@
             .hidden {
                 display: none;
             }
+
+            #result {
+                display: none;
+                margin-top: 20px;
+                width: 60%;
+            }
+
+            #error {
+                border: 2px solid #cbcbcb;
+                background-color: #fafafa;
+                text-align: center;
+                width: 100%;
+            }
         </style>
     </head>
     <body>
@@ -145,12 +165,14 @@
                         <input type="text" name="hidden_zipcode"/>
                     </div>
                     <div id="formButtons" class="field">
-                        <input type="submit" id="submitButton" name="submit" value="Search" disabled/>
+                        <input type="submit" id="submitButton" name="submit" value="Search" onclick="sendSearchRequest(this.form)" disabled/>
                         <input type="reset" value="Clear"/>
                     </div>
                 </form>
             </div>
         </div>
+
+        <div id="result"></div>
 
         <script>
             window.onload = function () {
@@ -176,7 +198,11 @@
 
 
             };
-            
+
+            function debug(text) {
+                console.log(text);
+            }
+
             function getLocation(productSearchForm) {
                 let jsonRequest = new XMLHttpRequest();
                 jsonRequest.overrideMimeType("application/json");
@@ -226,6 +252,39 @@
                 } else {
                     document.getElementById("distanceHereText").classList.add("disabled");
                     document.getElementById("distanceMilesFromText").classList.add("disabled");
+                }
+            }
+
+            function validFormData(productSearchForm) {
+                let resultEle = document.getElementById("result");
+                resultEle.innerHTML = "";
+                resultEle.style.display = "none";
+
+                if (productSearchForm.nearbySearch.checked && productSearchForm.fromRadio[1].checked) {
+                    let zipcode = productSearchForm.zipcode.value.trim();
+                    if (zipcode.length === 0) {
+                        return false
+                    }
+
+                    let re = /^\d{5}$/;
+                    if (zipcode.match(re)) {
+                        return true;
+                    }
+
+                    let errorElement = document.createElement('div');
+                    errorElement.id = "error";
+                    errorElement.innerText = "Zipcode is invalid";
+                    resultEle.appendChild(errorElement);
+                    resultEle.style.display = "block";
+
+                    return false;
+                }
+
+                return true;
+            }
+
+            function sendSearchRequest(productSearchForm) {
+                if (validFormData(productSearchForm)) {
                 }
             }
 
