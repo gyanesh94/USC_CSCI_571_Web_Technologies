@@ -78,6 +78,10 @@
             #submitButton {
                 margin-right: 10px;
             }
+
+            .hidden {
+                display: none;
+            }
         </style>
     </head>
     <body>
@@ -122,21 +126,26 @@
                         <input type="checkbox" name="nearbySearch" value="true" onchange="changeDistance(this.form)" onload="changeDistance(this.form)"/>
                         <span class="bold">Enable Nearby Search</span>
                         <span>
-                            <input type="number" id="distanceValue" placeholder="10" min="1" name="distance"/>
-                            <span class="bold" id="distanceMilesFromText">miles from</span>
+                            <input type="number" id="distanceValue" placeholder="10" min="1" name="distance" disabled/>
+                            <span class="bold disabled" id="distanceMilesFromText">miles from</span>
                         </span>
                         <span id="distanceFromSpan">
-                            <input type="radio" name="fromRadio" value="here" checked/>
-                            <span class="disabled" id="distanceHereText">Here</span>
+                            <input type="radio" name="fromRadio" value="here" checked disabled/>
+                            <span class="disabled disabled" id="distanceHereText">Here</span>
                             <br/>
                             <span>
-                                <input type="radio" name="fromRadio" value="here"/>
-                                <input type="text" name="zipcode" placeholder="zip code" required/>
+                                <input type="radio" name="fromRadio" value="here" disabled/>
+                                <input type="text" name="zipcode" placeholder="zip code" required disabled/>
                             </span>
                         </span>
                     </div>
+                    <div class="hidden">
+                        <input type="text" name="lat"/>
+                        <input type="text" name="long"/>
+                        <input type="text" name="hidden_zipcode"/>
+                    </div>
                     <div id="formButtons" class="field">
-                        <input type="submit" id="submitButton" value="Search"/>
+                        <input type="submit" id="submitButton" name="submit" value="Search" disabled/>
                         <input type="reset" value="Clear"/>
                     </div>
                 </form>
@@ -147,6 +156,7 @@
             window.onload = function () {
                 let productSearchForm = document.forms.productSearchForm;
                 changeDistance(productSearchForm);
+                getLocation(productSearchForm);
 
                 let distanceRadioButtons = productSearchForm.fromRadio;
                 for (let i = 0; i < distanceRadioButtons.length; i++) {
@@ -166,6 +176,39 @@
 
 
             };
+            
+            function getLocation(productSearchForm) {
+                let jsonRequest = new XMLHttpRequest();
+                jsonRequest.overrideMimeType("application/json");
+                jsonRequest.open("GET", "http://ip-api.com/json", false);
+
+
+                try {
+                    jsonRequest.send();
+                } catch (exp) {
+                    alert("Error while obtaining Geolocation");
+                    productSearchForm.submit.disabled = false;
+                    return null;
+                }
+
+                if (jsonRequest.status === 200) {
+                    try {
+                        let jsonData = JSON.parse(jsonRequest.responseText);
+                        if (jsonData == null) {
+                            alert("JSON is Empty");
+                        }
+                        productSearchForm.lat.value = jsonData.lat;
+                        productSearchForm.long.value = jsonData.long;
+                        productSearchForm.hidden_zipcode.value = jsonData.zip;
+                    } catch (exp) {
+                        alert("Error while parsing JSON: " + exp);
+                    }
+                } else {
+                    alert("Error while obtaining Geolocation");
+                }
+                productSearchForm.submit.disabled = false;
+                return null;
+            }
 
             function changeDistance(productSearchForm) {
                 let isChecked = productSearchForm.nearbySearch.checked;
