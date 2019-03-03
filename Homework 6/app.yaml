@@ -1,0 +1,16 @@
+application: csci571-hw6-ebay
+version: 1
+runtime: php55
+api_version: 1
+threadsafe: yes
+skip_files:
+- assignment_description/
+- assignment_description/*
+
+handlers:
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
+- url: .*
+  script: productSearch.php
