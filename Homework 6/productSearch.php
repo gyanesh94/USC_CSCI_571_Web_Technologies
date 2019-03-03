@@ -1,108 +1,230 @@
 <?php
-if (isset($_GET['submit']) and $_GET['submit'] == true) {
-    echo "True";
+set_error_handler(
+    function ($severity, $message, $file, $line) {
+        throw new ErrorException($message, $severity, $severity, $file, $line);
+    }
+);
+
+$type = null;
+$result = null;
+
+function type_search($data)
+{
+    global $app_id;
+
+    $url = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=%s&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&paginationInput.entriesPerPage=20&keywords=%s";
+
+    $url = sprintf($url, urlencode($app_id), urlencode($data->keyword));
+    if ($data->category != "all") {
+        $url = $url . "&categoryId=" . $data->category;
+    }
+
+    $filter_index = 0;
+
+    if ($data->nearby) {
+        $url = $url . "&buyerPostalCode=" . $data->zipcode;
+        $url = $url . "&itemFilter($filter_index).name=MaxDistance";
+        $url = $url . "&itemFilter($filter_index).value=" . $data->distance;
+        $filter_index++;
+    }
+
+    $url = $url . "&itemFilter($filter_index).name=HideDuplicateItems";
+    $url = $url . "&itemFilter($filter_index).value=True";
+    $filter_index++;
+
+    if (count($data->condition)) {
+        $url = $url . "&itemFilter($filter_index).name=Condition";
+        for ($i = 0; $i < count($data->condition); $i++) {
+            $url = $url . "&itemFilter($filter_index).value($i)=" . $data->condition[$i];
+        }
+        $filter_index++;
+    }
+
+    if (count($data->shipping)) {
+        for ($i = 0; $i < count($data->shipping); $i++) {
+            $url = $url . "&itemFilter($filter_index).name=" . $data->shipping[$i];
+            $url = $url . "&itemFilter($filter_index).value=True";
+            $filter_index++;
+        }
+    }
+
+    $json_content = null;
+    try {
+        $json_content = file_get_contents($url);
+    } catch (Exception $e) {
+        global $error;
+        global $error_message;
+        $error = true;
+        $error_message = "Error while fetching from Search API";
+    }
+
+    return $json_content;
+}
+
+if (isset($_POST['data'])) {
+    $app_id = "GyaneshM-ProductS-PRD-c16db7c91-88e4ea5d";
+    $error = false;
+    $error_message = "";
+
+    $data = json_decode($_POST['data']);
+    print_r($data);
+
+    $type = $data->type;
+    if ($type == 'search') {
+        $result = type_search($data);
+    }
 }
 ?>
 
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        overflow-x: hidden;
+        height: 100vh;
+    }
+
+    #productSearch {
+        border: 3px solid #cbcbcb;
+        background-color: #fafafa;
+        padding-left: 8px;
+        padding-right: 8px;
+        width: 40%;
+    }
+
+    #searchHeading {
+        width: 100%;
+        font-size: 32px;
+        text-align: center;
+        border-bottom: 2px solid #cbcbcb;
+        padding-bottom: 4px;
+    }
+
+    #searchForm {
+        position: relative;
+        left: 5px;
+        top: 5px;
+    }
+
+    .bold {
+        font-weight: bold;
+    }
+
+    .field {
+        margin-bottom: 10px;
+    }
+
+    .checkbox {
+        margin-left: 20px;
+    }
+
+    .shipping {
+        margin-left: 43px;
+    }
+
+    #distanceValue {
+        width: 50px;
+        margin-left: 35px;
+    }
+
+    #distanceFromSpan {
+        display: inline-block;
+        margin-left: 5px;
+    }
+
+    #distanceDiv {
+        display: flex;
+    }
+
+    .disabled {
+        color: #999999;
+        opacity: 0.8;
+    }
+
+    #formButtons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 30px;
+        margin-right: 50px;
+    }
+
+    #submitButton {
+        margin-right: 10px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    #result {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    #error {
+        border: 2px solid #cbcbcb;
+        background-color: #fafafa;
+        text-align: center;
+        width: 60%;
+    }
+
+    #itemTable {
+        border-collapse: collapse;
+        width: 90%;
+    }
+
+    #itemTable thead {
+        text-align: center;
+    }
+
+    #itemTable td {
+        border: 2px solid #cbcbcb;
+    }
+
+    #itemTable a:link, #itemTable a:visited {
+        color: black;
+        text-decoration: none;
+    }
+
+    #itemTable a:hover, #itemTable a:active {
+        color: #888888;
+        opacity: 0.7%;
+        text-decoration: none;
+    }
+
+    #indexCell {
+    }
+
+    #imgCell {
+        width: 80px;
+        background-size: cover;
+        padding: 0.5px;
+    }
+
+    #titleCell {
+    }
+
+    #priceCell {
+    }
+
+    #zipcodeCell {
+    }
+
+    #conditionCell {
+    }
+
+    #shippingCell {
+    }
+</style>
 <html lang="en">
     <head>
         <title>Product Search</title>
-        <style>
-            body {
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: center;
-                overflow-x: hidden;
-                height: 100vh;
-            }
-
-            #productSearch {
-                border: 2px solid #cbcbcb;
-                background-color: #fafafa;
-                padding-left: 8px;
-                padding-right: 8px;
-                width: 40%;
-            }
-
-            #searchHeading {
-                width: 100%;
-                font-size: 32px;
-                text-align: center;
-                border-bottom: 2px solid #cbcbcb;
-                padding-bottom: 4px;
-            }
-
-            #searchForm {
-                position: relative;
-                left: 5px;
-                top: 5px;
-            }
-
-            .bold {
-                font-weight: bold;
-            }
-
-            .field {
-                margin-bottom: 10px;
-            }
-
-            .checkbox {
-                margin-left: 20px;
-            }
-
-            .shipping {
-                margin-left: 43px;
-            }
-
-            #distanceValue {
-                width: 50px;
-                margin-left: 35px;
-            }
-
-            #distanceFromSpan {
-                display: inline-block;
-                margin-left: 5px;
-            }
-
-            #distanceDiv {
-                display: flex;
-            }
-
-            .disabled {
-                color: #999999;
-                opacity: 0.8;
-            }
-
-            #formButtons {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                height: 30px;
-                margin-right: 50px;
-            }
-
-            #submitButton {
-                margin-right: 10px;
-            }
-
-            .hidden {
-                display: none;
-            }
-
-            #result {
-                display: none;
-                margin-top: 20px;
-                width: 60%;
-            }
-
-            #error {
-                border: 2px solid #cbcbcb;
-                background-color: #fafafa;
-                text-align: center;
-                width: 100%;
-            }
-        </style>
     </head>
     <body>
         <div id="productSearch">
@@ -110,7 +232,7 @@ if (isset($_GET['submit']) and $_GET['submit'] == true) {
                 <i>Product Search</i>
             </div>
             <div id="searchForm">
-                <form name="productSearchForm" onsubmit="return false;">
+                <form name="productSearchForm" method="post" onsubmit="return false;">
                     <div class="field">
                         <span class="bold">Keyword</span>
                         <input name="keyword" type="text" required/>
@@ -119,22 +241,21 @@ if (isset($_GET['submit']) and $_GET['submit'] == true) {
                         <span class="bold">Category</span>
                         <select name="category">
                             <option value="all" selected>All Categories</option>
-                            <option value="art">Art</option>
-                            <option value="baby">Baby</option>
-                            <option value="books">Books</option>
-                            <option value="clothing">Clothing</option>
-                            <option value="shoes">Shoes & Accessories</option>
-                            <option value="computer">Computers/Tablets & Networking</option>
-                            <option value="health">Health & Beauty</option>
-                            <option value="music">Music</option>
-                            <option value="games">Video Games & Consoles</option>
+                            <option value="550">Art</option>
+                            <option value="2984">Baby</option>
+                            <option value="267">Books</option>
+                            <option value="11450">Clothing, Shoes & Accessories</option>
+                            <option value="58058">Computers/Tablets & Networking</option>
+                            <option value="26395">Health & Beauty</option>
+                            <option value="11233">Music</option>
+                            <option value="1249">Video Games & Consoles</option>
                         </select>
                     </div>
                     <div class="field">
                         <span class="bold">Condition</span>
                         <input type="checkbox" class="checkbox" name="condition[]" value="New"/>New
                         <input type="checkbox" class="checkbox" name="condition[]" value="Used"/>Used
-                        <input type="checkbox" class="checkbox" name="condition[]" value="unspecified"/>Unspecified
+                        <input type="checkbox" class="checkbox" name="condition[]" value="Unspecified"/>Unspecified
                     </div>
                     <div class="field">
                         <span class="bold">Shipping Options</span>
@@ -160,12 +281,11 @@ if (isset($_GET['submit']) and $_GET['submit'] == true) {
                         </span>
                     </div>
                     <div class="hidden">
-                        <input type="text" name="lat"/>
-                        <input type="text" name="long"/>
                         <input type="text" name="hidden_zipcode"/>
+                        <input type="text" name="data"/>
                     </div>
                     <div id="formButtons" class="field">
-                        <input type="submit" id="submitButton" name="submit" value="Search" onclick="sendSearchRequest(this.form)" disabled/>
+                        <input type="submit" id="submitButton" name="submitButton" value="Search" onclick="sendSearchRequest(this.form)" disabled/>
                         <input type="reset" value="Clear"/>
                     </div>
                 </form>
@@ -186,6 +306,7 @@ if (isset($_GET['submit']) and $_GET['submit'] == true) {
                         if (document.forms.productSearchForm.fromRadio[1].checked) {
                             productSearchForm.zipcode.disabled = false;
                         } else {
+                            productSearchForm.zipcode.value = "";
                             productSearchForm.zipcode.disabled = true;
                         }
                     };
@@ -194,13 +315,58 @@ if (isset($_GET['submit']) and $_GET['submit'] == true) {
                 productSearchForm.onreset = function () {
                     productSearchForm.nearbySearch.checked = false;
                     changeDistance(productSearchForm);
+                };
+
+                this.defaultData = null;
+
+                <?php
+                if (isset($_POST['data'])) {
+                    echo "this.defaultData = " . $_POST['data'] . ";";
+                }
+                ?>
+
+                if (this.defaultData) {
+                    loadSearchData(this.defaultData, productSearchForm);
                 }
 
+                let type = null;
+                let searchData = null;
 
+                <?php
+                if ($error) {
+                    $error_message = json_encode($error_message);
+                    echo "showError($error_message);";
+                } else {
+                    if ($type == 'search') {
+                        echo "type = 'search';";
+                        if ($result) {
+                            echo "searchData = $result;";
+                        }
+                    }
+                }
+                ?>
+
+                if (type === "search") {
+                    showSearchResult(searchData);
+                }
             };
 
             function debug(text) {
                 console.log(text);
+            }
+
+            function resetError() {
+                let resultEle = document.getElementById("result");
+                resultEle.innerHTML = "";
+            }
+
+            function showError(text) {
+                let resultEle = document.getElementById("result");
+
+                let errorElement = document.createElement('div');
+                errorElement.id = "error";
+                errorElement.innerText = text;
+                resultEle.appendChild(errorElement);
             }
 
             function getLocation(productSearchForm) {
@@ -212,8 +378,8 @@ if (isset($_GET['submit']) and $_GET['submit'] == true) {
                 try {
                     jsonRequest.send();
                 } catch (exp) {
-                    alert("Error while obtaining Geolocation");
-                    productSearchForm.submit.disabled = false;
+                    showError("Error while obtaining Geolocation3");
+                    productSearchForm.submitButton.disabled = false;
                     return null;
                 }
 
@@ -221,19 +387,60 @@ if (isset($_GET['submit']) and $_GET['submit'] == true) {
                     try {
                         let jsonData = JSON.parse(jsonRequest.responseText);
                         if (jsonData == null) {
-                            alert("JSON is Empty");
+                            showError("Geolocation API response is Empty");
                         }
-                        productSearchForm.lat.value = jsonData.lat;
-                        productSearchForm.long.value = jsonData.long;
-                        productSearchForm.hidden_zipcode.value = jsonData.zip;
+                        productSearchForm.hidden_zipcode.value = jsonData.zip || "";
                     } catch (exp) {
-                        alert("Error while parsing JSON: " + exp);
+                        showError("Error while parsing Geolocation response1");
                     }
                 } else {
-                    alert("Error while obtaining Geolocation");
+                    showError("Error while obtaining Geolocation2");
                 }
-                productSearchForm.submit.disabled = false;
+                productSearchForm.submitButton.disabled = false;
                 return null;
+            }
+
+            function loadSearchData(data, productSearchForm) {
+                productSearchForm.keyword.value = data['keyword'];
+
+                let category = productSearchForm.category;
+                productSearchForm.category[0].selected = false;
+                for (let i = 0; i < category.length; i++) {
+                    if (data['category'] === productSearchForm.category[i].value) {
+                        productSearchForm.category[i].selected = true;
+                    }
+                }
+
+                let condition = productSearchForm["condition[]"];
+                for (let i = 0; i < data['condition'].length; i++) {
+                    for (let j = 0; j < condition.length; j++) {
+                        if (condition[j].value === data['condition'][i]) {
+                            condition[j].checked = true;
+                        }
+                    }
+                }
+
+                let shipping = productSearchForm["shipping[]"];
+                for (let i = 0; i < data['shipping'].length; i++) {
+                    for (let j = 0; j < shipping.length; j++) {
+                        if (shipping[j].value === data['shipping'][i]) {
+                            shipping[j].checked = true;
+                        }
+                    }
+                }
+
+                if (data["nearby"]) {
+                    productSearchForm.nearbySearch.checked = data["nearby"];
+                    if (data["distance"] !== "10") {
+                        productSearchForm.distance.value = Number(data["distance"]);
+                    }
+                    if (!data["hereChecked"]) {
+                        productSearchForm.fromRadio[1].checked = true;
+                        productSearchForm.zipcode.value = data["zipcode"];
+                    }
+                    changeDistance(productSearchForm);
+                }
+
             }
 
             function changeDistance(productSearchForm) {
@@ -256,10 +463,15 @@ if (isset($_GET['submit']) and $_GET['submit'] == true) {
             }
 
             function validFormData(productSearchForm) {
-                let resultEle = document.getElementById("result");
-                resultEle.innerHTML = "";
-                resultEle.style.display = "none";
-
+                let keyword = productSearchForm.keyword.value;
+                if (keyword.length === 0) {
+                    return false;
+                }
+                keyword = keyword.trim();
+                if (keyword.length === 0) {
+                    showError("Keyword should contains alphabets or number");
+                    return false;
+                }
                 if (productSearchForm.nearbySearch.checked && productSearchForm.fromRadio[1].checked) {
                     let zipcode = productSearchForm.zipcode.value.trim();
                     if (zipcode.length === 0) {
@@ -271,23 +483,185 @@ if (isset($_GET['submit']) and $_GET['submit'] == true) {
                         return true;
                     }
 
-                    let errorElement = document.createElement('div');
-                    errorElement.id = "error";
-                    errorElement.innerText = "Zipcode is invalid";
-                    resultEle.appendChild(errorElement);
-                    resultEle.style.display = "block";
-
+                    showError("Zipcode is invalid");
                     return false;
                 }
 
                 return true;
             }
 
+            function makeSearchData(productSearchForm) {
+                let data = {};
+                data['type'] = 'search';
+                data['keyword'] = productSearchForm.keyword.value.trim();
+                data['category'] = productSearchForm.category[productSearchForm.category.selectedIndex].value;
+
+                let condition = productSearchForm["condition[]"];
+                data['condition'] = [];
+                for (let i = 0; i < condition.length; i++) {
+                    if (condition[i].checked) {
+                        data['condition'].push(condition[i].value);
+                    }
+                }
+
+                let shipping = productSearchForm["shipping[]"];
+                data['shipping'] = [];
+                for (let i = 0; i < shipping.length; i++) {
+                    if (shipping[i].checked) {
+                        data['shipping'].push(shipping[i].value);
+                    }
+                }
+
+                data["nearby"] = productSearchForm.nearbySearch.checked;
+                data["distance"] = productSearchForm.distance.value || "10";
+                data["hereChecked"] = productSearchForm.fromRadio[0].checked;
+                if (productSearchForm.fromRadio[1].checked) {
+                    data["zipcode"] = productSearchForm.zipcode.value;
+                } else {
+                    data["zipcode"] = productSearchForm.hidden_zipcode.value;
+                }
+
+                return data;
+            }
+
             function sendSearchRequest(productSearchForm) {
+                resetError();
                 if (validFormData(productSearchForm)) {
+                    let data = makeSearchData(productSearchForm);
+                    productSearchForm.data.value = JSON.stringify(data);
+                    document.productSearchForm.submit();
                 }
             }
 
+            function showSearchResult(data) {
+                if (!data || !data.hasOwnProperty("findItemsAdvancedResponse")) {
+                    showError("No data Found");
+                    return;
+                }
+                debug(data);
+                data = data.findItemsAdvancedResponse[0];
+                if (!data.hasOwnProperty("ack")) {
+                    showError("No data found");
+                    return;
+                }
+                if (data["ack"][0] !== "Success") {
+                    if (data.hasOwnProperty("errorMessage") && data.errorMessage.length > 0) {
+                        let errorMessage = data.errorMessage[0];
+                        if (errorMessage.hasOwnProperty("error") && errorMessage.error.length > 0) {
+                            let error = errorMessage.error[0];
+                            if (error.hasOwnProperty("message") && error.message.length > 0) {
+                                showError(error.message[0]);
+                                return;
+                            }
+                        }
+                    }
+                    showError("Data fetching not successful");
+                    return;
+                }
+                if (!data.hasOwnProperty("searchResult") || data.searchResult.length === 0 || data.searchResult[0]["@count"] === "0") {
+                    showError("No Records has been found");
+                    return;
+                }
+
+                let items = data.searchResult[0]["item"];
+                let html = "<table id='itemTable'>" +
+                    "<thead class='bold'>" +
+                    "<td>Index</td>" +
+                    "<td>Photos</td>" +
+                    "<td>Name</td>" +
+                    "<td>Price</td>" +
+                    "<td>Zip code</td>" +
+                    "<td>Condition</td>" +
+                    "<td>Shipping Option</td>" +
+                    "</thead>" +
+                    "<tbody>";
+
+                for (let i = 0; i < items.length; i++) {
+                    let item = items[i];
+                    html += "<tr>";
+                    html += "<td id='indexCell'>" + (i + 1) + "</td>";
+
+                    if (item.hasOwnProperty("galleryURL") && item.galleryURL.length > 0) {
+                        html += "<td id='imgCell'><img id='imgCell' src='" + item.galleryURL[0] + "' onerror=\"this.style.display='none'\" /></td>";
+                    } else {
+                        html += "<td id='imgCell'>N/A</td>";
+                    }
+
+                    if (item.hasOwnProperty("title") && item.title.length > 0) {
+                        html += "<td id='titleCell'><a href='' onclick='getItemData(" + item.itemId[0] + ")'>" + item.title[0] + "</a></td>";
+                    } else {
+                        html += "<td id='titleCell'>N/A</td>";
+                    }
+
+                    let valid = false;
+                    if (item.hasOwnProperty("sellingStatus") && item.sellingStatus.length > 0) {
+                        let sellingStatus = item.sellingStatus[0];
+                        if (sellingStatus.hasOwnProperty("currentPrice") && sellingStatus.currentPrice.length > 0) {
+                            let currentPrice = sellingStatus.currentPrice[0];
+                            if (currentPrice.hasOwnProperty("@currencyId") && currentPrice.hasOwnProperty("__value__")) {
+                                html += "<td id='priceCell'>$" + currentPrice['__value__'] + "</td>";
+                                valid = true;
+                            }
+                        }
+                    }
+                    if (!valid) {
+                        html += "<td id='priceCell'>N/A</td>";
+                    }
+
+                    if (item.hasOwnProperty("postalCode") && item.postalCode.length > 0) {
+                        html += "<td id='zipcodeCell'>" + item.postalCode[0] + "</td>";
+                    } else {
+                        html += "<td id='zipcodeCell'>N/A</td>";
+                    }
+
+                    valid = false;
+                    if (item.hasOwnProperty("condition") && item.condition.length > 0) {
+                        let condition = item.condition[0];
+                        if (condition.hasOwnProperty("conditionDisplayName") && condition.conditionDisplayName.length > 0) {
+                            html += "<td id='conditionCell'>" + condition.conditionDisplayName[0] + "</td>";
+                            valid = true;
+                        }
+                    }
+                    if (!valid) {
+                        html += "<td id='conditionCell'>N/A</td>";
+                    }
+
+                    valid = false;
+                    if (item.hasOwnProperty("shippingInfo") && item.shippingInfo.length > 0) {
+                        let shippingInfo = item.shippingInfo[0];
+                        if (shippingInfo.hasOwnProperty("shippingServiceCost") && shippingInfo.shippingServiceCost.length > 0) {
+                            let shippingServiceCost = shippingInfo.shippingServiceCost[0];
+                            if (shippingServiceCost.hasOwnProperty("@currencyId") && shippingServiceCost.hasOwnProperty("__value__")) {
+                                let value = shippingServiceCost['__value__'];
+                                if (Number(value) === 0) {
+                                    html += "<td id='shippingCell'>Free Shipping</td>";
+                                } else {
+                                    html += "<td id='shippingCell'>$" + value + "</td>";
+                                }
+                                valid = true;
+                            }
+                        }
+                    }
+                    if (!valid) {
+                        html += "<td id='shippingCell'>N/A</td>";
+                    }
+
+                    html += "</tr>";
+                }
+
+                html += "</tbody>" +
+                    "</table>";
+
+                let resultEle = document.getElementById("result");
+                resultEle.innerHTML = html;
+            }
+
+            function getItemData(itemId) {
+                let productSearchForm = document.forms.productSearchForm;
+            }
         </script>
     </body>
 </html>
+< ?php
+restore_error_handler();
+?>

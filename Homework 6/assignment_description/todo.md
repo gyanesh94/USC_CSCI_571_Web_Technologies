@@ -1,95 +1,97 @@
 ## Form Data
 
-  - users must **enter a keyword**
+  - ~~users must **enter a keyword**~~
 
-  - choose what ***Category*** of the product they want to search (categories include Art, Baby, Books, Clothing, Shoes & Accessories, Computers/Tablets & Networking, Health & Beauty, Music and Video Games & Consoles) from a **drop-down list**
+  - ~~choose what ***Category*** of the product they want to search (categories include Art, Baby, Books, Clothing, Shoes & Accessories, Computers/Tablets & Networking, Health & Beauty, Music and Video Games & Consoles) from a **drop-down list**~~
 
-    - The **default** value for the “Category” drop-down list is **“All Categories”**, which covers all of the “types” provided by the eBay Finding API.
+    - ~~The **default** value for the “Category” drop-down list is **“All Categories”**, which covers all of the “types” provided by the eBay Finding API.~~
 
-  - **users** can also choose the **Condition** of the product they want based on new, used or unspecified
+  - ~~**users** can also choose the **Condition** of the product they want based on new, used or unspecified~~
 
-    - **default** value for Condition is all for which none have to be checked 
+    - ~~**default** value for Condition is all for which none have to be checked~~ 
 
-  - **Shipping** option for the **users** (Local Pickup and Free Shipping) which they choose as a filter.
+  - ~~**Shipping** option for the **users** (Local Pickup and Free Shipping) which they choose as a filter.~~
 
-    - The **default** option is all for which neither of the options need to checked
+    - ~~The **default** option is all for which neither of the options need to checked~~
 
-  - the **users** have option of **enabling nearby search** where they can enter **the distance (in miles),** which is the **radius for the search where the center point is “Here”** (zip code of current location returned from ip-api.com HTTP API) or the **zip code** entered in the edit box.
-    - Only when the “**Enable Nearby Search**” is **checked**, the **options** to **put the distance** and select its **center point should be enabled** (it is initially greyed out and disabled when the page loads).
-    - When the “**Here**” radio button is **selected**, the **zip code edit box must be disabled**.
+  - ~~the **users** have option of **enabling nearby search** where they can enter **the distance (in miles),** which is the **radius for the search where the center point is “Here”** (zip code of current location returned from ip-api.com HTTP API) or the **zip code** entered in the edit box.~~
+
+    - ~~Only when the “**Enable Nearby Search**” is **checked**, the **options** to **put the distance** and select its **center point should be enabled** (it is initially greyed out and disabled when the page loads).~~
+    - ~~When the “**Here**” radio button is **selected**, the **zip code edit box must be disabled** and it  must go back to placeholder values @440.~~
     - Note @352:
-      - "When the “Here” radio button is selected, the zip code edit box must be disabled", but even though it is disabled it does not say anything about what value should be displayed.
-      - " Use HTML5 “placeholder” to show the string “zip code” in the zip code edit box and “10” in the distance edit box as the initial values." This is for the initial value when page loads but nothing is specified about performing a second query.
-      - The video also does not show a situation like the one described. 
-      - I will assume that the placeholder value should be displayed when here is selected and form is resubmitted. But will leave the old zipcode displayed if the user selects here but has not submitted the form yet.
-    - When the **zip code** **edit box** is selected, it is a **required field**, and a **5-digit zip code** must be entered. *Note: value Zipcode error handling to be done on server side see [**Error Handling 1**](#Error%20Handling%201)*
-    - The **default distance is 10 miles from the chosen location**. Use **HTML5 “placeholder”** to **show** the string **“zip code”** in the zip code edit box and **“10” in the distance edit box as the initial values.** An example is shown in Figure 1.
+      - ~~" Use HTML5 “placeholder” to show the string “zip code” in the zip code edit box and “10” in the distance edit box as the initial values." This is for the initial value when page loads but nothing is specified about performing a second query.~~
+      - ~~The video also does not show a situation like the one described.~~ 
+      - ~~I will assume that the placeholder value should be displayed when here is selected and form is resubmitted. But will leave the old zipcode displayed if the user selects here but has not submitted the form yet.~~
+    - ~~When the **zip code** **edit box** is selected, it is a **required field**, and a **5-digit zip code** must be entered. *Note: value Zipcode error handling to be done on server side see [**Error Handling 1**](#Error%20Handling%201)*~~
+    - ~~The **default distance is 10 miles from the chosen location**. Use **HTML5 “placeholder”** to **show** the string **“zip code”** in the zip code edit box and **“10” in the distance edit box as the initial values.** An example is shown in Figure 1.~~
       - ![figure 1](images/figure%201.png)
 
   - **Search button**
-    - You should use the ip-api.com **HTTP API** (See [hint 3.3](#Parsing%20JSON-formatted%20data%20in%20PHP)) to fetch the **user’s geolocation**,
+    - ~~You should use the ip-api.com **HTTP API** (See [hint 3.2](#Get%20geolocation%20using%20IP-API.com)) to fetch the **user’s geolocation**~~
 
-      - after which the **search button should be enabled** (it is **initially greyed** out and **disabled** when the page loads)
+      - ~~after which the **search button should be enabled** (it is **initially greyed** out and **disabled** when the page loads)~~
 
-    - The button must be **disabled** while the **page is fetching the user’s geolocation** and must be **enabled** once the **geolocation is obtained**. An example of valid input is shown in Figure 2.
+    - ~~The button must be **disabled** while the **page is fetching the user’s geolocation** and must be **enabled** once the **geolocation is obtained**. An example of valid input is shown in Figure 2.~~
 
       - ![figure 2](images/figure%202.png)
 
-    - Once the user has **provided valid input**, your **client script (written in JavaScript**) should **send a request to your server script productSearch.php** with the form inputs. You can use *either GET or POST* to transfer the form data to the server script.
+    - ~~Once the user has **provided valid input**, your **client script (written in JavaScript**) should **send a request to your server script productSearch.php** with the form inputs. You can use *either GET or POST* to transfer the form data to the server script.~~
 
-    - The **PHP server script** will **retrieve** the form inputs, **reformat** them to the syntax of the API and **send them to the eBay Finding API**.
+    - ~~The **PHP server script** will **retrieve** the form inputs, **reformat** them to the syntax of the API and **send them to the eBay Finding API**.~~
 
     - #### Error Handling 1
 
-      - If the user clicks on the search button **without providing a value in the “Keyword” field or “zip code” edit box**, you should show an **error “tooltip” that indicates which field is missing**. Examples are shown in Figure 3(a) and 3(b). If the input zip code is invalid, the page should display a corresponding error massage as shown in Figure 3(c).
+      - ~~If the user clicks on the search button **without providing a value in the “Keyword” field or “zip code” edit box**, you should show an **error “tooltip” that indicates which field is missing**. Examples are shown in Figure 3(a) and 3(b). If the input zip code is invalid, the page should display a corresponding error massage as shown in Figure 3(c).~~
       - ![figure 3(a)](images/figure%203(a).png)
       - ![figure 3(b)](images/figure%203(b).png)
       - ![figure 3(c)](images/figure%203(c).png)
 
 - **Clear button**
 
-     - This button **must clear the result area** (below the search area) and **set all form fields to the default values in the search area**.
-     - The clear operation must be **done using a JavaScript function**.
+     - ~~This button **must clear the result area** (below the search area) and **set all form fields to the default values in the search area**.~~
+     - ~~The clear operation must be **done using a JavaScript function**.~~
 
 
 
 ## Displaying Products Results Table
 
-- The **eBay Finding API service** is documented here: 
+- ~~The **eBay Finding API service** is documented here:~~ 
 
   - https://developer.ebay.com/DevZone/finding/Concepts/FindingAPIGuide.html
 
-- The **eBay Finding API service to “make a call”** is documented here:
+- ~~The **eBay Finding API service to “make a call”** is documented here:~~
 
   - https://developer.ebay.com/DevZone/finding/Concepts/MakingACall.html
 
 - The eBay Finding API **service expects** the following **parameters**:
-  - **OPERATION-NAME**: Set this field to be ‘findItemsAdvanced’.
-  - **SERVICE-VERSION**: Set this field to be ‘1.0.0’.
-  - **SECURITY-APPNAME**: Your application's API key. This key identifies your application
-    for purposes of quota management.
-  - **RESPONSE-DATA-FORMAT**: Set this field to ‘JSON’.
-  - **REST-PAYLOAD**: Add it to the API call.
-  - **paginationInput.entriesPerPage**: Set this to 20 to limit the number of results for a specific
-    search.
-  - **keywords**: A term to be matched against all content that eBay has indexed for this place,
-    including name of the product to be searched.
-  - **categoryId**: Filters the results to products matching the specified type id. Only one category
-    may be specified (see Table 1). Searching without this field means searching in all categories.
+  - ~~**OPERATION-NAME**: Set this field to be ‘findItemsAdvanced’.~~
+  - ~~**SERVICE-VERSION**: Set this field to be ‘1.0.0’.~~
+  - ~~**SECURITY-APPNAME**: Your application's API key. This key identifies your application~~
+    ~~for purposes of quota management.~~
+  - ~~**RESPONSE-DATA-FORMAT**: Set this field to ‘JSON’.~~
+  - ~~**REST-PAYLOAD**: Add it to the API call.~~
+  - ~~**paginationInput.entriesPerPage**: Set this to 20 to limit the number of results for a specific~~
+    ~~search.~~
+  - ~~**keywords**: A term to be matched against all content that eBay has indexed for this place,~~
+    ~~including name of the product to be searched.~~
+  - ~~**categoryId**: Filters the results to products matching the specified type id. Only one category~~
+    ~~may be specified (see Table 1). Searching without this field means searching in all categories.~~
 
     - ![table 1](images/table%201.png)
-  - There are **4 filters**, namely **Condition, Shipping Options, MaxDistance, HideDuplicateItems**.
-    - **Every filter** should have **two parameters** (name and value).
+  - ~~There are **4 filters**, namely **Condition, Shipping Options, MaxDistance, HideDuplicateItems**.~~
 
-    - When listing the filters, they should be indexed starting from ZERO. An Example of listing two parameters:
+    - ~~**Every filter** should have **two parameters** (name and value).~~
 
-      - itemFilter[0].name=filter1NAME&itemFilter[0].value=filter1Value&itemFilter[1].name=filt er2NAME&itemFilter[1].value=filter2V alue.
+    - ~~When listing the filters, they should be indexed starting from ZERO. An Example of listing two parameters:~~
 
-    - If there are multiple values for a filter append it to the url using & operator:
-      - itemFilter[0].name=filter1NAME&itemFilter[0].value=filter1V alue&itemFilter[0].value=filt
-        er1V alue.
+      - ~~itemFilter[0].name=filter1NAME&itemFilter[0].value=filter1Value&itemFilter[1].name=filt er2NAME&itemFilter[1].value=filter2Value.~~
 
-    - **HideDuplicateItems** always set to **true** @414
+    - ~~If there are multiple values for a filter append it to the url using & operator:~~
+
+      - ~~itemFilter[0].name=filter1NAME&itemFilter[0].value=filter1V alue&itemFilter[0].value=filt~~
+        ~~er1V alue.~~
+
+    - ~~**HideDuplicateItems** always set to **true** @414~~
 
     - **Condition**
 
@@ -101,22 +103,23 @@
          &itemFilter(0).value(1)=2000
          &itemFilter(0).value(2)=2500
         ```
-  - **buyerPostalCode**: **Zip code** of where the **product needs to be searched**. You can locate items that have been listed for nearby-markets only by specifying a buyerPostalCode and item filters and MaxDistance.
-  - **MaxDistance**: By **default, it is set to 10**. The user can set it to any number which specifies the radius from his location.
-    - Should we check the distance value? I believe displaying such error messages is an implementation detail. You should check what are the acceptable data type and values from the API documentation. @344
-    - MaxDistance has to work with buyerPostalCode. Otherwise, there is no meaning for this filter @414
+  - ~~**buyerPostalCode**: **Zip code** of where the **product needs to be searched**. You can locate items that have been listed for nearby-markets only by specifying a buyerPostalCode and item filters and MaxDistance.~~
+  - ~~**MaxDistance**: By **default, it is set to 10**. The user can set it to any number which specifies the radius from his location.~~
 
-- An **example of an HTTP request to the eBay Finding API** that searches for the products related to USC within a 10 miles radius from the user’s current location is shown below:
+    - ~~Should we check the distance value? I believe displaying such error messages is an implementation detail. You should check what are the acceptable data type and values from the API documentation. @344~~
+    - ~~MaxDistance has to work with buyerPostalCode. Otherwise, there is no meaning for this filter @414~~
+
+- ~~An **example of an HTTP request to the eBay Finding API** that searches for the products related to USC within a 10 miles radius from the user’s current location is shown below:~~
 
   - http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=[YOUR_APP_ID]&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&paginationInput.entriesPerPage=20&keywords=usc&itemFilter.name=FreeShippingOnly&itemFilter.value=true&itemFilter.name=LocalPickupOnly&itemFilter.value=true&itemFilter.name=Condition&itemFilter.value=New&itemFilter.value=Used&itemFilter.value=Unspecified&buyerPostalCode=90007&itemFilter.name=MaxDistance&itemFilter.value=10&itemFilter.name=HideDuplicateItems&itemFilter.value=true
-    - The JSON returned from eBay may contains one item multiple times. So add an additional item filter called "HideDuplicateItems" and set the value to "true" to avoid that. This change will save you a lot of time at homework8. @361
+    - ~~The JSON returned from eBay may contains one item multiple times. So add an additional item filter called "HideDuplicateItems" and set the value to "true" to avoid that. This change will save you a lot of time at homework8. @361~~
   - @364
     - http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=[APP-ID]&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&paginationInput.entriesPerPage=20&keywords=iphone&buyerPostalCode=90007&itemFilter(0).name=MaxDistance&itemFilter(0).value=10&itemFilter(1).name=FreeShippingOnly&itemFilter(1).value=true&itemFilter(2).name=LocalPickupOnly&itemFilter(2).value=true&itemFilter(3).name=HideDuplicateItems&itemFilter(3).value=true&itemFilter(4).name=Condition&itemFilter(4).value(0)=New&itemFilter(4).value(1)=Used&itemFilter(4).value(2)=Unspecified
-      - Many students have problems with the eBay finding API. If you cannot get correct responses passing itemFilter as the one described in the homework description, try passing them as an array. Since the sample url in description works fine with my app-id, it's hard for me to find where the problem is.
-      - If you meet such problem (like getting error message or incorrect return items), do not spending too much time on that, switch to pass itemFilter as an array. It's more stable. And if you do that, follow the below rules:
-      - Use parenthetic notation to enumerate the entries in the array
-      - Start the array index with zero ("0") for the first array entry
-      - Keep all array entries together (i.e., do not insert other fields between array entries)
+      - ~~Many students have problems with the eBay finding API. If you cannot get correct responses passing itemFilter as the one described in the homework description, try passing them as an array. Since the sample url in description works fine with my app-id, it's hard for me to find where the problem is.~~
+      - ~~If you meet such problem (like getting error message or incorrect return items), do not spending too much time on that, switch to pass itemFilter as an array. It's more stable. And if you do that, follow the below rules:~~
+      - ~~Use parenthetic notation to enumerate the entries in the array~~
+      - ~~Start the array index with zero ("0") for the first array entry~~
+      - ~~Keep all array entries together (i.e., do not insert other fields between array entries)~~
 
 - **Figure 5** shows an example of the corresponding JSON response returned by the eBay Finding API **service response**.
 
@@ -124,23 +127,23 @@
 
 - ##### Important 1
 
-  - The PHP script (i.e., productSearch.php) **should pass the returned JSON object to the client side unmodified or parse the returned JSON** and extract useful fields and pass these fields to the client side in JSON format.
-  - You should **use JavaScript to parse the JSON object** and **display the results in a tabular format**. A sample output is shown in **Figure 6**.
+  - ~~The PHP script (i.e., productSearch.php) **should pass the returned JSON object to the client side unmodified or parse the returned JSON** and extract useful fields and pass these fields to the client side in JSON format.~~
+  - ~~You should **use JavaScript to parse the JSON object** and **display the results in a tabular format**. A sample output is shown in **Figure 6**.~~
     - ![figure 6](images/figure%206.png)
 
-- The **displayed table includes seven columns**:
+- ~~The **displayed table includes seven columns**:~~
 
-  - Index, Photo, Name, Price, Zip code, Condition and Shipping Option.
+  - ~~Index, Photo, Name, Price, Zip code, Condition and Shipping Option.~~
 
 - ##### Important 2
 
-  - If **returned JSON object is missing a certain key value pair, display “N/A”** in the corresponding field.
+  - ~~If **returned JSON object is missing a certain key value pair, display “N/A”** in the corresponding field.~~
 
-  - If the **API service returns an empty result set**, the page should display “**No records have been found**” as shown in Figure 7.
+  - ~~If the **API service returns an empty result set**, the page should display “**No records have been found**” as shown in Figure 7.~~
     - ![figure 7](images/figure%207.png)
 
-- When the search result **contains at least one record**, you need to **map the data extracted from the**
-  **API result to render the HTML** result table as described in Table 2.
+- ~~When the search result **contains at least one record**, you need to **map the data extracted from the**~~
+  ~~**API result to render the HTML** result table as described in Table 2.~~
 
   - ![table 2_1](images/table%202_1.png)
 
