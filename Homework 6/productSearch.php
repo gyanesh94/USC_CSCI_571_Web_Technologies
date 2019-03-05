@@ -1,19 +1,18 @@
 <?php
-set_error_handler(
-    function ($severity, $message, $file, $line) {
-        throw new ErrorException($message, $severity, $severity, $file, $line);
-    }
-);
+set_error_handler(function ($severity, $message, $file, $line) {
+    throw new ErrorException($message, $severity, $severity, $file, $line);
+});
 
+$error = false;
+$error_message = "";
 $type = null;
 $result = null;
+$similar_item = null;
 
-function type_search($data)
-{
+function type_search($data) {
     global $app_id;
 
     $url = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=%s&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&paginationInput.entriesPerPage=20&keywords=%s";
-
     $url = sprintf($url, urlencode($app_id), urlencode($data->keyword));
     if ($data->category != "all") {
         $url = $url . "&categoryId=" . $data->category;
@@ -61,10 +60,46 @@ function type_search($data)
     return $json_content;
 }
 
+function type_item_detail($data) {
+    global $app_id;
+
+    $url = "http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=JSON&appid=%s&siteid=0&version=967&ItemID=%s&IncludeSelector=Description,Details,ItemSpecifics";
+    $url = sprintf($url, urlencode($app_id), urlencode($data->itemId));
+
+    $json_content = null;
+    try {
+        $json_content = file_get_contents($url);
+    } catch (Exception $e) {
+        global $error;
+        global $error_message;
+        $error = true;
+        $error_message = "Error while fetching Item Detail";
+    }
+
+    return $json_content;
+}
+
+function similar_item($data) {
+    global $app_id;
+
+    $url = "http://svcs.ebay.com/MerchandisingService?OPERATION-NAME=getSimilarItems&SERVICE-NAME=MerchandisingService&SERVICE-VERSION=1.1.0&CONSUMER-ID=%s&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&itemId=%s&maxResults=8";
+    $url = sprintf($url, urlencode($app_id), urlencode($data->itemId));
+
+    $json_content = null;
+    try {
+        $json_content = file_get_contents($url);
+    } catch (Exception $e) {
+        //        global $error;
+        //        global $error_message;
+        //        $error = true;
+        //        $error_message = "Error while fetching from similar item";
+    }
+
+    return $json_content;
+}
+
 if (isset($_POST['data'])) {
     $app_id = "GyaneshM-ProductS-PRD-c16db7c91-88e4ea5d";
-    $error = false;
-    $error_message = "";
 
     $data = json_decode($_POST['data']);
     print_r($data);
@@ -72,6 +107,9 @@ if (isset($_POST['data'])) {
     $type = $data->type;
     if ($type == 'search') {
         $result = type_search($data);
+    } else if ($type == 'item') {
+        $result = type_item_detail($data);
+        $similar_item = similar_item($data);
     }
 }
 ?>
@@ -161,8 +199,9 @@ if (isset($_POST['data'])) {
 
     #result {
         display: flex;
-        align-items: flex-start;
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
         margin-top: 20px;
         width: 100%;
     }
@@ -177,6 +216,7 @@ if (isset($_POST['data'])) {
     #itemTable {
         border-collapse: collapse;
         width: 90%;
+        word-wrap: break-word;
     }
 
     #itemTable thead {
@@ -187,39 +227,29 @@ if (isset($_POST['data'])) {
         border: 2px solid #cbcbcb;
     }
 
+    #itemTable a {
+        text-decoration: none;
+        cursor: pointer;
+    }
+
     #itemTable a:link, #itemTable a:visited {
         color: black;
-        text-decoration: none;
     }
 
     #itemTable a:hover, #itemTable a:active {
-        color: #888888;
+        color: #aaaaaa;
         opacity: 0.7%;
-        text-decoration: none;
-    }
-
-    #indexCell {
     }
 
     #imgCell {
-        width: 80px;
+        width: 90px;
         background-size: cover;
         padding: 0.5px;
     }
 
-    #titleCell {
-    }
-
-    #priceCell {
-    }
-
-    #zipcodeCell {
-    }
-
-    #conditionCell {
-    }
-
-    #shippingCell {
+    #bottomPadding {
+        margin: 10px;
+        width: 100%;
     }
 </style>
 <html lang="en">
@@ -264,7 +294,7 @@ if (isset($_POST['data'])) {
                         Shipping
                     </div>
                     <div class="field" id="distanceDiv">
-                        <input type="checkbox" name="nearbySearch" value="true" onchange="changeDistance(this.form)" onload="changeDistance(this.form)"/>
+                        <input type="checkbox" name="nearbySearch" value="true" onchange="changeDistance(this.form)"/>
                         <span class="bold">Enable Nearby Search</span>
                         <span>
                             <input type="number" id="distanceValue" placeholder="10" min="1" name="distance" disabled/>
@@ -303,7 +333,7 @@ if (isset($_POST['data'])) {
                 let distanceRadioButtons = productSearchForm.fromRadio;
                 for (let i = 0; i < distanceRadioButtons.length; i++) {
                     distanceRadioButtons[i].onclick = function () {
-                        if (document.forms.productSearchForm.fromRadio[1].checked) {
+                        if (productSearchForm.fromRadio[1].checked) {
                             productSearchForm.zipcode.disabled = false;
                         } else {
                             productSearchForm.zipcode.value = "";
@@ -331,6 +361,8 @@ if (isset($_POST['data'])) {
 
                 let type = null;
                 let searchData = null;
+                let itemDetail = null;
+                let similarItem = null;
 
                 <?php
                 if ($error) {
@@ -342,12 +374,22 @@ if (isset($_POST['data'])) {
                         if ($result) {
                             echo "searchData = $result;";
                         }
+                    } else if ($type == 'item') {
+                        echo "type = 'item';";
+                        if ($result) {
+                            echo "itemDetail = $result;";
+                        }
+                        if ($similar_item) {
+                            echo "similarItem = $similar_item;";
+                        }
                     }
                 }
                 ?>
 
                 if (type === "search") {
                     showSearchResult(searchData);
+                } else if (type === "item") {
+                    showItemDetail(itemDetail, similarItem);
                 }
             };
 
@@ -366,7 +408,12 @@ if (isset($_POST['data'])) {
                 let errorElement = document.createElement('div');
                 errorElement.id = "error";
                 errorElement.innerText = text;
+                resultEle.innerHTML = "";
                 resultEle.appendChild(errorElement);
+            }
+
+            function imageError(parent) {
+                parent.innerHTML = "N/A";
             }
 
             function getLocation(productSearchForm) {
@@ -459,6 +506,10 @@ if (isset($_POST['data'])) {
                 } else {
                     document.getElementById("distanceHereText").classList.add("disabled");
                     document.getElementById("distanceMilesFromText").classList.add("disabled");
+                    productSearchForm.zipcode.value = "";
+                    productSearchForm.distance.value = "";
+                    productSearchForm.fromRadio[1].checked = false;
+                    productSearchForm.fromRadio[0].checked = true;
                 }
             }
 
@@ -538,7 +589,7 @@ if (isset($_POST['data'])) {
                     showError("No data Found");
                     return;
                 }
-                debug(data);
+
                 data = data.findItemsAdvancedResponse[0];
                 if (!data.hasOwnProperty("ack")) {
                     showError("No data found");
@@ -582,13 +633,13 @@ if (isset($_POST['data'])) {
                     html += "<td id='indexCell'>" + (i + 1) + "</td>";
 
                     if (item.hasOwnProperty("galleryURL") && item.galleryURL.length > 0) {
-                        html += "<td id='imgCell'><img id='imgCell' src='" + item.galleryURL[0] + "' onerror=\"this.style.display='none'\" /></td>";
+                        html += "<td id='imgCell'><img id='imgCell' src='" + item.galleryURL[0] + "' onerror='imageError(this.parentElement)' /></td>";
                     } else {
                         html += "<td id='imgCell'>N/A</td>";
                     }
 
                     if (item.hasOwnProperty("title") && item.title.length > 0) {
-                        html += "<td id='titleCell'><a href='' onclick='getItemData(" + item.itemId[0] + ")'>" + item.title[0] + "</a></td>";
+                        html += "<td id='titleCell'><a onclick='getItemData(" + item.itemId[0] + ")'>" + item.title[0] + "</a></td>";
                     } else {
                         html += "<td id='titleCell'>N/A</td>";
                     }
@@ -652,16 +703,32 @@ if (isset($_POST['data'])) {
                 html += "</tbody>" +
                     "</table>";
 
+                html += "<div id='bottomPadding'></div>";
+
                 let resultEle = document.getElementById("result");
                 resultEle.innerHTML = html;
             }
 
+            function showItemDetail(data, similarItem) {
+                debug(data);
+                debug(similarItem);
+            }
+
             function getItemData(itemId) {
+                if (!itemId) {
+                    showError("This item doesn't have itemId to get details");
+                    return;
+                }
                 let productSearchForm = document.forms.productSearchForm;
+                let data = this.defaultData;
+                data.type = "item";
+                data.itemId = itemId;
+                productSearchForm.data.value = JSON.stringify(data);
+                document.productSearchForm.submit();
             }
         </script>
     </body>
 </html>
-< ?php
+<?php
 restore_error_handler();
 ?>

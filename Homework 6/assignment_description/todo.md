@@ -17,6 +17,7 @@
   - ~~the **users** have option of **enabling nearby search** where they can enter **the distance (in miles),** which is the **radius for the search where the center point is “Here”** (zip code of current location returned from ip-api.com HTTP API) or the **zip code** entered in the edit box.~~
 
     - ~~Only when the “**Enable Nearby Search**” is **checked**, the **options** to **put the distance** and select its **center point should be enabled** (it is initially greyed out and disabled when the page loads).~~
+    - ~~When **Enable option** is unchecked fields should **go to default value**. @440~~
     - ~~When the “**Here**” radio button is **selected**, the **zip code edit box must be disabled** and it  must go back to placeholder values @440.~~
     - Note @352:
       - ~~" Use HTML5 “placeholder” to show the string “zip code” in the zip code edit box and “10” in the distance edit box as the initial values." This is for the initial value when page loads but nothing is specified about performing a second query.~~
