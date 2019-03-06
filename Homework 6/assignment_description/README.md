@@ -25,7 +25,7 @@
       - I will assume that the placeholder value should be displayed when here is selected and form is resubmitted. But will leave the old zipcode displayed if the user selects here but has not submitted the form yet.
     - When the **zip code** **edit box** is selected, it is a **required field**, and a **5-digit zip code** must be entered. *Note: value Zipcode error handling to be done on server side see [**Error Handling 1**](#Error%20Handling%201)*
     - The **default distance is 10 miles from the chosen location**. Use **HTML5 “placeholder”** to **show** the string **“zip code”** in the zip code edit box and **“10” in the distance edit box as the initial values.** An example is shown in Figure 1.
-      - ![figure 1](/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/figure%201.png)
+      - ![figure 1](images/figure%201.png)
 
   - **Search button**
 
@@ -35,7 +35,7 @@
 
     - The button must be **disabled** while the **page is fetching the user’s geolocation** and must be **enabled** once the **geolocation is obtained**. An example of valid input is shown in Figure 2.
 
-      - ![figure 2](/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/figure%202.png)
+      - ![figure 2](images/figure%202.png)
 
     - Once the user has **provided valid input**, your **client script (written in JavaScript**) should **send a request to your server script productSearch.php** with the form inputs. You can use *either GET or POST* to transfer the form data to the server script.
 
@@ -44,9 +44,9 @@
     - #### Error Handling 1
 
       - If the user clicks on the search button **without providing a value in the “Keyword” field or “zip code” edit box**, you should show an **error “tooltip” that indicates which field is missing**. Examples are shown in Figure 3(a) and 3(b). If the input zip code is invalid, the page should display a corresponding error massage as shown in Figure 3(c).
-      - ![figure 3(/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/figure%203(a).png)](images/figure%203(a).png)
-      - ![figure 3(/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/figure%203(b).png)](images/figure%203(b).png)
-      - ![figure 3(/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/figure%203(c).png)](images/figure%203(c).png)
+      - ![figure 3(images/figure%203(a).png)](images/figure%203(a).png)
+      - ![figure 3(images/figure%203(b).png)](images/figure%203(b).png)
+      - ![figure 3(images/figure%203(c).png)](images/figure%203(c).png)
 
   - **Clear button**
 
@@ -87,7 +87,7 @@
     - **categoryId**: Filters the results to products matching the specified type id. Only one category
       may be specified (see Table 1). Searching without this field means searching in all categories.
 
-      - ![table 1](/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/table%201.png)
+      - ![table 1](images/table%201.png)
 
     - There are **4 filters**, namely **Condition, Shipping Options, MaxDistance, HideDuplicateItems**.
 
@@ -136,13 +136,13 @@
 
   - **Figure 5** shows an example of the corresponding JSON response returned by the eBay Finding API **service response**.
 
-    - ![figure 5](/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/figure%205.png)
+    - ![figure 5](images/figure%205.png)
 
   - ##### Important 1
 
     - The PHP script (i.e., productSearch.php) **should pass the returned JSON object to the client side unmodified or parse the returned JSON** and extract useful fields and pass these fields to the client side in JSON format.
     - You should **use JavaScript to parse the JSON object** and **display the results in a tabular format**. A sample output is shown in **Figure 6**.
-      - ![figure 6](/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/figure%206.png)
+      - ![figure 6](images/figure%206.png)
 
   - The **displayed table includes seven columns**:
 
@@ -152,14 +152,14 @@
 
     - If **returned JSON object is missing a certain key value pair, display “N/A”** in the corresponding field.
     - If the **API service returns an empty result set**, the page should display “**No records have been found**” as shown in Figure 7.
-      - ![figure 7](/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/figure%207.png)
+      - ![figure 7](images/figure%207.png)
 
   - When the search result **contains at least one record**, you need to **map the data extracted from the**
     **API result to render the HTML** result table as described in Table 2.
 
-    - ![table 2_1](/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/table%202_1.png)
+    - ![table 2_1](images/table%202_1.png)
 
-      ![table 2_2](/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/table%202_2.png)
+      ![table 2_2](images/table%202_2.png)
 
   
 
@@ -189,7 +189,7 @@
 
   - **Figure 8** shows a sample corresponding response.
 
-    - ![figure 8](/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/figure%208.png)
+    - ![figure 8](images/figure%208.png)
 
   - ##### Important 3
 
@@ -197,9 +197,9 @@
 
     - You should **use JavaScript to parse the JSON object** and display the results in a similar format as Figure 9.
 
-      - ![figure 9(/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/figure%209(a).png)](images/figure%209(a).png)
+      - ![figure 9(images/figure%209(a).png)](images/figure%209(a).png)
 
-        ![figure 9(/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/figure%209(b).png)](images/figure%209(b).png)
+        ![figure 9(images/figure%209(b).png)](images/figure%209(b).png)
 
   - ##### Important 4
 
@@ -210,7 +210,9 @@
 
   - When the **search result contains at least one field**, you need to **map the data extracted from the API result to render the HTML** result table as described in Table 3.
 
-    - ![table 3.png](/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/table%203.png)
+    - ![table 3.png](images/table%203.png)
+    - For Location Attribute
+      - Display what you get, “partial” location is fine (I.e only address or zipcode), and handle the missing filed for not showing error in console @436
 
   ------
 
@@ -224,14 +226,14 @@
 
   - An example of a Seller Message for an iPhone as a keyword is given below in Figure 11:
 
-    - ![figure 11.png](/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/figure%2011.png)
+    - ![figure 11.png](images/figure%2011.png)
 
   - The details information includes two sub-sections: **Seller Message and Similar Items** which are by **default hidden (i.e., collapsed)** (as shown in Figure 12).
 
     - http://csci571.com/hw/hw6/images/arrow_up.png
     - http://csci571.com/hw/hw6/images/arrow_down.png
 
-  - - ![figure 12.png](/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/figure%2012.png)
+  - - ![figure 12.png](images/figure%2012.png)
 
   - The details information should over-write the result table and needs to be displayed under the search form.
 
@@ -241,7 +243,7 @@
 
   - The “seller message” sub-section should display the seller message, as shown in Figure 13.
 
-    - ![figure 13.png](/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/figure%2013.png)
+    - ![figure 13.png](images/figure%2013.png)
     - 
 
   ------
@@ -251,7 +253,7 @@
   - The “**similar products photos**” sub-section should display all photos (as shown in Figure 14) in a
     tabular format.
 
-    - ![figure 14.png](/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/figure%2014.png)
+    - ![figure 14.png](images/figure%2014.png)
 
   - On **clicking** the button to **show similar items**, the page should request the detailed information
     using the **eBay Merchandising API documented** at:
@@ -278,13 +280,13 @@
 
   - Figure 15 shows a sample corresponding response
 
-    - ![figure 15.png](/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/figure%2015.png)
+    - ![figure 15.png](images/figure%2015.png)
 
   - ##### Important 6
 
     - If the **API service returns an empty result set,** the page should display “**No Seller Message Found**” instead of the **Seller Message section and should display “No Similar Items Found” instead of Similar Items section.** Sample outputs are shown in Figure 16 and Figure 17.
-      - ![figure 16.png](/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/figure%2016.png)
-      - ![figure 17.png](/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/figure%2017.png)
+      - ![figure 16.png](images/figure%2016.png)
+      - ![figure 17.png](images/figure%2017.png)
 
   - ##### Important 7
 
@@ -359,7 +361,7 @@
   2. ##### Get geolocation using IP-API.com
 
      - You need to use ip-api.com for searching the geolocation based on IP addresses. An example call is as follows: http://ip-api.com/json. The response is a JSON object shown in Figure 22.
-       - ![figure 22](/Users/gyanesh/workspace/USC/USC_CSCI_571_Web_Technologies/Homework 6/assignment_description/images/figure%2022.png)
+       - ![figure 22](images/figure%2022.png)
      - This article introduces some similar APIs, so you have more choice for your homework 6:
        - https://ahmadawais.com/best-api-geolocating-an-ip-address/
      - Note: Use of Freegeoip API is not recommended.
