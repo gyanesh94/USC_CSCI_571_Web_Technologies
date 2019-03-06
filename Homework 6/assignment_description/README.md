@@ -206,13 +206,17 @@
     - If the returned **JSON stream doesn’t contain certain fields**, those **fields will not appear on the detail page**.
       - A sample output is shown in Figure 9. **Figure 9(a) shows a result with all fields,** **Figure 9(b) shows a result with missing fields such as “Subtitle” and other item specific fields.**
 
-  - If the **feature value is an array** just show the **first value** @314
-
   - When the **search result contains at least one field**, you need to **map the data extracted from the API result to render the HTML** result table as described in Table 3.
 
     - ![table 3.png](images/table%203.png)
-    - For Location Attribute
-      - Display what you get, “partial” location is fine (I.e only address or zipcode), and handle the missing filed for not showing error in console @436
+
+  - For **Location** Attribute
+
+    - Display what you get, “partial” location is fine (I.e only address or zipcode), and handle the missing filed for not showing error in console @436
+
+  - If the **feature value is an array** just show the **first value** @314
+
+  - For **Return Policy** -  If returns are not accepted, then I write a table row indicating that, rather than ignoring it @518
 
   ------
 
@@ -347,6 +351,11 @@
       - Estate 2 1980 Olympic Beijing Auto Stickers @331
 
   - uBlock may cause error in fetching lat/long api @341
+
+  - Cases Search
+
+    - Error occurs when I search External Battery Backup Charger Case @528
+    - If you want to test for the case when there are no similar items, search for "prison bus" in the "Books" category and look for this item. @529
 
   
 

@@ -31,7 +31,7 @@ function type_search($data) {
     $url = $url . "&itemFilter($filter_index).value=True";
     $filter_index++;
 
-    if (count($data->condition)) {
+    if (count($data->condition) != 0) {
         $url = $url . "&itemFilter($filter_index).name=Condition";
         for ($i = 0; $i < count($data->condition); $i++) {
             $url = $url . "&itemFilter($filter_index).value($i)=" . $data->condition[$i];
@@ -39,7 +39,7 @@ function type_search($data) {
         $filter_index++;
     }
 
-    if (count($data->shipping)) {
+    if (count($data->shipping) != 0) {
         for ($i = 0; $i < count($data->shipping); $i++) {
             $url = $url . "&itemFilter($filter_index).name=" . $data->shipping[$i];
             $url = $url . "&itemFilter($filter_index).value=True";
@@ -241,7 +241,7 @@ if (isset($_POST['data'])) {
         opacity: 0.7%;
     }
 
-    #imgCell {
+    #itemTable #imgCell {
         width: 90px;
         background-size: cover;
         padding: 0.5px;
@@ -250,6 +250,65 @@ if (isset($_POST['data'])) {
     #bottomPadding {
         margin: 10px;
         width: 100%;
+        height: 20px;
+    }
+
+    #itemDetailHeading {
+        font-size: 35px;
+        font-weight: bold;
+    }
+
+    #itemDetailTable {
+        border-collapse: collapse;
+        word-wrap: break-word;
+        max-width: 80%;
+    }
+
+    #itemDetailTable td {
+        border: 2px solid #cbcbcb;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    #itemDetailTable #imageCell {
+        height: 200px;
+    }
+
+    #sellerMessageContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        width: 90%;
+        min-height: 40px;
+    }
+
+    #sellerMessage {
+        color: #999999;
+        margin-bottom: 15px;
+    }
+
+    #sellerErrorMessage {
+        background-color: #777777;
+        text-align: center;
+        width: 60%;
+        font-weight: bold;
+    }
+
+    #sellerMessageiframe {
+        border: 0;
+        display: none;
+    }
+
+    #sellerMessageiframeContainer {
+        display: flex;
+    }
+
+    .arrowImage {
+        width: 40px;
+        height: 15px;
     }
 </style>
 <html lang="en">
@@ -649,7 +708,7 @@ if (isset($_POST['data'])) {
                         let sellingStatus = item.sellingStatus[0];
                         if (sellingStatus.hasOwnProperty("currentPrice") && sellingStatus.currentPrice.length > 0) {
                             let currentPrice = sellingStatus.currentPrice[0];
-                            if (currentPrice.hasOwnProperty("@currencyId") && currentPrice.hasOwnProperty("__value__")) {
+                            if (currentPrice.hasOwnProperty("__value__") && currentPrice["__value__"] !== "0.0") {
                                 html += "<td id='priceCell'>$" + currentPrice['__value__'] + "</td>";
                                 valid = true;
                             }
@@ -660,7 +719,7 @@ if (isset($_POST['data'])) {
                     }
 
                     if (item.hasOwnProperty("postalCode") && item.postalCode.length > 0) {
-                        html += "<td id='zipcodeCell'>" + item.postalCode[0] + "</td>";
+                        html += "<td id='zipcodeCell'>" + item.postalCode[0].trim() + "</td>";
                     } else {
                         html += "<td id='zipcodeCell'>N/A</td>";
                     }
@@ -669,7 +728,7 @@ if (isset($_POST['data'])) {
                     if (item.hasOwnProperty("condition") && item.condition.length > 0) {
                         let condition = item.condition[0];
                         if (condition.hasOwnProperty("conditionDisplayName") && condition.conditionDisplayName.length > 0) {
-                            html += "<td id='conditionCell'>" + condition.conditionDisplayName[0] + "</td>";
+                            html += "<td id='conditionCell'>" + condition.conditionDisplayName[0].trim() + "</td>";
                             valid = true;
                         }
                     }
@@ -712,6 +771,12 @@ if (isset($_POST['data'])) {
             function showItemDetail(data, similarItem) {
                 debug(data);
                 debug(similarItem);
+
+                let html = createItemDetail(data);
+                html += createSellerMessage(data);
+
+                let resultEle = document.getElementById("result");
+                resultEle.innerHTML = html;
             }
 
             function getItemData(itemId) {
@@ -725,6 +790,217 @@ if (isset($_POST['data'])) {
                 data.itemId = itemId;
                 productSearchForm.data.value = JSON.stringify(data);
                 document.productSearchForm.submit();
+            }
+
+            function createItemDetail(data) {
+                let errorMessage = "";
+                if (!data) {
+                    errorMessage = "<div id='error'>No data Found</div>";
+                    return errorMessage;
+                }
+                if (!data.hasOwnProperty("Ack")) {
+                    errorMessage = "<div id='error'>No data Found</div>";
+                    return errorMessage;
+                }
+                if (data["Ack"] !== "Success") {
+                    if (data.hasOwnProperty("Errors") && data.Errors.length > 0) {
+                        let errors = data.Errors[0];
+                        if (errors.hasOwnProperty("LongMessage")) {
+                            errorMessage = "<div id='error'>" + errors.LongMessage.trim() + "</div>";
+                            return errorMessage;
+                        }
+                        if (errors.hasOwnProperty("ShortMessage")) {
+                            errorMessage = "<div id='error'>" + errors.ShortMessage.trim() + "</div>";
+                            return errorMessage;
+                        }
+                    }
+                    errorMessage = "<div id='error'>Data fetching not successful</div>";
+                    return errorMessage;
+                }
+                if (!data.hasOwnProperty("Item")) {
+                    errorMessage = "<div id='error'>No data Found</div>";
+                    return errorMessage;
+                }
+
+                let isEmpty = true;
+                let item = data.Item;
+                let html = "<div id='itemDetailHeading'>Item Details</div>";
+
+                html += "<table id='itemDetailTable'>" +
+                    "<tbody>";
+
+                if (item.hasOwnProperty("PictureURL") && item.PictureURL.length > 0) {
+                    html += "<tr>";
+                    html += "<td class='bold'>Photo</td>";
+                    html += "<td id='imageCell'><img id='imageCell' src='" + item.PictureURL[0] + "' onerror='imageError(this.parentElement)' /></td>";
+                    html += "</tr>";
+                    isEmpty = false;
+                }
+
+                if (item.hasOwnProperty("Subtitle") && item.Subtitle.length > 0) {
+                    html += "<tr>";
+                    html += "<td class='bold'>Subtitle</td>";
+                    html += "<td>" + item.Subtitle.trim() + "</td>";
+                    html += "</tr>";
+                    isEmpty = false;
+                }
+
+                if (item.hasOwnProperty("Title") && item.Title.length > 0) {
+                    html += "<tr>";
+                    html += "<td class='bold'>Title</td>";
+                    html += "<td>" + item.Title.trim() + "</td>";
+                    html += "</tr>";
+                    isEmpty = false;
+                }
+
+                if (item.hasOwnProperty("CurrentPrice") && item.CurrentPrice.hasOwnProperty("Value")) {
+                    html += "<tr>";
+                    html += "<td class='bold'>Price</td>";
+                    html += "<td>" + item.CurrentPrice.Value + " USD</td>";
+                    html += "</tr>";
+                    isEmpty = false;
+                }
+
+                if (
+                    item.hasOwnProperty("Location") &&
+                    item.hasOwnProperty("PostalCode") &&
+                    item.Location.length > 0 &&
+                    item.PostalCode.length > 0
+                ) {
+                    html += "<tr>";
+                    html += "<td class='bold'>Location</td>";
+                    html += "<td>" + item.Location.trim() + ", " + item.PostalCode.trim() + "</td>";
+                    html += "</tr>";
+                    isEmpty = false;
+                } else if (item.hasOwnProperty("Location") && item.Location.length > 0) {
+                    html += "<tr>";
+                    html += "<td class='bold'>Location</td>";
+                    html += "<td>" + item.Location.trim() + "</td>";
+                    html += "</tr>";
+                    isEmpty = false;
+                } else if (item.hasOwnProperty("PostalCode") && item.PostalCode.length > 0) {
+                    html += "<tr>";
+                    html += "<td class='bold'>Location</td>";
+                    html += "<td>" + item.PostalCode.trim() + "</td>";
+                    html += "</tr>";
+                    isEmpty = false;
+                }
+
+                if (item.hasOwnProperty("Seller") && item.Seller.hasOwnProperty("UserID") && item.Seller.UserID.length > 0) {
+                    html += "<tr>";
+                    html += "<td class='bold'>Seller</td>";
+                    html += "<td>" + item.Seller.UserID.trim() + "</td>";
+                    html += "</tr>";
+                    isEmpty = false;
+                }
+
+                if (item.hasOwnProperty("ReturnPolicy") && item.ReturnPolicy.hasOwnProperty("ReturnsAccepted")) {
+                    let message = null;
+                    if (
+                        (
+                            item.ReturnPolicy.ReturnsAccepted === "Returns Accepted" ||
+                            item.ReturnPolicy.ReturnsAccepted === "ReturnsAccepted"
+                        ) &&
+                        item.ReturnPolicy.hasOwnProperty("ReturnsWithin") &&
+                        item.ReturnPolicy.ReturnsWithin.length > 0
+                    ) {
+                        message = "Returns Accepted within " + item.ReturnPolicy.ReturnsWithin;
+                    } else if (item.ReturnPolicy.ReturnsAccepted === "ReturnsNotAccepted") {
+                        message = "Returns not accepted";
+                    }
+                    if (message !== null) {
+                        html += "<tr>";
+                        html += "<td class='bold'>Return Policy(US)</td>";
+                        html += "<td>" + message.trim() + "</td>";
+                        html += "</tr>";
+                        isEmpty = false;
+                    }
+                }
+
+                if (
+                    item.hasOwnProperty("ItemSpecifics") &&
+                    item.ItemSpecifics.hasOwnProperty("NameValueList") &&
+                    item.ItemSpecifics.NameValueList.length > 0
+                ) {
+                    let itemSpecifics = item.ItemSpecifics.NameValueList;
+                    for (let i = 0; i < itemSpecifics.length; i++) {
+                        let itemSpecific = itemSpecifics[i];
+                        if (
+                            itemSpecific.hasOwnProperty("Name") &&
+                            itemSpecific.hasOwnProperty("Value") &&
+                            itemSpecific.Name.length > 0 &&
+                            itemSpecific.Value.length > 0
+                        ) {
+                            html += "<tr>";
+                            html += "<td class='bold'>" + itemSpecific.Name + "</td>";
+                            html += "<td>" + itemSpecific.Value[0].trim() + "</td>";
+                            html += "</tr>";
+                            isEmpty = false;
+                        }
+                    }
+                }
+
+                html += "</tbody>" +
+                    "</table>";
+
+                if (isEmpty) {
+                    errorMessage = "<div id='error'>No data Found</div>";
+                    return errorMessage;
+                }
+
+                return html;
+            }
+
+            function sellerMessageClicked(img) {
+                let sellerClickShowMessage = "click to show seller message";
+                let sellerClickShowURL = "http://csci571.com/hw/hw6/images/arrow_down.png";
+                let sellerClickHideMessage = "click to hide seller message";
+                let sellerClickHideURL = "http://csci571.com/hw/hw6/images/arrow_up.png";
+
+                let sellerMessage = document.getElementById("sellerMessage");
+                let sellerMessageiframe = document.getElementById("sellerMessageiframe");
+
+
+                if (img.ishidden) {
+                    sellerMessageiframe.style.display = "block";
+                    sellerMessage.innerText = sellerClickHideMessage;
+                    img.src = sellerClickHideURL;
+                    img.ishidden = false;
+                    console.dir(sellerMessageiframe.contentWindow.document.body);
+                    sellerMessageiframe.width = sellerMessageiframe.contentWindow.document.body.scrollWidth;
+                    sellerMessageiframe.height = sellerMessageiframe.contentWindow.document.body.scrollHeight + 50;
+                } else {
+                    sellerMessageiframe.style.display = "none";
+                    sellerMessage.innerText = sellerClickShowMessage;
+                    img.src = sellerClickShowURL;
+                    img.ishidden = true;
+                }
+            }
+
+            function createSellerMessage(data) {
+                let html = "<div id='sellerMessageContainer'>" +
+                    "<div id='sellerMessage'>click to show seller message</div>" +
+                    "<img id='sellerArrowImage' src='http://csci571.com/hw/hw6/images/arrow_down.png' class='arrowImage' onclick='sellerMessageClicked(this)'/>";
+                let srcDoc = "";
+                if (
+                    !data ||
+                    !data.hasOwnProperty("Ack") ||
+                    data["Ack"] !== "Success" ||
+                    !data.hasOwnProperty("Item") ||
+                    !data.Item.hasOwnProperty("Description") ||
+                    data.Item.Description.length <= 0
+                ) {
+                    srcDoc = "<div id='sellerErrorMessage'>No Seller Message found.</div>"
+                } else {
+                    srcDoc = data.Item.Description;
+                }
+
+                debug(srcDoc);
+
+                html += "<div id='sellerMessageiframeContainer'><iframe  scrolling='no' id='sellerMessageiframe' srcdoc='" + srcDoc + "'></iframe></div>";
+                html += "</div>";
+
+                return html;
             }
         </script>
     </body>

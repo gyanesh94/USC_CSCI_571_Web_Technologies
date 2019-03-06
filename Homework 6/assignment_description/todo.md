@@ -156,23 +156,23 @@
 
 ### Product details
 
-- In the **search result table**, if the **user clicks on the name of a product**, the page should make a request for the detailed information using the eBay shopping API documented at:
+- ~~In the **search result table**, if the **user clicks on the name of a product**, the page should make a request for the detailed information using the eBay shopping API documented at:~~
 
   - https://developer.ebay.com/devzone/shopping/docs/Concepts/ShoppingAPI_FormatOverview.html
   - https://developer.ebay.com/devzone/shopping/docs/CallRef/GetSingleItem.html
 
-- To **retrieve the details of a single item**, the **request** needs the following **parameters** (output should be JSON):
-  • **callName**: Set it to “GetSingleItem” to get information for a specific product.
-  • **responseencoding**: Set it to “JSON” to get a JSON response.
-  • **appid**: Your application's API key. This key identifies your application for purposes of
-  quota management.
-  • **siteid**: Set it to ‘0’ for siteId purposes.
-  • **version**: Set it to ‘967’ for API version purposes.
-  • **ItemId**: It is the “itemId” of the product the user clicked.
-  • **IncludeSelector**: Set it to “Description,Details,ItemSpecifics” to get required fields for that
-  product.
+- ~~To **retrieve the details of a single item**, the **request** needs the following **parameters** (output should be JSON):~~
+  ~~• **callName**: Set it to “GetSingleItem” to get information for a specific product.~~
+  ~~• **responseencoding**: Set it to “JSON” to get a JSON response.~~
+  ~~• **appid**: Your application's API key. This key identifies your application for purposes of~~
+  ~~quota management.~~
+  ~~• **siteid**: Set it to ‘0’ for siteId purposes.~~
+  ~~• **version**: Set it to ‘967’ for API version purposes.~~
+  ~~• **ItemId**: It is the “itemId” of the product the user clicked.~~
+  ~~• **IncludeSelector**: Set it to “Description,Details,ItemSpecifics” to get required fields for that~~
+  ~~product.~~
 
-- An **example** of an HTTP request to the **eBay Shopping API** is shown below:
+- ~~An **example** of an HTTP request to the **eBay Shopping API** is shown below:~~
 
   - http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=JSON&appid=[APPID]&siteid=0&version=967&ItemID=[ITEMID]&IncludeSelector=Description,Details,ItemSpecifics
 
@@ -182,9 +182,9 @@
 
 - ##### Important 3
 
-  - The **PHP script (i.e., productSearch.php)** should pass the returned **JSON object to the client side unmodified or parse the returned JSON** and **extract useful fields and pass these fields to the client side in JSON format**.
+  - ~~The **PHP script (i.e., productSearch.php)** should pass the returned **JSON object to the client side unmodified or parse the returned JSON** and **extract useful fields and pass these fields to the client side in JSON format**.~~
 
-  - You should **use JavaScript to parse the JSON object** and display the results in a similar format as Figure 9.
+  - ~~You should **use JavaScript to parse the JSON object** and display the results in a similar format as Figure 9.~~
 
     - ![figure 9(a)](images/figure%209(a).png)
 
@@ -192,14 +192,16 @@
 
 - ##### Important 4
 
-  - If the returned **JSON stream doesn’t contain certain fields**, those **fields will not appear on the detail page**.
-    - A sample output is shown in Figure 9. **Figure 9(a) shows a result with all fields,** **Figure 9(b) shows a result with missing fields such as “Subtitle” and other item specific fields.**
+  - ~~If the returned **JSON stream doesn’t contain certain fields**, those **fields will not appear on the detail page**.~~
+    - ~~A sample output is shown in Figure 9. **Figure 9(a) shows a result with all fields,** **Figure 9(b) shows a result with missing fields such as “Subtitle” and other item specific fields.~~**
 
-- If the **feature value is an array** just show the **first value** @314
-
-- When the **search result contains at least one field**, you need to **map the data extracted from the API result to render the HTML** result table as described in Table 3.
+- ~~When the **search result contains at least one field**, you need to **map the data extracted from the API result to render the HTML** result table as described in Table 3.~~
 
   - ![table 3.png](images/table%203.png)
+  - ~~For Location Attribute~~
+    - ~~Display what you get, “partial” location is fine (I.e only address or zipcode), and handle the missing filed for not showing error in console @436~~
+  - ~~If the **feature value is an array** just show the **first value** @314~~
+  - ~~For **Return Policy** -  If returns are not accepted, then I write a table row indicating that, rather than ignoring it @518~~
 
 ------
 
@@ -334,6 +336,12 @@
     - Estate 2 1980 Olympic Beijing Auto Stickers @331
 
 - uBlock may cause error in fetching lat/long api @341
+
+- Cases Search
+
+  - Error occurs when I search External Battery Backup Charger Case @528
+  - If you want to test for the case when there are no similar items, search for "prison bus" in the "Books" category and look for this item. @529
+  - Beijing Watch 18K Yellow Gold “Atelier Series” Cloisonne Enamel– Naval Battle
 
 
 
