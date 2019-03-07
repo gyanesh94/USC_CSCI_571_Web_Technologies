@@ -230,20 +230,6 @@ if (isset($_POST['data'])) {
             text-align: start;
         }
 
-        #itemTable a {
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        #itemTable a:link, #itemTable a:visited {
-            color: black;
-        }
-
-        #itemTable a:hover, #itemTable a:active {
-            color: #aaaaaa;
-            opacity: 0.7%;
-        }
-
         #itemTable .imgCell {
             width: 90px;
             background-size: cover;
@@ -364,6 +350,20 @@ if (isset($_POST['data'])) {
             margin-top: 15px;
             margin-bottom: 5px;
             text-align: center;
+        }
+
+        .anchor_to_div {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .anchor_to_div:link, .anchor_to_div:visited {
+            color: black;
+        }
+
+        .anchor_to_div:hover, .anchor_to_div:active {
+            color: #aaaaaa;
+            opacity: 0.7%;
         }
     </style>
     <body>
@@ -752,9 +752,9 @@ if (isset($_POST['data'])) {
                     }
 
                     if (item.hasOwnProperty("title") && item.title.length > 0) {
-                        html += "<td class='titleCell'><a onclick='getItemData(" + item.itemId[0] + ")'>" + item.title[0] + "</a></td>";
+                        html += "<td class='titleCell'><a class='anchor_to_div' onclick='getItemData(" + item.itemId[0] + ")'>" + item.title[0] + "</a></td>";
                     } else {
-                        html += "<td class='titleCell'><a onclick='getItemData(" + item.itemId[0] + ")'>N/A</a></td>";
+                        html += "<td class='titleCell'><a class='anchor_to_div' onclick='getItemData(" + item.itemId[0] + ")'>N/A</a></td>";
                     }
 
                     let valid = false;
@@ -1142,9 +1142,9 @@ if (isset($_POST['data'])) {
 
                         srcDoc += "<div class='itemTitle'>";
                         if (item.hasOwnProperty("title") && item.imageURL.length > 0) {
-                            srcDoc += "<a onclick='getItemData(" + item.itemId + ")'>" + item.title + "</a>";
+                            srcDoc += "<a class='anchor_to_div' onclick='getItemData(" + item.itemId + ")'>" + item.title + "</a>";
                         } else {
-                            srcDoc += "<a onclick='getItemData(" + item.itemId + ")'>N/A</a>";
+                            srcDoc += "<a class='anchor_to_div' onclick='getItemData(" + item.itemId + ")'>N/A</a>";
                         }
                         srcDoc += "</div>";
 
