@@ -119,12 +119,14 @@ if (isset($_POST['data'])) {
     </head>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
+            text-align: center;
             overflow-x: hidden;
             height: 100vh;
+        }
+
+        .inline_block {
+            display: inline-block;
+            vertical-align: top;
         }
 
         #productSearch {
@@ -133,6 +135,7 @@ if (isset($_POST['data'])) {
             padding-left: 8px;
             padding-right: 8px;
             width: 40%;
+            text-align: start;
         }
 
         #searchHeading {
@@ -171,12 +174,7 @@ if (isset($_POST['data'])) {
         }
 
         #distanceFromSpan {
-            display: inline-block;
             margin-left: 5px;
-        }
-
-        #distanceDiv {
-            display: flex;
         }
 
         .disabled {
@@ -185,11 +183,9 @@ if (isset($_POST['data'])) {
         }
 
         #formButtons {
-            display: flex;
-            align-items: center;
-            justify-content: center;
             height: 30px;
             margin-right: 50px;
+            text-align: center;
         }
 
         #submitButton {
@@ -201,11 +197,8 @@ if (isset($_POST['data'])) {
         }
 
         #result {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
             margin-top: 20px;
+            margin-bottom: 50px;
             width: 100%;
         }
 
@@ -230,6 +223,10 @@ if (isset($_POST['data'])) {
             border: 2px solid #cbcbcb;
         }
 
+        #itemTable tbody {
+            text-align: start;
+        }
+
         #itemTable a {
             text-decoration: none;
             cursor: pointer;
@@ -244,16 +241,10 @@ if (isset($_POST['data'])) {
             opacity: 0.7%;
         }
 
-        #itemTable #imgCell {
+        #itemTable .imgCell {
             width: 90px;
             background-size: cover;
             padding: 0.5px;
-        }
-
-        #bottomPadding {
-            margin: 10px;
-            width: 100%;
-            height: 20px;
         }
 
         #itemDetailHeading {
@@ -271,6 +262,7 @@ if (isset($_POST['data'])) {
             border: 2px solid #cbcbcb;
             padding-left: 10px;
             padding-right: 10px;
+            text-align: start;
         }
 
         #itemDetailTable #imageCell {
@@ -284,10 +276,7 @@ if (isset($_POST['data'])) {
 
         #sellerMessageContainer {
             margin-top: 30px;
-            margin-bottom: 20px;
             width: 100%;
-            min-height: 40px;
-            text-align: center;
         }
 
         #sellerMessage {
@@ -310,21 +299,12 @@ if (isset($_POST['data'])) {
         #sellerMessageiframeContainer {
             display: none;
             width: 100%;
-            align-items: center;
-            justify-content: center;
-            margin-top: 40px;
+            margin-top: 15px;
         }
 
         #similarItemsContainer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
             margin-top: 30px;
-            margin-bottom: 20px;
-            width: 90%;
-            min-height: 50px;
-            overflow: hidden;
+            width: 100%;
         }
 
         #similarItemsMessage {
@@ -334,43 +314,35 @@ if (isset($_POST['data'])) {
 
         #similarItemErrorMessage {
             border: 1px solid #999999;
-            text-align: center;
-            width: 80%;
+            width: 99%;
             font-size: 18px;
             font-weight: bold;
         }
 
         #similarItemsInnerContainer {
             display: none;
-            flex-direction: row;
-            align-items: center;
-            justify-content: flex-start;
             width: 60%;
-            height: 100%;
             padding: 10px;
             border: 1px solid #999999;
-            margin-top: 20px;
             overflow-x: scroll;
             overflow-y: hidden;
+            white-space: nowrap;
+            margin-top: 15px;
         }
 
         .itemContainer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-            height: 100%;
-            padding-left: 50px;
-            padding-right: 50px;
+            padding-left: 60px;
+            padding-right: 60px;
             font-size: 15px;
+            width: 160px;
+            white-space: normal;
+            vertical-align: bottom;
         }
 
         .itemContainer .itemImageDiv {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            max-height: 130px;
-            max-width: 130px;
+            height: 140px;
+            width: 100%;
+            vertical-align: center;
         }
 
         .itemContainer .itemImage {
@@ -380,26 +352,19 @@ if (isset($_POST['data'])) {
         }
 
         .itemContainer .itemTitle {
-            display: flex;
+            width: 100%;
             text-align: center;
             margin-top: 10px;
-            width: 180px;
-        }
-
-        .itemContainer .itemTitle a {
-            width: 180px;
-            overflow: hidden;
         }
 
         .itemContainer .itemPrice {
-            display: flex;
             margin-top: 15px;
             margin-bottom: 5px;
             text-align: center;
         }
     </style>
     <body>
-        <div id="productSearch">
+        <div id="productSearch" class="inline_block">
             <div id="searchHeading">
                 <i>Product Search</i>
             </div>
@@ -435,16 +400,16 @@ if (isset($_POST['data'])) {
                         <input type="checkbox" class="shipping" name="shipping[]" value="FreeShippingOnly"/>Free
                         Shipping
                     </div>
-                    <div class="field" id="distanceDiv">
-                        <div>
+                    <div class="field">
+                        <div class="inline_block">
                             <input type="checkbox" name="nearbySearch" value="true" onchange="changeDistance(this.form)"/>
                             <span class="bold">Enable Nearby Search</span>
+                            <span>
+                                <input type="number" id="distanceValue" placeholder="10" min="1" name="distance" disabled/>
+                                <span class="bold disabled" id="distanceMilesFromText">miles from</span>
+                            </span>
                         </div>
-                        <span>
-                            <input type="number" id="distanceValue" placeholder="10" min="1" name="distance" disabled/>
-                            <span class="bold disabled" id="distanceMilesFromText">miles from</span>
-                        </span>
-                        <span id="distanceFromSpan">
+                        <span class="inline_block" id="distanceFromSpan">
                             <input type="radio" name="fromRadio" value="here" checked disabled/>
                             <span class="disabled disabled" id="distanceHereText">Here</span>
                             <br/>
@@ -759,7 +724,7 @@ if (isset($_POST['data'])) {
                 }
 
                 let items = data.searchResult[0]["item"];
-                let html = "<table id='itemTable'>" +
+                let html = "<table id='itemTable' class='inline_block'>" +
                     "<thead class='bold'>" +
                     "<td>Index</td>" +
                     "<td>Photos</td>" +
@@ -774,18 +739,18 @@ if (isset($_POST['data'])) {
                 for (let i = 0; i < items.length; i++) {
                     let item = items[i];
                     html += "<tr>";
-                    html += "<td id='indexCell'>" + (i + 1) + "</td>";
+                    html += "<td class='indexCell'>" + (i + 1) + "</td>";
 
                     if (item.hasOwnProperty("galleryURL") && item.galleryURL.length > 0) {
-                        html += "<td id='imgCell'><img id='imgCell' src='" + item.galleryURL[0] + "' onerror='imageError(this.parentElement)' /></td>";
+                        html += "<td class='imgCell'><img class='imgCell' src='" + item.galleryURL[0] + "' onerror='imageError(this.parentElement)' /></td>";
                     } else {
-                        html += "<td id='imgCell'>N/A</td>";
+                        html += "<td class='imgCell'>N/A</td>";
                     }
 
                     if (item.hasOwnProperty("title") && item.title.length > 0) {
-                        html += "<td id='titleCell'><a onclick='getItemData(" + item.itemId[0] + ")'>" + item.title[0] + "</a></td>";
+                        html += "<td class='titleCell'><a onclick='getItemData(" + item.itemId[0] + ")'>" + item.title[0] + "</a></td>";
                     } else {
-                        html += "<td id='titleCell'><a onclick='getItemData(" + item.itemId[0] + ")'>N/A</a></td>";
+                        html += "<td class='titleCell'><a onclick='getItemData(" + item.itemId[0] + ")'>N/A</a></td>";
                     }
 
                     let valid = false;
@@ -794,31 +759,31 @@ if (isset($_POST['data'])) {
                         if (sellingStatus.hasOwnProperty("currentPrice") && sellingStatus.currentPrice.length > 0) {
                             let currentPrice = sellingStatus.currentPrice[0];
                             if (currentPrice.hasOwnProperty("__value__")) {
-                                html += "<td id='priceCell'>$" + currentPrice['__value__'] + "</td>";
+                                html += "<td class='priceCell'>$" + currentPrice['__value__'] + "</td>";
                                 valid = true;
                             }
                         }
                     }
                     if (!valid) {
-                        html += "<td id='priceCell'>N/A</td>";
+                        html += "<td class='priceCell'>N/A</td>";
                     }
 
                     if (item.hasOwnProperty("postalCode") && item.postalCode.length > 0) {
-                        html += "<td id='zipcodeCell'>" + item.postalCode[0].trim() + "</td>";
+                        html += "<td class='zipcodeCell'>" + item.postalCode[0].trim() + "</td>";
                     } else {
-                        html += "<td id='zipcodeCell'>N/A</td>";
+                        html += "<td class='zipcodeCell'>N/A</td>";
                     }
 
                     valid = false;
                     if (item.hasOwnProperty("condition") && item.condition.length > 0) {
                         let condition = item.condition[0];
                         if (condition.hasOwnProperty("conditionDisplayName") && condition.conditionDisplayName.length > 0) {
-                            html += "<td id='conditionCell'>" + condition.conditionDisplayName[0].trim() + "</td>";
+                            html += "<td class='conditionCell'>" + condition.conditionDisplayName[0].trim() + "</td>";
                             valid = true;
                         }
                     }
                     if (!valid) {
-                        html += "<td id='conditionCell'>N/A</td>";
+                        html += "<td class='conditionCell'>N/A</td>";
                     }
 
                     valid = false;
@@ -829,16 +794,16 @@ if (isset($_POST['data'])) {
                             if (shippingServiceCost.hasOwnProperty("@currencyId") && shippingServiceCost.hasOwnProperty("__value__")) {
                                 let value = shippingServiceCost['__value__'];
                                 if (Number(value) === 0) {
-                                    html += "<td id='shippingCell'>Free Shipping</td>";
+                                    html += "<td class='shippingCell'>Free Shipping</td>";
                                 } else {
-                                    html += "<td id='shippingCell'>$" + value + "</td>";
+                                    html += "<td class='shippingCell'>$" + value + "</td>";
                                 }
                                 valid = true;
                             }
                         }
                     }
                     if (!valid) {
-                        html += "<td id='shippingCell'>N/A</td>";
+                        html += "<td class='shippingCell'>N/A</td>";
                     }
 
                     html += "</tr>";
@@ -846,8 +811,6 @@ if (isset($_POST['data'])) {
 
                 html += "</tbody>" +
                     "</table>";
-
-                html += "<div id='bottomPadding'></div>";
 
                 let resultEle = document.getElementById("result");
                 resultEle.innerHTML = html;
@@ -869,7 +832,12 @@ if (isset($_POST['data'])) {
                     if (this.sellerMessagePresent) {
                         let sellerMessageiframe = document.getElementById("sellerMessageiframe");
                         sellerMessageiframe.contentWindow.document.body.innerHTML = this.srcDoc;
-                        setTimeout(function(){ iframeOnLoad(sellerMessageiframe) }, 4000);
+                        setTimeout(function () {
+                            iframeOnLoad(sellerMessageiframe);
+                            setTimeout(function () {
+                                iframeOnLoad(sellerMessageiframe);
+                            }, 4000);
+                        }, 4000);
                     }
                 }
 
@@ -926,7 +894,7 @@ if (isset($_POST['data'])) {
                 let item = data.Item;
                 let html = "<div id='itemDetailHeading'>Item Details</div>";
 
-                html += "<table id='itemDetailTable'>" +
+                html += "<table id='itemDetailTable' class='inline_block'>" +
                     "<tbody>";
 
                 if (item.hasOwnProperty("PictureURL") && item.PictureURL.length > 0) {
@@ -1057,7 +1025,6 @@ if (isset($_POST['data'])) {
                 let sellerClickHideMessage = "click to hide seller message";
                 let sellerClickHideURL = "http://csci571.com/hw/hw6/images/arrow_up.png";
 
-                let sellerMessageContainer = document.getElementById("sellerMessageContainer");
                 let sellerMessage = document.getElementById("sellerMessage");
                 let sellerMessageiframe = document.getElementById("sellerMessageiframe");
                 let sellerMessageiframeContainer = document.getElementById("sellerMessageiframeContainer");
@@ -1068,40 +1035,30 @@ if (isset($_POST['data'])) {
                 }
 
                 if (img.ishidden) {
-                    sellerMessageiframeContainer.style.display = "flex";
+                    sellerMessageiframeContainer.style.display = "inline-block";
                     sellerMessage.innerText = sellerClickHideMessage;
                     img.src = sellerClickHideURL;
-                    sellerMessageContainer.style.minHeight = "80px";
                     img.ishidden = false;
                     if (sellerMessageiframe) {
-                        console.dir("height: " + sellerMessageiframe.contentWindow.document.body.scrollHeight);
-                        sellerMessageiframe.style.height = sellerMessageiframe.contentWindow.document.body.scrollHeight + 30;
-                        sellerMessageContainer.style.minHeight = sellerMessageiframe.contentWindow.document.body.scrollHeight + 30;
+                        iframeOnLoad(sellerMessageiframe);
                     }
                 } else {
                     sellerMessageiframeContainer.style.display = "none";
                     sellerMessage.innerText = sellerClickShowMessage;
                     img.src = sellerClickShowURL;
-                    sellerMessageContainer.style.minHeight = "20px";
                     img.ishidden = true;
                 }
             }
 
             function iframeOnLoad(iframe) {
-                let sellerMessageContainer = document.getElementById("sellerMessageContainer");
-                iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 30;
-                sellerMessageContainer.style.minHeight = sellerMessageiframe.contentWindow.document.body.scrollHeight + 30;
-            }
-
-            function iframeError() {
-                debug("asdas");
-                return false;
+                iframe.style.height = (iframe.contentWindow.document.body.scrollHeight + 10) +  "px";
             }
 
             function createSellerMessage(data) {
-                let html = "<div id='sellerMessageContainer'>" +
+                let html = "<div id='sellerMessageContainer' class='inline_block'>" +
                     "<div id='sellerMessage'>click to show seller message</div>" +
-                    "<img id='sellerArrowImage' src='http://csci571.com/hw/hw6/images/arrow_down.png' class='arrowImage' onclick='sellerMessageClicked(this)'/>";
+                    "<img id='sellerArrowImage' src='http://csci571.com/hw/hw6/images/arrow_down.png' class='arrowImage' onclick='sellerMessageClicked(this)'/><br />";
+
                 let srcDoc = "";
                 if (
                     !data ||
@@ -1112,11 +1069,11 @@ if (isset($_POST['data'])) {
                     data.Item.Description.length <= 0
                 ) {
                     this.sellerMessagePresent = false;
-                    srcDoc = "<div id='sellerErrorMessage'>No Seller Message found.</div>"
+                    srcDoc = "<div id='sellerErrorMessage' class='inline_block'>No Seller Message found.</div>"
                 } else {
                     this.sellerMessagePresent = true;
                     this.srcDoc = data.Item.Description;
-                    srcDoc = "<iframe scrolling='no' id='sellerMessageiframe' onerror='iframeError()' onload='iframeOnLoad(this)'></iframe>";
+                    srcDoc = "<iframe scrolling='no' id='sellerMessageiframe' class='inline_block' onload='iframeOnLoad(this)'></iframe>";
                 }
 
                 html += "<div id='sellerMessageiframeContainer'>" + srcDoc + "</div>";
@@ -1131,7 +1088,6 @@ if (isset($_POST['data'])) {
                 let similarItemClickHideMessage = "click to hide similar items";
                 let similarItemClickHideURL = "http://csci571.com/hw/hw6/images/arrow_up.png";
 
-                let similarItemsContainer = document.getElementById("similarItemsContainer");
                 let similarItemsMessage = document.getElementById("similarItemsMessage");
                 let similarItemsInnerContainer = document.getElementById("similarItemsInnerContainer");
 
@@ -1141,24 +1097,22 @@ if (isset($_POST['data'])) {
                 }
 
                 if (img.ishidden) {
-                    similarItemsInnerContainer.style.display = "flex";
+                    similarItemsInnerContainer.style.display = "inline-block";
                     similarItemsMessage.innerText = similarItemClickHideMessage;
-                    similarItemsContainer.style.minHeight = this.openHeight;
                     img.src = similarItemClickHideURL;
                     img.ishidden = false;
                 } else {
                     similarItemsInnerContainer.style.display = "none";
                     similarItemsMessage.innerText = similarItemClickShowMessage;
-                    similarItemsContainer.style.minHeight = "60px";
                     img.src = similarItemClickShowURL;
                     img.ishidden = true;
                 }
             }
 
             function createSimilarItem(data) {
-                let html = "<div id='similarItemsContainer'>" +
+                let html = "<div id='similarItemsContainer' class='inline_block'>" +
                     "<div id='similarItemsMessage'>click to show similar items</div>" +
-                    "<img id='similarItemsArrowImage' src='http://csci571.com/hw/hw6/images/arrow_down.png' class='arrowImage' onclick='similarItemClicked(this)'/>";
+                    "<img id='similarItemsArrowImage' src='http://csci571.com/hw/hw6/images/arrow_down.png' class='arrowImage' onclick='similarItemClicked(this)'/><br />";
                 let srcDoc = "";
                 if (
                     !data ||
@@ -1169,15 +1123,12 @@ if (isset($_POST['data'])) {
                     !data.getSimilarItemsResponse.itemRecommendations.hasOwnProperty("item") ||
                     data.getSimilarItemsResponse.itemRecommendations.item.length <= 0
                 ) {
-                    srcDoc = "<div id='similarItemErrorMessage'>No Similar Item found.</div>"
-                    this.openHeight =  "120px";
+                    srcDoc = "<div id='similarItemErrorMessage' class='inline_block'>No Similar Item found.</div>"
                 } else {
-                    this.openHeight =  "350px";
-
                     let items = data.getSimilarItemsResponse.itemRecommendations.item;
                     for (let i = 0; i < items.length; i++) {
                         let item = items[i];
-                        srcDoc += "<div class='itemContainer'>";
+                        srcDoc += "<div class='itemContainer inline_block'>";
 
                         srcDoc += "<div class='itemImageDiv'>";
                         if (item.hasOwnProperty("imageURL") && item.imageURL.length > 0) {
