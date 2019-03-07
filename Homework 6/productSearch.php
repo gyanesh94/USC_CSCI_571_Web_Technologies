@@ -102,7 +102,6 @@ if (isset($_POST['data'])) {
     $app_id = "GyaneshM-ProductS-PRD-c16db7c91-88e4ea5d";
 
     $data = json_decode($_POST['data']);
-    print_r($data);
 
     $type = $data->type;
     if ($type == 'search') {
@@ -114,207 +113,291 @@ if (isset($_POST['data'])) {
 }
 ?>
 
-<style>
-    body {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        overflow-x: hidden;
-        height: 100vh;
-    }
-
-    #productSearch {
-        border: 3px solid #cbcbcb;
-        background-color: #fafafa;
-        padding-left: 8px;
-        padding-right: 8px;
-        width: 40%;
-    }
-
-    #searchHeading {
-        width: 100%;
-        font-size: 32px;
-        text-align: center;
-        border-bottom: 2px solid #cbcbcb;
-        padding-bottom: 4px;
-    }
-
-    #searchForm {
-        position: relative;
-        left: 5px;
-        top: 5px;
-    }
-
-    .bold {
-        font-weight: bold;
-    }
-
-    .field {
-        margin-bottom: 10px;
-    }
-
-    .checkbox {
-        margin-left: 20px;
-    }
-
-    .shipping {
-        margin-left: 43px;
-    }
-
-    #distanceValue {
-        width: 50px;
-        margin-left: 35px;
-    }
-
-    #distanceFromSpan {
-        display: inline-block;
-        margin-left: 5px;
-    }
-
-    #distanceDiv {
-        display: flex;
-    }
-
-    .disabled {
-        color: #999999;
-        opacity: 0.8;
-    }
-
-    #formButtons {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 30px;
-        margin-right: 50px;
-    }
-
-    #submitButton {
-        margin-right: 10px;
-    }
-
-    .hidden {
-        display: none;
-    }
-
-    #result {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        margin-top: 20px;
-        width: 100%;
-    }
-
-    #error {
-        border: 2px solid #cbcbcb;
-        background-color: #fafafa;
-        text-align: center;
-        width: 60%;
-    }
-
-    #itemTable {
-        border-collapse: collapse;
-        width: 90%;
-        word-wrap: break-word;
-    }
-
-    #itemTable thead {
-        text-align: center;
-    }
-
-    #itemTable td {
-        border: 2px solid #cbcbcb;
-    }
-
-    #itemTable a {
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    #itemTable a:link, #itemTable a:visited {
-        color: black;
-    }
-
-    #itemTable a:hover, #itemTable a:active {
-        color: #aaaaaa;
-        opacity: 0.7%;
-    }
-
-    #itemTable #imgCell {
-        width: 90px;
-        background-size: cover;
-        padding: 0.5px;
-    }
-
-    #bottomPadding {
-        margin: 10px;
-        width: 100%;
-        height: 20px;
-    }
-
-    #itemDetailHeading {
-        font-size: 35px;
-        font-weight: bold;
-    }
-
-    #itemDetailTable {
-        border-collapse: collapse;
-        word-wrap: break-word;
-        max-width: 80%;
-    }
-
-    #itemDetailTable td {
-        border: 2px solid #cbcbcb;
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-
-    #itemDetailTable #imageCell {
-        height: 200px;
-    }
-
-    #sellerMessageContainer {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        margin-top: 30px;
-        margin-bottom: 20px;
-        width: 90%;
-        min-height: 40px;
-    }
-
-    #sellerMessage {
-        color: #999999;
-        margin-bottom: 15px;
-    }
-
-    #sellerErrorMessage {
-        background-color: #777777;
-        text-align: center;
-        width: 60%;
-        font-weight: bold;
-    }
-
-    #sellerMessageiframe {
-        border: 0;
-        display: none;
-    }
-
-    #sellerMessageiframeContainer {
-        display: flex;
-    }
-
-    .arrowImage {
-        width: 40px;
-        height: 15px;
-    }
-</style>
 <html lang="en">
     <head>
         <title>Product Search</title>
     </head>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            overflow-x: hidden;
+            height: 100vh;
+        }
+
+        #productSearch {
+            border: 3px solid #cbcbcb;
+            background-color: #fafafa;
+            padding-left: 8px;
+            padding-right: 8px;
+            width: 40%;
+        }
+
+        #searchHeading {
+            width: 100%;
+            font-size: 32px;
+            text-align: center;
+            border-bottom: 2px solid #cbcbcb;
+            padding-bottom: 4px;
+        }
+
+        #searchForm {
+            position: relative;
+            left: 5px;
+            top: 5px;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .field {
+            margin-bottom: 10px;
+        }
+
+        .checkbox {
+            margin-left: 20px;
+        }
+
+        .shipping {
+            margin-left: 43px;
+        }
+
+        #distanceValue {
+            width: 50px;
+            margin-left: 35px;
+        }
+
+        #distanceFromSpan {
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        #distanceDiv {
+            display: flex;
+        }
+
+        .disabled {
+            color: #999999;
+            opacity: 0.8;
+        }
+
+        #formButtons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 30px;
+            margin-right: 50px;
+        }
+
+        #submitButton {
+            margin-right: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #result {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        #error {
+            border: 2px solid #cbcbcb;
+            background-color: #fafafa;
+            text-align: center;
+            width: 60%;
+        }
+
+        #itemTable {
+            border-collapse: collapse;
+            width: 90%;
+            word-wrap: break-word;
+        }
+
+        #itemTable thead {
+            text-align: center;
+        }
+
+        #itemTable td {
+            border: 2px solid #cbcbcb;
+        }
+
+        #itemTable a {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #itemTable a:link, #itemTable a:visited {
+            color: black;
+        }
+
+        #itemTable a:hover, #itemTable a:active {
+            color: #aaaaaa;
+            opacity: 0.7%;
+        }
+
+        #itemTable #imgCell {
+            width: 90px;
+            background-size: cover;
+            padding: 0.5px;
+        }
+
+        #bottomPadding {
+            margin: 10px;
+            width: 100%;
+            height: 20px;
+        }
+
+        #itemDetailHeading {
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+        #itemDetailTable {
+            border-collapse: collapse;
+            word-wrap: break-word;
+            max-width: 80%;
+        }
+
+        #itemDetailTable td {
+            border: 2px solid #cbcbcb;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        #itemDetailTable #imageCell {
+            height: 200px;
+        }
+
+        .arrowImage {
+            width: 40px;
+            height: 15px;
+        }
+
+        #sellerMessageContainer {
+            margin-top: 30px;
+            margin-bottom: 20px;
+            width: 100%;
+            min-height: 40px;
+            text-align: center;
+        }
+
+        #sellerMessage {
+            color: #999999;
+            margin-bottom: 15px;
+        }
+
+        #sellerErrorMessage {
+            background-color: #dddddd;
+            text-align: center;
+            width: 60%;
+            font-weight: bold;
+        }
+
+        #sellerMessageiframe {
+            border: 0;
+            width: 70%;
+        }
+
+        #sellerMessageiframeContainer {
+            display: none;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        #similarItemsContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            width: 90%;
+            min-height: 50px;
+            overflow: hidden;
+        }
+
+        #similarItemsMessage {
+            color: #999999;
+            margin-bottom: 15px;
+        }
+
+        #similarItemErrorMessage {
+            border: 1px solid #999999;
+            text-align: center;
+            width: 80%;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        #similarItemsInnerContainer {
+            display: none;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            width: 60%;
+            height: 100%;
+            padding: 10px;
+            border: 1px solid #999999;
+            margin-top: 20px;
+            overflow-x: scroll;
+            overflow-y: hidden;
+        }
+
+        .itemContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            height: 100%;
+            padding-left: 50px;
+            padding-right: 50px;
+            font-size: 15px;
+        }
+
+        .itemContainer .itemImageDiv {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-height: 130px;
+            max-width: 130px;
+        }
+
+        .itemContainer .itemImage {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .itemContainer .itemTitle {
+            display: flex;
+            text-align: center;
+            margin-top: 10px;
+            width: 180px;
+        }
+
+        .itemContainer .itemTitle a {
+            width: 180px;
+            overflow: hidden;
+        }
+
+        .itemContainer .itemPrice {
+            display: flex;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+    </style>
     <body>
         <div id="productSearch">
             <div id="searchHeading">
@@ -353,8 +436,10 @@ if (isset($_POST['data'])) {
                         Shipping
                     </div>
                     <div class="field" id="distanceDiv">
-                        <input type="checkbox" name="nearbySearch" value="true" onchange="changeDistance(this.form)"/>
-                        <span class="bold">Enable Nearby Search</span>
+                        <div>
+                            <input type="checkbox" name="nearbySearch" value="true" onchange="changeDistance(this.form)"/>
+                            <span class="bold">Enable Nearby Search</span>
+                        </div>
                         <span>
                             <input type="number" id="distanceValue" placeholder="10" min="1" name="distance" disabled/>
                             <span class="bold disabled" id="distanceMilesFromText">miles from</span>
@@ -700,7 +785,7 @@ if (isset($_POST['data'])) {
                     if (item.hasOwnProperty("title") && item.title.length > 0) {
                         html += "<td id='titleCell'><a onclick='getItemData(" + item.itemId[0] + ")'>" + item.title[0] + "</a></td>";
                     } else {
-                        html += "<td id='titleCell'>N/A</td>";
+                        html += "<td id='titleCell'><a onclick='getItemData(" + item.itemId[0] + ")'>N/A</a></td>";
                     }
 
                     let valid = false;
@@ -708,7 +793,7 @@ if (isset($_POST['data'])) {
                         let sellingStatus = item.sellingStatus[0];
                         if (sellingStatus.hasOwnProperty("currentPrice") && sellingStatus.currentPrice.length > 0) {
                             let currentPrice = sellingStatus.currentPrice[0];
-                            if (currentPrice.hasOwnProperty("__value__") && currentPrice["__value__"] !== "0.0") {
+                            if (currentPrice.hasOwnProperty("__value__")) {
                                 html += "<td id='priceCell'>$" + currentPrice['__value__'] + "</td>";
                                 valid = true;
                             }
@@ -771,12 +856,27 @@ if (isset($_POST['data'])) {
             function showItemDetail(data, similarItem) {
                 debug(data);
                 debug(similarItem);
-
                 let html = createItemDetail(data);
                 html += createSellerMessage(data);
+                html += createSimilarItem(similarItem);
 
                 let resultEle = document.getElementById("result");
                 resultEle.innerHTML = html;
+
+                let sellerImage = document.getElementById("sellerArrowImage");
+                if (sellerImage) {
+                    sellerMessageClicked(sellerImage);
+                    if (this.sellerMessagePresent) {
+                        let sellerMessageiframe = document.getElementById("sellerMessageiframe");
+                        sellerMessageiframe.contentWindow.document.body.innerHTML = this.srcDoc;
+                        setTimeout(function(){ iframeOnLoad(sellerMessageiframe) }, 4000);
+                    }
+                }
+
+                let similarItemImage = document.getElementById("similarItemsArrowImage");
+                if (similarItemImage) {
+                    similarItemClicked(similarItemImage);
+                }
             }
 
             function getItemData(itemId) {
@@ -836,19 +936,19 @@ if (isset($_POST['data'])) {
                     html += "</tr>";
                     isEmpty = false;
                 }
+                if (item.hasOwnProperty("Title") && item.Title.length > 0) {
+
+                    html += "<tr>";
+                    html += "<td class='bold'>Title</td>";
+                    html += "<td>" + item.Title.trim() + "</td>";
+                    html += "</tr>";
+                    isEmpty = false;
+                }
 
                 if (item.hasOwnProperty("Subtitle") && item.Subtitle.length > 0) {
                     html += "<tr>";
                     html += "<td class='bold'>Subtitle</td>";
                     html += "<td>" + item.Subtitle.trim() + "</td>";
-                    html += "</tr>";
-                    isEmpty = false;
-                }
-
-                if (item.hasOwnProperty("Title") && item.Title.length > 0) {
-                    html += "<tr>";
-                    html += "<td class='bold'>Title</td>";
-                    html += "<td>" + item.Title.trim() + "</td>";
                     html += "</tr>";
                     isEmpty = false;
                 }
@@ -957,24 +1057,45 @@ if (isset($_POST['data'])) {
                 let sellerClickHideMessage = "click to hide seller message";
                 let sellerClickHideURL = "http://csci571.com/hw/hw6/images/arrow_up.png";
 
+                let sellerMessageContainer = document.getElementById("sellerMessageContainer");
                 let sellerMessage = document.getElementById("sellerMessage");
                 let sellerMessageiframe = document.getElementById("sellerMessageiframe");
+                let sellerMessageiframeContainer = document.getElementById("sellerMessageiframeContainer");
 
+                let similarItemImage = document.getElementById("similarItemsArrowImage");
+                if (similarItemImage && similarItemImage.ishidden === false) {
+                    similarItemClicked(similarItemImage);
+                }
 
                 if (img.ishidden) {
-                    sellerMessageiframe.style.display = "block";
+                    sellerMessageiframeContainer.style.display = "flex";
                     sellerMessage.innerText = sellerClickHideMessage;
                     img.src = sellerClickHideURL;
+                    sellerMessageContainer.style.minHeight = "80px";
                     img.ishidden = false;
-                    console.dir(sellerMessageiframe.contentWindow.document.body);
-                    sellerMessageiframe.width = sellerMessageiframe.contentWindow.document.body.scrollWidth;
-                    sellerMessageiframe.height = sellerMessageiframe.contentWindow.document.body.scrollHeight + 50;
+                    if (sellerMessageiframe) {
+                        console.dir("height: " + sellerMessageiframe.contentWindow.document.body.scrollHeight);
+                        sellerMessageiframe.style.height = sellerMessageiframe.contentWindow.document.body.scrollHeight + 30;
+                        sellerMessageContainer.style.minHeight = sellerMessageiframe.contentWindow.document.body.scrollHeight + 30;
+                    }
                 } else {
-                    sellerMessageiframe.style.display = "none";
+                    sellerMessageiframeContainer.style.display = "none";
                     sellerMessage.innerText = sellerClickShowMessage;
                     img.src = sellerClickShowURL;
+                    sellerMessageContainer.style.minHeight = "20px";
                     img.ishidden = true;
                 }
+            }
+
+            function iframeOnLoad(iframe) {
+                let sellerMessageContainer = document.getElementById("sellerMessageContainer");
+                iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 30;
+                sellerMessageContainer.style.minHeight = sellerMessageiframe.contentWindow.document.body.scrollHeight + 30;
+            }
+
+            function iframeError() {
+                debug("asdas");
+                return false;
             }
 
             function createSellerMessage(data) {
@@ -990,14 +1111,103 @@ if (isset($_POST['data'])) {
                     !data.Item.hasOwnProperty("Description") ||
                     data.Item.Description.length <= 0
                 ) {
+                    this.sellerMessagePresent = false;
                     srcDoc = "<div id='sellerErrorMessage'>No Seller Message found.</div>"
                 } else {
-                    srcDoc = data.Item.Description;
+                    this.sellerMessagePresent = true;
+                    this.srcDoc = data.Item.Description;
+                    srcDoc = "<iframe scrolling='no' id='sellerMessageiframe' onerror='iframeError()' onload='iframeOnLoad(this)'></iframe>";
                 }
 
-                debug(srcDoc);
+                html += "<div id='sellerMessageiframeContainer'>" + srcDoc + "</div>";
+                html += "</div>";
 
-                html += "<div id='sellerMessageiframeContainer'><iframe  scrolling='no' id='sellerMessageiframe' srcdoc='" + srcDoc + "'></iframe></div>";
+                return html;
+            }
+
+            function similarItemClicked(img) {
+                let similarItemClickShowMessage = "click to show similar items";
+                let similarItemClickShowURL = "http://csci571.com/hw/hw6/images/arrow_down.png";
+                let similarItemClickHideMessage = "click to hide similar items";
+                let similarItemClickHideURL = "http://csci571.com/hw/hw6/images/arrow_up.png";
+
+                let similarItemsContainer = document.getElementById("similarItemsContainer");
+                let similarItemsMessage = document.getElementById("similarItemsMessage");
+                let similarItemsInnerContainer = document.getElementById("similarItemsInnerContainer");
+
+                let sellerImage = document.getElementById("sellerArrowImage");
+                if (sellerImage && sellerImage.ishidden === false) {
+                    sellerMessageClicked(sellerImage);
+                }
+
+                if (img.ishidden) {
+                    similarItemsInnerContainer.style.display = "flex";
+                    similarItemsMessage.innerText = similarItemClickHideMessage;
+                    similarItemsContainer.style.minHeight = this.openHeight;
+                    img.src = similarItemClickHideURL;
+                    img.ishidden = false;
+                } else {
+                    similarItemsInnerContainer.style.display = "none";
+                    similarItemsMessage.innerText = similarItemClickShowMessage;
+                    similarItemsContainer.style.minHeight = "60px";
+                    img.src = similarItemClickShowURL;
+                    img.ishidden = true;
+                }
+            }
+
+            function createSimilarItem(data) {
+                let html = "<div id='similarItemsContainer'>" +
+                    "<div id='similarItemsMessage'>click to show similar items</div>" +
+                    "<img id='similarItemsArrowImage' src='http://csci571.com/hw/hw6/images/arrow_down.png' class='arrowImage' onclick='similarItemClicked(this)'/>";
+                let srcDoc = "";
+                if (
+                    !data ||
+                    !data.hasOwnProperty("getSimilarItemsResponse") ||
+                    !data.getSimilarItemsResponse.hasOwnProperty("ack") ||
+                    data.getSimilarItemsResponse["ack"] !== "Success" ||
+                    !data.getSimilarItemsResponse.hasOwnProperty("itemRecommendations") ||
+                    !data.getSimilarItemsResponse.itemRecommendations.hasOwnProperty("item") ||
+                    data.getSimilarItemsResponse.itemRecommendations.item.length <= 0
+                ) {
+                    srcDoc = "<div id='similarItemErrorMessage'>No Similar Item found.</div>"
+                    this.openHeight =  "120px";
+                } else {
+                    this.openHeight =  "350px";
+
+                    let items = data.getSimilarItemsResponse.itemRecommendations.item;
+                    for (let i = 0; i < items.length; i++) {
+                        let item = items[i];
+                        srcDoc += "<div class='itemContainer'>";
+
+                        srcDoc += "<div class='itemImageDiv'>";
+                        if (item.hasOwnProperty("imageURL") && item.imageURL.length > 0) {
+                            srcDoc += "<img class='itemImage' src='" + item.imageURL + "' onerror='imageError(this.parentElement)' />";
+                        } else {
+                            srcDoc += "N/A";
+                        }
+                        srcDoc += "</div>";
+
+                        srcDoc += "<div class='itemTitle'>";
+                        if (item.hasOwnProperty("title") && item.imageURL.length > 0) {
+                            srcDoc += "<a onclick='getItemData(" + item.itemId + ")'>" + item.title + "</a>";
+                        } else {
+                            srcDoc += "<a onclick='getItemData(" + item.itemId + ")'>N/A</a>";
+                        }
+                        srcDoc += "</div>";
+
+                        srcDoc += "<div class='itemPrice bold'>";
+                        if (item.hasOwnProperty("buyItNowPrice") && item.buyItNowPrice.hasOwnProperty("__value__") && item.buyItNowPrice["__value__"].length > 0) {
+                            srcDoc += "$" + item.buyItNowPrice["__value__"];
+                        } else {
+                            srcDoc += "N/A";
+                        }
+                        srcDoc += "</div>";
+
+                        srcDoc += "</div>";
+                    }
+                }
+
+                html += "<div id='similarItemsInnerContainer'>" + srcDoc + "</div>";
                 html += "</div>";
 
                 return html;

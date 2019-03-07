@@ -342,6 +342,12 @@
   - Error occurs when I search External Battery Backup Charger Case @528
   - If you want to test for the case when there are no similar items, search for "prison bus" in the "Books" category and look for this item. @529
   - Beijing Watch 18K Yellow Gold “Atelier Series” Cloisonne Enamel– Naval Battle
+  - Apple iPhone 7 32GB GSM Unlocked Smartphone
+  - Apple iPhone 7 a1778 32GB GSM Unlocked - Good
+  - 1923 Beijing Hankou Railway Membership Card
+  - Hotel Transylvania [New Sealed DVD]
+  - Item: Apple iPhone 6 16GB 64GB 128GB GSM"Factory Unlocked"Smartphone Gold Gray Silver ID: "162158935212"
+  - ItemId: 232647836863
 
 
 
