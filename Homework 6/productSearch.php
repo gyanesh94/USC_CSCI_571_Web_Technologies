@@ -136,6 +136,7 @@ if (isset($_POST['data'])) {
             padding-right: 8px;
             width: 40%;
             text-align: start;
+            margin-top: 10px;
         }
 
         #searchHeading {
@@ -212,7 +213,9 @@ if (isset($_POST['data'])) {
         #itemTable {
             border-collapse: collapse;
             width: 90%;
+            margin: 0 auto;
             word-wrap: break-word;
+            word-break: break-all;
         }
 
         #itemTable thead {
@@ -516,6 +519,7 @@ if (isset($_POST['data'])) {
 
                 let errorElement = document.createElement('div');
                 errorElement.id = "error";
+                errorElement.setAttribute("class", "inline_block");
                 errorElement.innerText = text;
                 resultEle.innerHTML = "";
                 resultEle.appendChild(errorElement);
@@ -724,7 +728,7 @@ if (isset($_POST['data'])) {
                 }
 
                 let items = data.searchResult[0]["item"];
-                let html = "<table id='itemTable' class='inline_block'>" +
+                let html = "<table id='itemTable'>" +
                     "<thead class='bold'>" +
                     "<td>Index</td>" +
                     "<td>Photos</td>" +
@@ -817,8 +821,6 @@ if (isset($_POST['data'])) {
             }
 
             function showItemDetail(data, similarItem) {
-                debug(data);
-                debug(similarItem);
                 let html = createItemDetail(data);
                 html += createSellerMessage(data);
                 html += createSimilarItem(similarItem);
@@ -863,30 +865,30 @@ if (isset($_POST['data'])) {
             function createItemDetail(data) {
                 let errorMessage = "";
                 if (!data) {
-                    errorMessage = "<div id='error'>No data Found</div>";
+                    errorMessage = "<div id='error' class='inline_block'>No data Found</div>";
                     return errorMessage;
                 }
                 if (!data.hasOwnProperty("Ack")) {
-                    errorMessage = "<div id='error'>No data Found</div>";
+                    errorMessage = "<div id='error' class='inline_block'>No data Found</div>";
                     return errorMessage;
                 }
                 if (data["Ack"] !== "Success") {
                     if (data.hasOwnProperty("Errors") && data.Errors.length > 0) {
                         let errors = data.Errors[0];
                         if (errors.hasOwnProperty("LongMessage")) {
-                            errorMessage = "<div id='error'>" + errors.LongMessage.trim() + "</div>";
+                            errorMessage = "<div id='error' class='inline_block'>" + errors.LongMessage.trim() + "</div>";
                             return errorMessage;
                         }
                         if (errors.hasOwnProperty("ShortMessage")) {
-                            errorMessage = "<div id='error'>" + errors.ShortMessage.trim() + "</div>";
+                            errorMessage = "<div id='error' class='inline_block'>" + errors.ShortMessage.trim() + "</div>";
                             return errorMessage;
                         }
                     }
-                    errorMessage = "<div id='error'>Data fetching not successful</div>";
+                    errorMessage = "<div id='error' class='inline_block'>Data fetching not successful</div>";
                     return errorMessage;
                 }
                 if (!data.hasOwnProperty("Item")) {
-                    errorMessage = "<div id='error'>No data Found</div>";
+                    errorMessage = "<div id='error' class='inline_block'>No data Found</div>";
                     return errorMessage;
                 }
 
