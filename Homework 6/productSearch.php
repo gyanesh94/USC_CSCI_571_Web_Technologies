@@ -633,7 +633,6 @@ if (isset($_POST['data'])) {
                 }
                 keyword = keyword.trim();
                 if (keyword.length === 0) {
-                    productSearchForm.keyword.focus();
                     showError("Keyword should contains alphabets or number");
                     return false;
                 }
@@ -643,13 +642,11 @@ if (isset($_POST['data'])) {
                     if (distance.length > 0) {
                         let re_distance = /^\d+$/;
                         if (!distance.match(re_distance)) {
-                            productSearchForm.distance.focus();
                             showError("Distance should only contain number");
                             return false;
                         }
                         let n = Number(distance);
                         if (n < 0) {
-                            productSearchForm.distance.focus();
                             showError("Minimum distance should be 0");
                             return false;
                         }
@@ -662,7 +659,6 @@ if (isset($_POST['data'])) {
                         }
                         let re_zipcode = /^\d{5}$/;
                         if (!zipcode.match(re_zipcode)) {
-                            productSearchForm.zipcode.focus();
                             showError("Zipcode is invalid");
                             return false;
                         }
@@ -675,7 +671,7 @@ if (isset($_POST['data'])) {
             function makeSearchData(productSearchForm) {
                 let data = {};
                 data['type'] = 'search';
-                data['keyword'] = productSearchForm.keyword.value.trim();
+                data['keyword'] = productSearchForm.keyword.value;
                 data['category'] = productSearchForm.category[productSearchForm.category.selectedIndex].value;
 
                 let condition = productSearchForm["condition[]"];
@@ -792,7 +788,7 @@ if (isset($_POST['data'])) {
                     }
 
                     if (item.hasOwnProperty("postalCode") && item.postalCode.length > 0) {
-                        html += "<td class='zipcodeCell'>" + item.postalCode[0].trim() + "</td>";
+                        html += "<td class='zipcodeCell'>" + item.postalCode[0] + "</td>";
                     } else {
                         html += "<td class='zipcodeCell'>N/A</td>";
                     }
@@ -801,7 +797,7 @@ if (isset($_POST['data'])) {
                     if (item.hasOwnProperty("condition") && item.condition.length > 0) {
                         let condition = item.condition[0];
                         if (condition.hasOwnProperty("conditionDisplayName") && condition.conditionDisplayName.length > 0) {
-                            html += "<td class='conditionCell'>" + condition.conditionDisplayName[0].trim() + "</td>";
+                            html += "<td class='conditionCell'>" + condition.conditionDisplayName[0] + "</td>";
                             valid = true;
                         }
                     }
@@ -926,7 +922,7 @@ if (isset($_POST['data'])) {
 
                     html += "<tr>";
                     html += "<td class='bold'>Title</td>";
-                    html += "<td>" + item.Title.trim() + "</td>";
+                    html += "<td>" + item.Title + "</td>";
                     html += "</tr>";
                     isEmpty = false;
                 }
@@ -934,7 +930,7 @@ if (isset($_POST['data'])) {
                 if (item.hasOwnProperty("Subtitle") && item.Subtitle.length > 0) {
                     html += "<tr>";
                     html += "<td class='bold'>Subtitle</td>";
-                    html += "<td>" + item.Subtitle.trim() + "</td>";
+                    html += "<td>" + item.Subtitle + "</td>";
                     html += "</tr>";
                     isEmpty = false;
                 }
@@ -955,19 +951,19 @@ if (isset($_POST['data'])) {
                 ) {
                     html += "<tr>";
                     html += "<td class='bold'>Location</td>";
-                    html += "<td>" + item.Location.trim() + ", " + item.PostalCode.trim() + "</td>";
+                    html += "<td>" + item.Location + ", " + item.PostalCode + "</td>";
                     html += "</tr>";
                     isEmpty = false;
                 } else if (item.hasOwnProperty("Location") && item.Location.length > 0) {
                     html += "<tr>";
                     html += "<td class='bold'>Location</td>";
-                    html += "<td>" + item.Location.trim() + "</td>";
+                    html += "<td>" + item.Location + "</td>";
                     html += "</tr>";
                     isEmpty = false;
                 } else if (item.hasOwnProperty("PostalCode") && item.PostalCode.length > 0) {
                     html += "<tr>";
                     html += "<td class='bold'>Location</td>";
-                    html += "<td>" + item.PostalCode.trim() + "</td>";
+                    html += "<td>" + item.PostalCode + "</td>";
                     html += "</tr>";
                     isEmpty = false;
                 }
@@ -975,7 +971,7 @@ if (isset($_POST['data'])) {
                 if (item.hasOwnProperty("Seller") && item.Seller.hasOwnProperty("UserID") && item.Seller.UserID.length > 0) {
                     html += "<tr>";
                     html += "<td class='bold'>Seller</td>";
-                    html += "<td>" + item.Seller.UserID.trim() + "</td>";
+                    html += "<td>" + item.Seller.UserID + "</td>";
                     html += "</tr>";
                     isEmpty = false;
                 }
@@ -997,7 +993,7 @@ if (isset($_POST['data'])) {
                     if (message !== null) {
                         html += "<tr>";
                         html += "<td class='bold'>Return Policy(US)</td>";
-                        html += "<td>" + message.trim() + "</td>";
+                        html += "<td>" + message + "</td>";
                         html += "</tr>";
                         isEmpty = false;
                     }
@@ -1019,7 +1015,7 @@ if (isset($_POST['data'])) {
                         ) {
                             html += "<tr>";
                             html += "<td class='bold'>" + itemSpecific.Name + "</td>";
-                            html += "<td>" + itemSpecific.Value[0].trim() + "</td>";
+                            html += "<td>" + itemSpecific.Value[0] + "</td>";
                             html += "</tr>";
                             isEmpty = false;
                         }
