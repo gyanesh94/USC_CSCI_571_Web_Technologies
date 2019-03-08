@@ -12,8 +12,8 @@ $similar_item = null;
 function type_search($data) {
     global $app_id;
 
-    $url = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=%s&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&paginationInput.entriesPerPage=20&keywords=%s";
-    $url = sprintf($url, urlencode($app_id), urlencode($data->keyword));
+    $main_url = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=%s&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&paginationInput.entriesPerPage=20&keywords=%s";
+    $url = sprintf($main_url, urlencode($app_id), urlencode($data->keyword));
     if ($data->category != "all") {
         $url = $url . "&categoryId=" . $data->category;
     }
@@ -63,8 +63,8 @@ function type_search($data) {
 function type_item_detail($data) {
     global $app_id;
 
-    $url = "http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=JSON&appid=%s&siteid=0&version=967&ItemID=%s&IncludeSelector=Description,Details,ItemSpecifics";
-    $url = sprintf($url, urlencode($app_id), urlencode($data->itemId));
+    $main_url = "http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=JSON&appid=%s&siteid=0&version=967&ItemID=%s&IncludeSelector=Description,Details,ItemSpecifics";
+    $url = sprintf($main_url, urlencode($app_id), urlencode($data->itemId));
 
     $json_content = null;
     try {
@@ -82,8 +82,8 @@ function type_item_detail($data) {
 function similar_item($data) {
     global $app_id;
 
-    $url = "http://svcs.ebay.com/MerchandisingService?OPERATION-NAME=getSimilarItems&SERVICE-NAME=MerchandisingService&SERVICE-VERSION=1.1.0&CONSUMER-ID=%s&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&itemId=%s&maxResults=8";
-    $url = sprintf($url, urlencode($app_id), urlencode($data->itemId));
+    $main_url = "http://svcs.ebay.com/MerchandisingService?OPERATION-NAME=getSimilarItems&SERVICE-NAME=MerchandisingService&SERVICE-VERSION=1.1.0&CONSUMER-ID=%s&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&itemId=%s&maxResults=8";
+    $url = sprintf($main_url, urlencode($app_id), urlencode($data->itemId));
 
     $json_content = null;
     try {
@@ -408,7 +408,7 @@ if (isset($_POST['data'])) {
                             <input type="checkbox" name="nearbySearch" value="true" onchange="changeDistance(this.form)"/>
                             <span class="bold">Enable Nearby Search</span>
                             <span>
-                                <input type="number" id="distanceValue" placeholder="10" min="1" name="distance" disabled/>
+                                <input type="text" id="distanceValue" placeholder="10" name="distance" disabled/>
                                 <span class="bold disabled" id="distanceMilesFromText">miles from</span>
                             </span>
                         </div>
@@ -591,7 +591,7 @@ if (isset($_POST['data'])) {
 
                 if (data["nearby"]) {
                     productSearchForm.nearbySearch.checked = data["nearby"];
-                    if (data["distance"] !== "10") {
+                    if (!data["isPlaceholderValue"]) {
                         productSearchForm.distance.value = Number(data["distance"]);
                     }
                     if (!data["hereChecked"]) {
@@ -633,22 +633,40 @@ if (isset($_POST['data'])) {
                 }
                 keyword = keyword.trim();
                 if (keyword.length === 0) {
+                    productSearchForm.keyword.focus();
                     showError("Keyword should contains alphabets or number");
                     return false;
                 }
-                if (productSearchForm.nearbySearch.checked && productSearchForm.fromRadio[1].checked) {
-                    let zipcode = productSearchForm.zipcode.value.trim();
-                    if (zipcode.length === 0) {
-                        return false
+
+                if (productSearchForm.nearbySearch.checked) {
+                    let distance = productSearchForm.distance.value;
+                    if (distance.length > 0) {
+                        let re_distance = /^\d+$/;
+                        if (!distance.match(re_distance)) {
+                            productSearchForm.distance.focus();
+                            showError("Distance should only contain number");
+                            return false;
+                        }
+                        let n = Number(distance);
+                        if (n < 0) {
+                            productSearchForm.distance.focus();
+                            showError("Minimum distance should be 0");
+                            return false;
+                        }
                     }
 
-                    let re = /^\d{5}$/;
-                    if (zipcode.match(re)) {
-                        return true;
+                    if (productSearchForm.fromRadio[1].checked) {
+                        let zipcode = productSearchForm.zipcode.value;
+                        if (zipcode.length === 0) {
+                            return false
+                        }
+                        let re_zipcode = /^\d{5}$/;
+                        if (!zipcode.match(re_zipcode)) {
+                            productSearchForm.zipcode.focus();
+                            showError("Zipcode is invalid");
+                            return false;
+                        }
                     }
-
-                    showError("Zipcode is invalid");
-                    return false;
                 }
 
                 return true;
@@ -677,6 +695,7 @@ if (isset($_POST['data'])) {
                 }
 
                 data["nearby"] = productSearchForm.nearbySearch.checked;
+                data["isPlaceholderValue"] = !Boolean(productSearchForm.distance.value);
                 data["distance"] = productSearchForm.distance.value || "10";
                 data["hereChecked"] = productSearchForm.fromRadio[0].checked;
                 if (productSearchForm.fromRadio[1].checked) {
@@ -833,12 +852,9 @@ if (isset($_POST['data'])) {
                     sellerMessageClicked(sellerImage);
                     if (this.sellerMessagePresent) {
                         let sellerMessageiframe = document.getElementById("sellerMessageiframe");
-                        sellerMessageiframe.contentWindow.document.body.innerHTML = this.srcDoc;
+                        sellerMessageiframe.srcdoc = "'" + this.srcDoc + "'";
                         setTimeout(function () {
                             iframeOnLoad(sellerMessageiframe);
-                            setTimeout(function () {
-                                iframeOnLoad(sellerMessageiframe);
-                            }, 4000);
                         }, 4000);
                     }
                 }
@@ -1053,7 +1069,9 @@ if (isset($_POST['data'])) {
             }
 
             function iframeOnLoad(iframe) {
-                iframe.style.height = (iframe.contentWindow.document.body.scrollHeight + 10) +  "px";
+                if (iframe && iframe.contentWindow && iframe.contentWindow.document) {
+                    iframe.style.height = (iframe.contentWindow.document.body.scrollHeight) + "px";
+                }
             }
 
             function createSellerMessage(data) {
