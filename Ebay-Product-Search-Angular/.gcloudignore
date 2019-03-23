@@ -1,0 +1,16 @@
+.DS_Store
+.editorconfig
+.git/**
+.gitignore
+.idea/**
+angular.json
+app.yaml
+assignment_description/**
+e2e/**
+node_modules/**
+package-lock.json
+README.md
+source-context.json
+src/**
+tsconfig.json
+tslint.json
