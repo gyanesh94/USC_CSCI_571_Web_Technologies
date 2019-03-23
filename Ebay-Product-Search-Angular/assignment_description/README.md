@@ -151,6 +151,7 @@
 - It will be **enabled** once a **product details search is triggered**.
 - If this **button is enabled and clicked**, the **page will be taken to the Product detail tabs**.
 - After a **product details search is performed**, the **corresponding product row in the results table should be highlighted** to indicate the product whose details are displayed in the Details tabs (Figure 8).
+- Once you move to Wish List disable that again
   - ![](./images/figure_8.png)
 
 
@@ -221,7 +222,7 @@
   - For a value of Feedback score 
     - ~~**greater than 5000**, use **stars**~~
     - ~~**else** use **star_border** from material icons. (**Refer 5.5** for the icons)~~
-    - **NEW** [@602](https://piazza.com/class/jptzz79d354gb?cid=602)
+    - **NEW** [@602](https://piazza.com/class/jptzz79d354gb?cid=602) Description also updated
       - For scores equal to **greater than 10,000 use stars** else **use star border with the colors mentioned.**
       - For **0-9 use color white**.
 - For **Top Rated** if true display a green tick else display a red cross.
