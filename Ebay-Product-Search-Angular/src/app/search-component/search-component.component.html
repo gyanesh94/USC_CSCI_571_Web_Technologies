@@ -1,0 +1,139 @@
+<div class="container-fluid text-white rounded mt-2 p-0 top-level">
+  <div class="row">
+    <div class="mx-auto my-4">
+      <h4>Product Search</h4>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-8 col-lg-8 mx-auto p-0 m-0">
+    <form (ngSubmit)="onSubmit()" #searchForm="ngForm">
+      <!--   Keyword Field   -->
+      <div class="row">
+        <div class="form-group col-xs-12 col-md-12 col-lg-12 p-0 m-0">
+          <label class="col-xs-12 col-md-3 col-lg-3">Keyword<span class="text-red">*</span></label>
+          <label class="col-xs-12 col-md-8 col-lg-8" [ngStyle]="{
+                'margin-bottom': !(!keywordForm.valid && (keywordForm.dirty || keywordForm.touched)) ? '12px' : '0'
+              }">
+            <input type="text" class="form-control check-valid" placeholder="Enter Product Name (eg. iPhone 8)" name="keyword" [(ngModel)]="search.keyword" required #keywordForm="ngModel">
+          </label>
+        </div>
+      </div>
+      <div class="row" *ngIf="!keywordForm.valid && (keywordForm.dirty || keywordForm.touched)">
+        <div class="col-xs-12 col-md-12 col-lg-12 p-0 m-0">
+          <label class="col-xs-12 col-md-3 col-lg-3"></label>
+          <label class="col-xs-12 col-md-8 col-lg-8 error" style="padding-bottom: 12px">
+            Please enter a keyword.
+          </label>
+        </div>
+      </div>
+
+      <!--   Category Field   -->
+      <div class="row">
+        <div class="form-group col-xs-12 col-md-12 col-lg-12 p-0 m-0">
+          <label class="col-xs-12 col-md-3 col-lg-3 mt-2">Category</label>
+          <label class="col-xs-12 col-md-3 col-lg-3 mt-1">
+            <select class="form-control" name="category" [(ngModel)]="search.category">
+              <option value="all">All Categories</option>
+              <option value="550">Art</option>
+              <option value="2984">Baby</option>
+              <option value="267">Books</option>
+              <option value="11450">Clothing, Shoes & Accessories</option>
+              <option value="58058">Computers/Tablets & Networking</option>
+              <option value="26395">Health & Beauty</option>
+              <option value="11233">Music</option>
+              <option value="1249">Video Games & Consoles</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <!--   Condition Field   -->
+      <div class="row">
+        <div class="form-group col-xs-12 col-md-12 col-lg-12 p-0 m-0">
+          <label class="col-xs-12 col-md-3 col-lg-3 mt-2">Condition</label>
+          <label class="col-xs-12 col-md-8 col-lg-8 mt-1">
+            <label class="mr-3">
+              <input type="checkbox" name="conditionNew" [(ngModel)]="search.condition.new"> New
+            </label>
+            <label class="mr-3">
+              <input type="checkbox" name="conditionUsed" [(ngModel)]="search.condition.used"> Used
+            </label>
+            <label>
+              <input type="checkbox" name="conditionUnspecified" [(ngModel)]="search.condition.unspecified"> Unspecified
+            </label>
+          </label>
+        </div>
+      </div>
+
+      <!--   Shipping Field   -->
+      <div class="row">
+        <div class="form-group col-xs-12 col-md-12 col-lg-12 p-0 m-0">
+          <label class="col-xs-12 col-md-3 col-lg-3 mt-2">Shipping Options</label>
+          <label class="col-xs-12 col-md-8 col-lg-8 mt-1">
+            <label class="mr-3">
+              <input type="checkbox" name="localPickupOnly" [(ngModel)]="search.shipping.localPickupOnly"> Local Pickup
+            </label>
+            <label>
+              <input type="checkbox" name="freeShipping" [(ngModel)]="search.shipping.freeShipping"> Free Shipping
+            </label>
+          </label>
+        </div>
+      </div>
+
+      <!--  Distance Field  -->
+      <div class="row">
+        <div class="form-group col-xs-12 col-md-12 col-lg-12 p-0 m-0">
+          <label class="col-xs-12 col-md-3 col-lg-3 mt-2">Distance (Miles)</label>
+          <label class="col-xs-12 col-md-3 col-lg-3 mt-1">
+            <input type="number" class="form-control" placeholder="10" name="distance" min="0" [(ngModel)]="search.distance">
+          </label>
+        </div>
+      </div>
+
+      <!--  From Field  -->
+      <div class="row">
+        <div class="form-group col-xs-12 col-md-12 col-lg-12 p-0 m-0">
+          <label class="col-xs-12 col-md-3 col-lg-3 mt-2">From<span class="text-red">*</span></label>
+          <label class="col-xs-12 col-md-8 col-lg-8 mt-1" [ngStyle]="{
+                'margin-bottom': !(!zipCodeForm.valid && (zipCodeForm.dirty || zipCodeForm.touched)) ? '12px' : '0'
+              }">
+            <input type="radio" name="here" [value]="true" [(ngModel)]="search.fromHere" (click)="locationMethodChange('here')"> Current Location
+            <br>
+            <input type="radio" name="here" [value]="false" [(ngModel)]="search.fromHere" (click)="locationMethodChange('zipCode')"> Other. Please specify the zip code:
+            <br>
+            <input type="text" name="zipCode" class="form-control check-valid mt-1" placeholder="" [(ngModel)]="search.zipCode" [required]="!search.fromHere" [disabled]="search.fromHere" #zipCodeForm="ngModel">
+          </label>
+        </div>
+      </div>
+      <div class="row" *ngIf="!zipCodeForm.valid && (zipCodeForm.dirty || zipCodeForm.touched)">
+        <div class="col-xs-12 col-md-12 col-lg-12 p-0 m-0">
+          <label class="col-xs-12 col-md-3 col-lg-3"></label>
+          <label class="col-xs-12 col-md-8 col-lg-8 error" style="padding-bottom: 12px">
+            Please enter a zip code.
+          </label>
+        </div>
+      </div>
+
+      <!--   Form Buttons   -->
+      <div class="row">
+        <div class="form-group col-xs-12 col-md-12 col-lg-12 mb-3">
+          <label class="mr-4">
+            <button type="submit"
+              class="btn btn-light"
+              [disabled]="!isSubmitValid"
+            >
+              <img class="img" src="../../assets/search.svg" />
+              Search
+            </button>
+          </label>
+          <label>
+            <button type="reset" class="btn btn-light">
+              <img class="img" src="../../assets/clear_all.svg" />
+              Clear
+            </button>
+          </label>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

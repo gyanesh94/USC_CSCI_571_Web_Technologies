@@ -1,0 +1,17 @@
+.text-red {
+  color: red;
+}
+
+.error {
+  color: red;
+  font-size: small;
+}
+
+input.check-valid.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+.top-level {
+  background-color: #1e2024;
+  font-size: 14px;
+}
