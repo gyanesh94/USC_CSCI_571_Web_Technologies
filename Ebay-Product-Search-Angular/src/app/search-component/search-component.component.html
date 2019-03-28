@@ -15,7 +15,15 @@
             <input type="text"
                    class="form-control check-valid"
                    placeholder="Enter Product Name (eg. iPhone 8)"
-                   formControlName="keyword">
+                   formControlName="keyword"
+                   matInput
+                   [matAutocomplete]="autoKeyword">
+            <mat-autocomplete #autoKeyword="matAutocomplete">
+              <mat-option *ngFor="let history of showHistory"
+                          [value]="history">
+                {{ history }}
+              </mat-option>
+            </mat-autocomplete>
             <label class="error p-0 m-0"
                    *ngIf="!searchFormGroup.get('keyword').valid && (searchFormGroup.get('keyword').dirty || searchFormGroup.get('keyword').touched)">
               Please enter a keyword.
@@ -121,24 +129,24 @@
                    placeholder=""
                    [required]="searchFormGroup.get('zipCode').value === 'other'"
                    matInput
-                   [matAutocomplete]="auto">
-            <label class="error p-0 m-0"
-                   *ngIf="!searchFormGroup.get('zipCode').valid && (searchFormGroup.get('zipCode').dirty || searchFormGroup.get('zipCode').touched)">
-              Please enter a zip code.
-            </label>
-            <mat-autocomplete #auto="matAutocomplete">
+                   [matAutocomplete]="autoZipcode">
+            <mat-autocomplete #autoZipcode="matAutocomplete">
               <mat-option *ngFor="let zipCode of zipCodeOptions"
-                          [value]="zipCode">
+                [value]="zipCode">
                 {{ zipCode }}
               </mat-option>
             </mat-autocomplete>
+            <label class="error p-0 m-0"
+                  *ngIf="!searchFormGroup.get('zipCode').valid && (searchFormGroup.get('zipCode').dirty || searchFormGroup.get('zipCode').touched)">
+              Please enter a zip code.
+            </label>
           </label>
         </div>
       </div>
 
       <!--   Form Buttons   -->
       <div class="row">
-        <div class="form-group col-xs-12 col-md-12 col-lg-12 mb-3">
+        <div class="form-group col-xs-12 col-md-12 col-lg-12 mx-0 px-0 mb-3">
           <label class="mr-4">
             <button type="submit"
                     class="btn btn-light"

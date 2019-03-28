@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 import { LoggingService } from '../services/logging.service';
 import { GeoLocationService } from '../services/geoLocation.service';
@@ -16,6 +17,8 @@ export class SearchComponentComponent implements OnInit, OnDestroy {
   searchFormGroup: FormGroup;
   zipCodeOptions: string[];
   subscriptions: Subscription[] = [];
+  keywordHistory: string[] = [];
+  showHistory: string[] = [];
 
   isSubmitValid = false;
 
@@ -44,7 +47,9 @@ export class SearchComponentComponent implements OnInit, OnDestroy {
     });
 
     this.subscriptions.push(
-      this.searchFormGroup.get('zipCode').valueChanges.subscribe(
+      this.searchFormGroup.get('zipCode').valueChanges
+      .pipe(debounceTime(700))
+      .subscribe(
         zipCode => {
           const regex = /^ +$/;
           if (zipCode !== null && zipCode.length > 0 && !regex.test(zipCode)) {
@@ -57,7 +62,22 @@ export class SearchComponentComponent implements OnInit, OnDestroy {
           } else {
             this.zipCodeOptions = [];
           }
-        })
+        }
+      )
+    );
+
+    this.subscriptions.push(
+      this.searchFormGroup.get('keyword').valueChanges.subscribe(
+        keyword => {
+          const result: string[] = [];
+          for (const history of this.keywordHistory) {
+            if (history.includes(keyword)) {
+              result.push(history);
+            }
+          }
+          this.showHistory = result;
+        }
+      )
     );
 
     this.subscriptions.push(this.searchFormGroup.get('keyword').valueChanges.subscribe(
@@ -100,8 +120,14 @@ export class SearchComponentComponent implements OnInit, OnDestroy {
       this.isSubmitValid = false;
       return;
     }
-    const regexp = /^\d{5}$/;
-    if (this.searchFormGroup.get('here').value === 'zipCode' && !regexp.test(this.searchFormGroup.get('zipCode').value)) {
+    const regexpZipcode = /^\d{5}$/;
+    if (this.searchFormGroup.get('here').value === 'zipCode' && !regexpZipcode.test(this.searchFormGroup.get('zipCode').value)) {
+      this.isSubmitValid = false;
+      return;
+    }
+    const regexpKeyword = /^ +$/;
+    const keywordValue = this.searchFormGroup.get('keyword').value;
+    if (keywordValue !== null && regexpKeyword.test(keywordValue)) {
       this.isSubmitValid = false;
       return;
     }
@@ -109,6 +135,10 @@ export class SearchComponentComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    const keywordValue = this.searchFormGroup.get('keyword').value;
+    if (!this.keywordHistory.includes(keywordValue)) {
+      this.keywordHistory.push(keywordValue);
+    }
     this.loggingService.logToConsole(this.searchFormGroup.value);
   }
 

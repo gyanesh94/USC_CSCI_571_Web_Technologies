@@ -9,7 +9,7 @@
 - NodeJS
 - ExpressJS
 - Angular 7
-- Bootstrap
+- Bootstrap 4
 - AJAX
 - JSON
 - HTML5
@@ -24,6 +24,10 @@
 ## Overview
 
 Create a webpage that allows you to search for products information using the *eBay APIs*, and the results will be displayed in a tabular format. The page will also provide product details, seller details and related products.
+
+## To Run
+- Convert config.js.bak to config.js
+- Add Geonames and Ebay API Key
 
 ## Features
 
