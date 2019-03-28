@@ -1,0 +1,4 @@
+module.exports = {
+  EBAY_API: "",
+  GEONAME_KEY: "",
+};
