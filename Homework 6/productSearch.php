@@ -99,7 +99,7 @@ function similar_item($data) {
 }
 
 if (isset($_POST['data'])) {
-    $app_id = "GyaneshM-ProductS-PRD-c16db7c91-88e4ea5d";
+    require 'config.php';
 
     $data = json_decode($_POST['data']);
 
