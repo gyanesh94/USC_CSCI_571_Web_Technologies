@@ -10,10 +10,10 @@ $result = null;
 $similar_item = null;
 
 function type_search($data) {
-    global $app_id;
+    global $ebay_app_id;
 
     $main_url = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=%s&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&paginationInput.entriesPerPage=20&keywords=%s";
-    $url = sprintf($main_url, urlencode($app_id), urlencode($data->keyword));
+    $url = sprintf($main_url, urlencode($ebay_app_id), urlencode($data->keyword));
     if ($data->category != "all") {
         $url = $url . "&categoryId=" . $data->category;
     }
@@ -61,10 +61,10 @@ function type_search($data) {
 }
 
 function type_item_detail($data) {
-    global $app_id;
+    global $ebay_app_id;
 
     $main_url = "http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=JSON&appid=%s&siteid=0&version=967&ItemID=%s&IncludeSelector=Description,Details,ItemSpecifics";
-    $url = sprintf($main_url, urlencode($app_id), urlencode($data->itemId));
+    $url = sprintf($main_url, urlencode($ebay_app_id), urlencode($data->itemId));
 
     $json_content = null;
     try {
@@ -80,10 +80,10 @@ function type_item_detail($data) {
 }
 
 function similar_item($data) {
-    global $app_id;
+    global $ebay_app_id;
 
     $main_url = "http://svcs.ebay.com/MerchandisingService?OPERATION-NAME=getSimilarItems&SERVICE-NAME=MerchandisingService&SERVICE-VERSION=1.1.0&CONSUMER-ID=%s&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&itemId=%s&maxResults=8";
-    $url = sprintf($main_url, urlencode($app_id), urlencode($data->itemId));
+    $url = sprintf($main_url, urlencode($ebay_app_id), urlencode($data->itemId));
 
     $json_content = null;
     try {
