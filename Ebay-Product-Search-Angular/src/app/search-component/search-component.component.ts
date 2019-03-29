@@ -48,22 +48,22 @@ export class SearchComponentComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.searchFormGroup.get('zipCode').valueChanges
-      .pipe(debounceTime(700))
-      .subscribe(
-        zipCode => {
-          const regex = /^ +$/;
-          if (zipCode !== null && zipCode.length > 0 && !regex.test(zipCode)) {
-            this.zipCodeSuggestionsService.callGeoLocationApi(zipCode)
-              .subscribe(
-                (response: []) => {
-                  this.zipCodeOptions = response;
-                }
-              );
-          } else {
-            this.zipCodeOptions = [];
+        .pipe(debounceTime(700))
+        .subscribe(
+          zipCode => {
+            const regex = /^ +$/;
+            if (zipCode !== null && zipCode.length > 0 && !regex.test(zipCode)) {
+              this.zipCodeSuggestionsService.callGeoLocationApi(zipCode)
+                .subscribe(
+                  (response: []) => {
+                    this.zipCodeOptions = response;
+                  }
+                );
+            } else {
+              this.zipCodeOptions = [];
+            }
           }
-        }
-      )
+        )
     );
 
     this.subscriptions.push(
@@ -82,6 +82,13 @@ export class SearchComponentComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(this.searchFormGroup.get('keyword').valueChanges.subscribe(
       _ => {
+        const regexpKeyword = /^ +$/;
+        const keywordValue = this.searchFormGroup.get('keyword');
+        if (keywordValue !== null && regexpKeyword.test(keywordValue.value)) {
+          keywordValue.setErrors({ incorrect: true });
+          this.isSubmitValid = false;
+          return;
+        }
         this.checkSubmitValid();
       }
     )
@@ -112,10 +119,6 @@ export class SearchComponentComponent implements OnInit, OnDestroy {
   }
 
   checkSubmitValid() {
-    if (!this.geoLocationService.isGeoLocationReceived()) {
-      this.isSubmitValid = false;
-      return;
-    }
     if (!this.searchFormGroup.valid) {
       this.isSubmitValid = false;
       return;
@@ -125,9 +128,7 @@ export class SearchComponentComponent implements OnInit, OnDestroy {
       this.isSubmitValid = false;
       return;
     }
-    const regexpKeyword = /^ +$/;
-    const keywordValue = this.searchFormGroup.get('keyword').value;
-    if (keywordValue !== null && regexpKeyword.test(keywordValue)) {
+    if (!this.geoLocationService.isGeoLocationReceived()) {
       this.isSubmitValid = false;
       return;
     }
