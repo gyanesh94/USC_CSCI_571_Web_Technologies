@@ -61,15 +61,15 @@
             <div formGroupName="condition">
               <label class="mr-3">
                 <input type="checkbox"
-                       formControlName="conditionNew"> New
+                       formControlName="New"> New
               </label>
               <label class="mr-3">
                 <input type="checkbox"
-                       formControlName="conditionUsed"> Used
+                       formControlName="Used"> Used
               </label>
               <label>
                 <input type="checkbox"
-                       formControlName="conditionUnspecified"> Unspecified
+                       formControlName="Unspecified"> Unspecified
               </label>
             </div>
           </label>
@@ -120,24 +120,24 @@
             <br>
             <input type="radio"
                    formControlName="here"
-                   value="zipCode"
-                   (click)="locationMethodChange('zipCode')"> Other. Please specify the zip code:
+                   value="zipcode"
+                   (click)="locationMethodChange('zipcode')"> Other. Please specify the zip code:
             <br>
             <input type="text"
-                   formControlName="zipCode"
+                   formControlName="zipcode"
                    class="form-control check-valid mt-1"
                    placeholder=""
-                   [required]="searchFormGroup.get('zipCode').value === 'other'"
+                   [required]="searchFormGroup.get('zipcode').value === 'other'"
                    matInput
                    [matAutocomplete]="autoZipcode">
             <mat-autocomplete #autoZipcode="matAutocomplete">
-              <mat-option *ngFor="let zipCode of zipCodeOptions"
-                [value]="zipCode">
-                {{ zipCode }}
+              <mat-option *ngFor="let zipcode of zipcodeOptions"
+                [value]="zipcode">
+                {{ zipcode }}
               </mat-option>
             </mat-autocomplete>
             <label class="error p-0 m-0"
-                  *ngIf="!searchFormGroup.get('zipCode').valid && (searchFormGroup.get('zipCode').dirty || searchFormGroup.get('zipCode').touched)">
+                  *ngIf="!searchFormGroup.get('zipcode').valid && (searchFormGroup.get('zipcode').dirty || searchFormGroup.get('zipcode').touched)">
               Please enter a zip code.
             </label>
           </label>

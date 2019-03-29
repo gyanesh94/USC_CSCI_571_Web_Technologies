@@ -5,20 +5,20 @@ import { debounceTime } from 'rxjs/operators';
 
 import { LoggingService } from '../services/logging.service';
 import { GeoLocationService } from '../services/geoLocation.service';
-import { ZipCodeSuggestionsService } from '../services/zipCodeSuggestions.service';
+import { ZipcodeSuggestionsService } from '../services/zipcodeSuggestions.service';
 import { StateService } from '../services/state.service';
 import { SearchResultService } from '../services/searchResult.service';
 import { AppState } from '../models/appState.model';
 
 @Component({
-  selector: 'app-search-component',
-  templateUrl: './search-component.component.html',
-  styleUrls: ['./search-component.component.css'],
-  providers: [ZipCodeSuggestionsService]
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.css'],
+  providers: [ZipcodeSuggestionsService]
 })
-export class SearchComponentComponent implements OnInit, OnDestroy {
+export class SearchComponent implements OnInit, OnDestroy {
   searchFormGroup: FormGroup;
-  zipCodeOptions: string[];
+  zipcodeOptions: string[];
   subscriptions: Subscription[] = [];
   keywordHistory: string[] = [];
   showHistory: string[] = [];
@@ -28,7 +28,7 @@ export class SearchComponentComponent implements OnInit, OnDestroy {
   constructor(
     private loggingService: LoggingService,
     private geoLocationService: GeoLocationService,
-    private zipCodeSuggestionsService: ZipCodeSuggestionsService,
+    private zipcodeSuggestionsService: ZipcodeSuggestionsService,
     private stateService: StateService,
     private searchResultService: SearchResultService
   ) { }
@@ -38,9 +38,9 @@ export class SearchComponentComponent implements OnInit, OnDestroy {
       keyword: new FormControl(null, Validators.required),
       category: new FormControl('all'),
       condition: new FormGroup({
-        conditionNew: new FormControl(false),
-        conditionUsed: new FormControl(false),
-        conditionUnspecified: new FormControl(false)
+        New: new FormControl(false),
+        Used: new FormControl(false),
+        Unspecified: new FormControl(false)
       }),
       shipping: new FormGroup({
         localPickupOnly: new FormControl(false),
@@ -48,24 +48,24 @@ export class SearchComponentComponent implements OnInit, OnDestroy {
       }),
       distance: new FormControl(null, Validators.min(0)),
       here: new FormControl('here'),
-      zipCode: new FormControl({ value: null, disabled: true }, Validators.required)
+      zipcode: new FormControl({ value: null, disabled: true }, Validators.required)
     });
 
     this.subscriptions.push(
-      this.searchFormGroup.get('zipCode').valueChanges
-        .pipe(debounceTime(700))
+      this.searchFormGroup.get('zipcode').valueChanges
+        .pipe(debounceTime(400))
         .subscribe(
-          zipCode => {
+          zipcode => {
             const regex = /^ +$/;
-            if (zipCode !== null && zipCode.length > 0 && !regex.test(zipCode)) {
-              this.zipCodeSuggestionsService.callGeoLocationApi(zipCode)
+            if (zipcode !== null && zipcode.length > 0 && !regex.test(zipcode)) {
+              this.zipcodeSuggestionsService.callGeoLocationApi(zipcode)
                 .subscribe(
                   (response: []) => {
-                    this.zipCodeOptions = response;
+                    this.zipcodeOptions = response;
                   }
                 );
             } else {
-              this.zipCodeOptions = [];
+              this.zipcodeOptions = [];
             }
           }
         )
@@ -81,25 +81,25 @@ export class SearchComponentComponent implements OnInit, OnDestroy {
             }
           }
           this.showHistory = result;
+
+          const regexpKeyword = /^ +$/;
+          const keywordValue = this.searchFormGroup.get('keyword');
+          if (keywordValue.value === null ||
+            keywordValue.value.length === 0 ||
+            regexpKeyword.test(keywordValue.value)
+          ) {
+            keywordValue.setErrors({ incorrect: true });
+            this.isSubmitValid = false;
+            return;
+          } else {
+            keywordValue.setErrors(null);
+          }
+          this.checkSubmitValid();
         }
       )
     );
 
-    this.subscriptions.push(this.searchFormGroup.get('keyword').valueChanges.subscribe(
-      _ => {
-        const regexpKeyword = /^ +$/;
-        const keywordValue = this.searchFormGroup.get('keyword');
-        if (keywordValue !== null && regexpKeyword.test(keywordValue.value)) {
-          keywordValue.setErrors({ incorrect: true });
-          this.isSubmitValid = false;
-          return;
-        }
-        this.checkSubmitValid();
-      }
-    )
-    );
-
-    this.subscriptions.push(this.searchFormGroup.get('zipCode').valueChanges.subscribe(
+    this.subscriptions.push(this.searchFormGroup.get('zipcode').valueChanges.subscribe(
       _ => {
         this.checkSubmitValid();
       }
@@ -115,10 +115,10 @@ export class SearchComponentComponent implements OnInit, OnDestroy {
 
   locationMethodChange(value: string) {
     if (value === 'here') {
-      this.searchFormGroup.get('zipCode').reset();
-      this.searchFormGroup.get('zipCode').disable();
-    } else if (value === 'zipCode') {
-      this.searchFormGroup.get('zipCode').enable();
+      this.searchFormGroup.get('zipcode').reset();
+      this.searchFormGroup.get('zipcode').disable();
+    } else if (value === 'zipcode') {
+      this.searchFormGroup.get('zipcode').enable();
     }
     this.checkSubmitValid();
   }
@@ -129,7 +129,7 @@ export class SearchComponentComponent implements OnInit, OnDestroy {
       return;
     }
     const regexpZipcode = /^\d{5}$/;
-    if (this.searchFormGroup.get('here').value === 'zipCode' && !regexpZipcode.test(this.searchFormGroup.get('zipCode').value)) {
+    if (this.searchFormGroup.get('here').value === 'zipcode' && !regexpZipcode.test(this.searchFormGroup.get('zipcode').value)) {
       this.isSubmitValid = false;
       return;
     }
@@ -147,6 +147,7 @@ export class SearchComponentComponent implements OnInit, OnDestroy {
     }
     this.searchResultService.setData(this.searchFormGroup.value);
     this.stateService.updateState(AppState.ProgressBar);
+    this.searchResultService.fetchResult();
   }
 
 }

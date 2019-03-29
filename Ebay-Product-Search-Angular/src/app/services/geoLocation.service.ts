@@ -6,7 +6,7 @@ import { LoggingService } from './logging.service';
 @Injectable()
 export class GeoLocationService {
   private geoLocationeRecived = false;
-  private zipCode: string | null;
+  private zipcode: string | null;
 
   constructor(
     private http: HttpClient,
@@ -23,17 +23,17 @@ export class GeoLocationService {
         (response: {zip: string} | null) => {
           if (response === null || !response.hasOwnProperty('zip')) {
             this.geoLocationeRecived = false;
-            this.zipCode = null;
+            this.zipcode = null;
             return;
           }
           this.geoLocationeRecived = true;
-          this.zipCode = response.zip;
+          this.zipcode = response.zip;
         },
         error => { }
       );
   }
 
   getCurrentZipCode() {
-    return this.zipCode;
+    return this.zipcode;
   }
 }

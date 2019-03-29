@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SearchComponentComponent } from './search-component/search-component.component';
+import { SearchComponent } from './search/search.component';
 import { LoggingService } from './services/logging.service';
 import { AppConfig } from './app.config';
 import { ResultComponent } from './result/result.component';
@@ -24,7 +24,7 @@ import { GeoLocationService } from './services/geoLocation.service';
 @NgModule({
   declarations: [
     AppComponent,
-    SearchComponentComponent,
+    SearchComponent,
     ResultComponent,
     WishListComponent,
     ProductComponent,

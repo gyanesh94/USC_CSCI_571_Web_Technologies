@@ -1,9 +1,9 @@
-export class SearchData {
+export class SearchDataModel {
   category: string;
   condition = {
-    conditionNew: false,
-    conditionUsed: false,
-    conditionUnspecified: false
+    New: false,
+    Used: false,
+    Unspecified: false
   };
   distance: string | null;
   here: string;
@@ -12,5 +12,5 @@ export class SearchData {
     localPickupOnly: false,
     freeShipping: false
   };
-  zipCode: string;
+  zipcode: string;
 }

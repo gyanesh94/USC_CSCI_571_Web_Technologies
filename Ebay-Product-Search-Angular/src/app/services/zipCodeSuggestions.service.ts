@@ -6,7 +6,7 @@ import { LoggingService } from './logging.service';
 import { AppConfig } from '../app.config';
 
 @Injectable()
-export class ZipCodeSuggestionsService {
+export class ZipcodeSuggestionsService {
 
   constructor(
     private http: HttpClient,
@@ -15,7 +15,7 @@ export class ZipCodeSuggestionsService {
   ) { }
 
   callGeoLocationApi(search: string) {
-    const params = new HttpParams().set('zipCode', search);
+    const params = new HttpParams().set('zipcode', search);
     const apiEndPoint = this.appConfig.getApiEndPoint();
     const url = `${apiEndPoint}/zipcode`;
     return this.http.get(url, { params })
