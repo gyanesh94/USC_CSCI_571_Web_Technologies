@@ -18,6 +18,8 @@ import { PhotosComponent } from './product/photos/photos.component';
 import { ShippingComponent } from './product/shipping/shipping.component';
 import { SellerComponent } from './product/seller/seller.component';
 import { SimilarProductsComponent } from './product/similar-products/similar-products.component';
+import { StateService } from './services/state.service';
+import { GeoLocationService } from './services/geoLocation.service';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,7 @@ import { SimilarProductsComponent } from './product/similar-products/similar-pro
     MatFormFieldModule,
     BrowserAnimationsModule,
   ],
-  providers: [LoggingService, AppConfig],
+  providers: [LoggingService, AppConfig, StateService, GeoLocationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

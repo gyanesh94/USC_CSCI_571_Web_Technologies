@@ -1,0 +1,12 @@
+.nav-pills .nav-link.active {
+  color: white;
+  background-color: black;
+}
+
+.nav-link {
+  color: black;
+}
+
+.cursor {
+  cursor: pointer;
+}

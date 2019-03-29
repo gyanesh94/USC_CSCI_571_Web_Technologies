@@ -1,13 +1,56 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-9 col-lg-9 col-xs-12 mx-auto">
-        <app-search-component></app-search-component>
-      </div>
-    <div class="row">
-      <div class="col-md-8 col-lg-8 mx-auto">
-        <router-outlet></router-outlet>
+      <app-search-component></app-search-component>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-2 col-lg-2 mt-4 px-0 mx-0 mx-auto">
+      <nav class="nav nav-pills nav-justified">
+        <a class="nav-link cursor"
+           [class.active]="resultActive"
+           (click)="changeStatus(appStatus.ResultComponent)">Results</a>
+        <a class="nav-link cursor"
+           [class.active]="!resultActive"
+           (click)="changeStatus(appStatus.WishListComponent)">Wish List</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row"
+       *ngIf="currentStatus == appStatus.ProgressBar">
+    <div class="col-md-9 col-lg-9 mt-3 px-0 mx-0 mx-auto">
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated w-50"
+             role="progressbar"
+             aria-valuenow="50"
+             aria-valuemin="0"
+             aria-valuemax="100">
+        </div>
       </div>
     </div>
   </div>
-</div>
 
+  <div class="row"
+       *ngIf="currentStatus == appStatus.ResultComponent">
+    <div class="col-md-8 col-lg-8 mx-auto">
+      <app-result></app-result>
+    </div>
+  </div>
+
+  <div class="row"
+       *ngIf="currentStatus == appStatus.WishListComponent">
+    <div class="col-md-8 col-lg-8 mx-auto">
+      <app-wish-list></app-wish-list>
+    </div>
+  </div>
+
+  <div class="row"
+       *ngIf="currentStatus == appStatus.ProductComponent">
+    <div class="col-md-8 col-lg-8 mx-auto">
+      <app-product></app-product>
+    </div>
+  </div>
+
+</div>

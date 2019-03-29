@@ -6,6 +6,9 @@ import { debounceTime } from 'rxjs/operators';
 import { LoggingService } from '../services/logging.service';
 import { GeoLocationService } from '../services/geoLocation.service';
 import { ZipCodeSuggestionsService } from '../services/zipCodeSuggestions.service';
+import { StateService } from '../services/state.service';
+import { SearchResultService } from '../services/searchResult.service';
+import { AppState } from '../models/appState.model';
 
 @Component({
   selector: 'app-search-component',
@@ -25,7 +28,9 @@ export class SearchComponentComponent implements OnInit, OnDestroy {
   constructor(
     private loggingService: LoggingService,
     private geoLocationService: GeoLocationService,
-    private zipCodeSuggestionsService: ZipCodeSuggestionsService
+    private zipCodeSuggestionsService: ZipCodeSuggestionsService,
+    private stateService: StateService,
+    private searchResultService: SearchResultService
   ) { }
 
   ngOnInit() {
@@ -140,7 +145,8 @@ export class SearchComponentComponent implements OnInit, OnDestroy {
     if (!this.keywordHistory.includes(keywordValue)) {
       this.keywordHistory.push(keywordValue);
     }
-    this.loggingService.logToConsole(this.searchFormGroup.value);
+    this.searchResultService.setData(this.searchFormGroup.value);
+    this.stateService.updateState(AppState.ProgressBar);
   }
 
 }
