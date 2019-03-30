@@ -17,7 +17,7 @@ import { WishListService } from './services/wishList.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'Ebay-Product-Search-Angular';
-  currentStatus = AppState.ResultComponent;
+  currentStatus = AppState.HomeComponent;
   appStatus = AppState;
   resultActive = true;
   subscriptions: Subscription[] = [];
@@ -51,9 +51,7 @@ export class AppComponent implements OnInit, OnDestroy {
     } else if (newState === AppState.WishListComponent) {
       this.resultActive = false;
     }
-    this.loggingService.logToConsole(newState);
     this.currentStatus = newState;
-    this.loggingService.logToConsole(this.currentStatus);
   }
 
 }

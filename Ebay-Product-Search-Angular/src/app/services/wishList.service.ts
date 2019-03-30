@@ -12,6 +12,7 @@ export class WishListService {
   ) { }
 
   setWishListToLocalStorage() {
+    localStorage.clear();
     localStorage.setItem('wishList', JSON.stringify(this.wishList));
   }
 
@@ -28,14 +29,29 @@ export class WishListService {
 
   mapSearchResultToWishList(searchResult: SearchResultModel[]) {
     for (let i = 0; i < this.wishList.length; i++) {
-      const wishListItemId = this.wishList[i].itemId;
+      const wishListproductId = this.wishList[i].productId;
       for (const result of searchResult) {
-        if (wishListItemId === result.itemId) {
+        if (wishListproductId === result.productId) {
           result.inWishList = true;
           this.wishList[i] = result;
           break;
         }
       }
     }
+  }
+
+  removeProductFromWishList(productId: string) {
+    for (let i = 0; i < this.wishList.length; i++) {
+      if (this.wishList[i].productId === productId) {
+        this.wishList.splice(i, 1);
+        this.setWishListToLocalStorage();
+        return;
+      }
+    }
+  }
+
+  addProductToWishList(product: SearchResultModel) {
+    this.wishList.push(product);
+    this.setWishListToLocalStorage();
   }
 }

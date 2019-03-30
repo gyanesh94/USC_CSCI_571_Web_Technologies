@@ -109,7 +109,9 @@ app.get("/api/search", (req, res) => {
         data.searchResult.length === 0 ||
         data.searchResult[0]["@count"] === "0"
       ) {
-        showError("No Records.");
+        res.send([{
+          error: "No Records.",
+        }]);
         return;
       }
 
@@ -119,8 +121,8 @@ app.get("/api/search", (req, res) => {
         image: null,
         inWishList: false,
         index: "",
-        itemId: null,
         price: null,
+        productId: null,
         sellerName: null,
         shippingPrice: null,
         title: null,
@@ -136,7 +138,7 @@ app.get("/api/search", (req, res) => {
           resultItem.image = item.galleryURL[0];
         }
 
-        resultItem.itemId = item.itemId[0];
+        resultItem.productId = item.itemId[0];
         if (item.hasOwnProperty("title") && item.title.length > 0) {
           resultItem.title = item.title[0];
         }

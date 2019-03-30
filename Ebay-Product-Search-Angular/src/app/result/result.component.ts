@@ -37,10 +37,32 @@ export class ResultComponent implements OnInit {
   }
 
   pageChanged(event: PageChangedEvent) {
-    this.loggingService.logToConsole(event);
     const startItem = (event.page - 1) * event.itemsPerPage;
     const endItem = event.page * event.itemsPerPage;
     this.returnedArray = this.searchResultData.slice(startItem, endItem);
+  }
+
+  showProductDetail(productId: string) {
+    this.loggingService.logToConsole(productId);
+  }
+
+  onImageError(i: number) {
+    this.returnedArray[i].image = null;
+  }
+
+  addOrRemoveFromWishList(productId: string) {
+    for (const product of this.searchResultData) {
+      if (productId === product.productId) {
+        if (product.inWishList) {
+          product.inWishList = false;
+          this.wishListService.removeProductFromWishList(productId);
+        } else {
+          product.inWishList = true;
+          this.wishListService.addProductToWishList(product);
+        }
+        return;
+      }
+    }
   }
 
 }

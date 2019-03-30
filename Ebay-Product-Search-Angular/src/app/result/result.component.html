@@ -8,9 +8,7 @@
        *ngIf="!haveError">
     <div style="text-align:right">
       <button class="btn btn-light"
-              disabled
-              id="details"
-              (click)="displayDetails()">
+              disabled>
         Details
         <i class="material-icons align-bottom">
           keyboard_arrow_right
@@ -31,21 +29,43 @@
           <th>Wish List</th>
         </thead>
         <tbody>
-          <tr *ngFor="let content of returnedArray">
+          <tr *ngFor="let content of returnedArray; let i = index;">
             <td>{{ content.index }}</td>
             <td>
-              <img class="imgCell"
-                   [src]="content.image"
-                   *ngIf="content.image"
-                   onError="content.image=null">
+              <a [href]="content.image"
+                 *ngIf="content.image"
+                 target="_blank">
+                <img class="imgCell"
+                     [src]="content.image"
+                     (error)="onImageError(i)">
+              </a>
               <span *ngIf="!content.image">N/A</span>
             </td>
-            <td>{{ (content.title | truncate) || 'N/A' }}</td>
+            <td>
+              <span class="table-title"
+                    [tooltip]="content.title"
+                    placement="bottom"
+                    (click)="showProductDetail(content.productId)">
+                {{ (content.title | truncate) || 'N/A' }}
+              </span>
+            </td>
             <td>{{ content.price || 'N/A' }}</td>
             <td>{{ content.shippingPrice || 'N/A' }}</td>
             <td>{{ content.zipcode || 'N/A' }}</td>
-            <td>{{ content.sellerName || 'N/A' }}</td>
-            <td>{{ content.index }}</td>
+            <td>{{ (content.sellerName | uppercase ) || 'N/A' }}</td>
+            <td>
+              <button class="btn btn-light"
+                      (click)="addOrRemoveFromWishList(content.productId)">
+                <i class="material-icons align-bottom"
+                   *ngIf="!content.inWishList">
+                  add_shopping_cart
+                </i>
+                <i class="material-icons wish-list-active align-bottom"
+                   *ngIf="content.inWishList">
+                  remove_shopping_cart
+                </i>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>

@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatAutocompleteModule, MatInputModule, MatFormFieldModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -47,7 +48,8 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     MatInputModule,
     MatFormFieldModule,
     BrowserAnimationsModule,
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    TooltipModule.forRoot()
   ],
   providers: [LoggingService, AppConfig, StateService, GeoLocationService],
   bootstrap: [AppComponent]

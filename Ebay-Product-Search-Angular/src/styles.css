@@ -35,13 +35,18 @@ body {
   border-color: #323435;
 }
 
+.table-dark tr:hover {
+  background-color: #2c2e32;
+}
+
 .table-dark.table-striped tbody tr:nth-of-type(odd) {
-  background-color: #232529;
+  background-color: #27292d;
 }
 
 .imgCell {
   width: 90px;
-  background-size: cover;
+  height: 90px;
+  object-fit: fill;
   padding: 0.5px;
 }
 
@@ -49,4 +54,31 @@ body {
   background-color: #fff1c7;
   color: #6e5b20;
   border-radius: 2px;
+}
+
+.tooltip-inner {
+  background-color: #3d3d3d;
+}
+
+.table-title {
+  color: #22549b;
+  font-weight: bold;
+}
+
+.table-title:hover {
+  text-decoration: underline;
+}
+
+.table-title:active {
+  cursor: pointer;
+}
+
+.material-icons.wish-list-active {
+  color: #ad7a04;
+}
+
+.btn-light:active,
+.btn-light:focus {
+  box-shadow: none;
+  text-shadow: none;
 }

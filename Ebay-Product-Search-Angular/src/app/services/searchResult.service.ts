@@ -12,7 +12,6 @@ import { AppState } from '../models/appState.model';
 @Injectable()
 export class SearchResultService {
   private searchData: SearchDataModel = new SearchDataModel();
-  private currentResultIsValid = false;
   private searchResult: SearchResultModel[] = [];
 
   private haveError = false;
@@ -45,14 +44,9 @@ export class SearchResultService {
     }
     this.searchData.shipping.freeShipping = newData.shipping.freeShipping;
     this.searchData.shipping.localPickupOnly = newData.shipping.localPickupOnly;
-
-    this.currentResultIsValid = false;
   }
 
   fetchResult() {
-    if (this.currentResultIsValid) {
-      return;
-    }
     const params = new HttpParams().set('data', JSON.stringify(this.searchData));
 
     const apiEndPoint = this.appConfig.getApiEndPoint();
@@ -81,7 +75,6 @@ export class SearchResultService {
               Object.assign(new SearchResultModel(), res)
             );
           }
-          this.currentResultIsValid = true;
           this.stateService.updateState(AppState.ResultComponent);
         },
         (error: HttpErrorResponse) => {
