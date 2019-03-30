@@ -9,6 +9,7 @@ import { ZipcodeSuggestionsService } from '../services/zipcodeSuggestions.servic
 import { StateService } from '../services/state.service';
 import { SearchResultService } from '../services/searchResult.service';
 import { AppState } from '../models/appState.model';
+import { DetailButtonService } from '../services/detailButton.service';
 
 @Component({
   selector: 'app-search',
@@ -30,7 +31,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     private geoLocationService: GeoLocationService,
     private zipcodeSuggestionsService: ZipcodeSuggestionsService,
     private stateService: StateService,
-    private searchResultService: SearchResultService
+    private searchResultService: SearchResultService,
+    private detailButtonService: DetailButtonService
   ) { }
 
   ngOnInit() {
@@ -145,6 +147,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     if (!this.keywordHistory.includes(keywordValue)) {
       this.keywordHistory.push(keywordValue);
     }
+    this.detailButtonService.clearDetailButton();
     this.searchResultService.setData(this.searchFormGroup.value);
     this.stateService.updateState(AppState.ProgressBar);
     this.searchResultService.fetchResult();

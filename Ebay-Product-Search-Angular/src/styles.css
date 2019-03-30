@@ -83,3 +83,7 @@ body {
   box-shadow: none;
   text-shadow: none;
 }
+
+.highlight-row {
+  background-color: #bec0c2 !important;
+}

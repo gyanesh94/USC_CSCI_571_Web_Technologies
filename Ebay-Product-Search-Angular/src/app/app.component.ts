@@ -7,12 +7,13 @@ import { StateService } from './services/state.service';
 import { AppState } from './models/appState.model';
 import { SearchResultService } from './services/searchResult.service';
 import { WishListService } from './services/wishList.service';
+import { DetailButtonService } from './services/detailButton.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [SearchResultService, WishListService],
+  providers: [SearchResultService, WishListService, DetailButtonService],
   animations: []
 })
 export class AppComponent implements OnInit, OnDestroy {

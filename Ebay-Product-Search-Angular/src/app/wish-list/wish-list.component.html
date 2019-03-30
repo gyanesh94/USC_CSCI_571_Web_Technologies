@@ -8,7 +8,8 @@
        *ngIf="!haveError">
     <div class="row justify-content-end mb-2 mb-md-3">
       <button class="btn btn-light"
-              disabled>
+              [disabled]="disableDetailButton"
+              (click)="detailButtonClicked()">
         Detail
         <i class="material-icons align-bottom">
           keyboard_arrow_right
@@ -29,7 +30,8 @@
           <th>Wish List</th>
         </thead>
         <tbody>
-          <tr *ngFor="let content of wishList; let i = index;">
+          <tr [class.highlight-row]="content.highlighted"
+              *ngFor="let content of wishList; let i = index;">
             <td>{{ i + 1 }}</td>
             <td>
               <a [href]="content.image"

@@ -5,6 +5,7 @@ import { SearchResultService } from '../services/searchResult.service';
 import { LoggingService } from '../services/logging.service';
 import { SearchResultModel } from '../models/searchResult.model';
 import { WishListService } from '../services/wishList.service';
+import { DetailButtonService } from '../services/detailButton.service';
 
 @Component({
   selector: 'app-result',
@@ -16,11 +17,13 @@ export class ResultComponent implements OnInit {
   haveError = true;
   errorMessage = 'No Records.';
   returnedArray: SearchResultModel[];
+  disableDetailButton = true;
 
   constructor(
     private loggingService: LoggingService,
     private searchResultService: SearchResultService,
-    private wishListService: WishListService
+    private wishListService: WishListService,
+    private detailButtonService: DetailButtonService
   ) { }
 
   ngOnInit() {
@@ -34,6 +37,9 @@ export class ResultComponent implements OnInit {
       this.wishListService.mapSearchResultToWishList(this.searchResultData);
       this.returnedArray = this.searchResultData.slice(0, 10);
     }
+    if (this.detailButtonService.activateDetailButton()) {
+      this.disableDetailButton = false;
+    }
   }
 
   pageChanged(event: PageChangedEvent) {
@@ -43,6 +49,12 @@ export class ResultComponent implements OnInit {
   }
 
   showProductDetail(productId: string) {
+    for (const product of this.returnedArray) {
+      if (product.productId === productId) {
+        this.detailButtonService.setDetailButton(product);
+      }
+    }
+    this.disableDetailButton = false;
     this.loggingService.logToConsole(productId);
   }
 
@@ -61,6 +73,10 @@ export class ResultComponent implements OnInit {
         return;
       }
     }
+  }
+
+  detailButtonClicked() {
+    this.showProductDetail(this.detailButtonService.getProductId());
   }
 
 }

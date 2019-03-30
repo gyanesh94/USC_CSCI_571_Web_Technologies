@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoggingService } from '../services/logging.service';
 import { WishListService } from '../services/wishList.service';
 import { SearchResultModel } from '../models/searchResult.model';
+import { DetailButtonService } from '../services/detailButton.service';
 
 @Component({
   selector: 'app-wish-list',
@@ -14,10 +15,12 @@ export class WishListComponent implements OnInit {
   haveError: boolean;
   errorMessage: string;
   totalCost: number;
+  disableDetailButton = true;
 
   constructor(
     private loggingService: LoggingService,
-    private wishListService: WishListService
+    private wishListService: WishListService,
+    private detailButtonService: DetailButtonService
   ) { }
 
   ngOnInit() {
@@ -29,6 +32,9 @@ export class WishListComponent implements OnInit {
       this.haveError = false;
       this.errorMessage = '';
       this.calculateTotalPrice();
+    }
+    if (this.detailButtonService.activateDetailButton()) {
+      this.disableDetailButton = false;
     }
   }
 
@@ -42,15 +48,29 @@ export class WishListComponent implements OnInit {
   }
 
   showProductDetail(productId: string) {
+    for (const product of this.wishList) {
+      if (product.productId === productId) {
+        this.detailButtonService.setDetailButton(product);
+      }
+    }
+    this.disableDetailButton = false;
     this.loggingService.logToConsole(productId);
   }
 
   removeFromWishList(productId: string) {
+    if (this.detailButtonService.getProductId() === productId) {
+      this.detailButtonService.clearDetailButton();
+      this.disableDetailButton = true;
+    }
     this.wishListService.removeProductFromWishList(productId);
     if (!this.wishList.length) {
       this.haveError = true;
       this.errorMessage = 'No Records.';
     }
     this.calculateTotalPrice();
+  }
+
+  detailButtonClicked() {
+    this.showProductDetail(this.detailButtonService.getProductId());
   }
 }
