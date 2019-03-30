@@ -21,4 +21,11 @@ export class StateService {
   getCurrentState() {
     return this.currentState;
   }
+
+  setState(newState: AppState) {
+    if (newState !== AppState.ProgressBar) {
+      this.previousState = this.currentState;
+      this.currentState = newState;
+    }
+  }
 }

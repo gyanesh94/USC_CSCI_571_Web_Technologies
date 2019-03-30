@@ -46,6 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   changeStatus(newState: AppState) {
+    this.stateService.setState(newState);
     if (newState === AppState.HomeComponent || newState === AppState.ResultComponent) {
       this.resultActive = true;
     } else if (newState === AppState.WishListComponent) {
