@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatAutocompleteModule, MatInputModule, MatFormFieldModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +21,7 @@ import { SellerComponent } from './product/seller/seller.component';
 import { SimilarProductsComponent } from './product/similar-products/similar-products.component';
 import { StateService } from './services/state.service';
 import { GeoLocationService } from './services/geoLocation.service';
+import { TruncatePipe } from './pipes/truncate.pipe';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { GeoLocationService } from './services/geoLocation.service';
     ShippingComponent,
     SellerComponent,
     SimilarProductsComponent,
+    TruncatePipe
   ],
   imports: [
     BrowserModule,
@@ -44,6 +47,7 @@ import { GeoLocationService } from './services/geoLocation.service';
     MatInputModule,
     MatFormFieldModule,
     BrowserAnimationsModule,
+    PaginationModule.forRoot()
   ],
   providers: [LoggingService, AppConfig, StateService, GeoLocationService],
   bootstrap: [AppComponent]

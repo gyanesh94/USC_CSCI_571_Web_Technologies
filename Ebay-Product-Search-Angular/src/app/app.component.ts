@@ -6,17 +6,18 @@ import { LoggingService } from './services/logging.service';
 import { StateService } from './services/state.service';
 import { AppState } from './models/appState.model';
 import { SearchResultService } from './services/searchResult.service';
+import { WishListService } from './services/wishList.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [SearchResultService],
+  providers: [SearchResultService, WishListService],
   animations: []
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'Ebay-Product-Search-Angular';
-  currentStatus = AppState.HomeComponent;
+  currentStatus = AppState.ResultComponent;
   appStatus = AppState;
   resultActive = true;
   subscriptions: Subscription[] = [];
@@ -24,7 +25,8 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private geoLocationService: GeoLocationService,
     private loggingService: LoggingService,
-    private stateService: StateService
+    private stateService: StateService,
+    private wishListService: WishListService
   ) { }
 
   ngOnInit() {
@@ -34,6 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
         (newState: AppState) => this.changeStatus(newState)
       )
     );
+    this.wishListService.getWishListFromLocalStorage();
   }
 
   ngOnDestroy() {

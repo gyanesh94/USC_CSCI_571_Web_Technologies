@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { SearchDataModel } from '../models/searchData.model';
@@ -13,7 +13,7 @@ import { AppState } from '../models/appState.model';
 export class SearchResultService {
   private searchData: SearchDataModel = new SearchDataModel();
   private currentResultIsValid = false;
-  private searchResult: { [id: string]: SearchResultModel } = {};
+  private searchResult: SearchResultModel[] = [];
 
   private haveError = false;
   private errorMessage: string;
@@ -59,13 +59,17 @@ export class SearchResultService {
     const url = `${apiEndPoint}/search`;
     this.http.get(url, { params })
       .subscribe(
-        (response: []) => {
+        (response: { error: string }[] = [
+          { error: 'No Records.' },
+        ]) => {
           if (!response.length) {
             this.errorMessage = 'No records.';
             this.haveError = true;
             this.stateService.updateState(AppState.ResultComponent);
             return;
           }
+          this.haveError = false;
+          this.errorMessage = '';
           if (response.length && response[0].hasOwnProperty('error')) {
             this.errorMessage = response[0].error;
             this.haveError = true;
@@ -73,13 +77,37 @@ export class SearchResultService {
             return;
           }
           for (const res of response) {
-            const temp: SearchResultModel = Object.assign(new SearchResultModel(), res);
-            this.searchResult[temp.itemId] = temp;
+            this.searchResult.push(
+              Object.assign(new SearchResultModel(), res)
+            );
           }
           this.currentResultIsValid = true;
           this.stateService.updateState(AppState.ResultComponent);
         },
-        _ => []
+        (error: HttpErrorResponse) => {
+          this.haveError = true;
+          this.errorMessage = error.message;
+          this.stateService.updateState(AppState.ResultComponent);
+        }
       );
   }
+
+  getData() {
+    return this.searchResult;
+  }
+
+  gotErrors() {
+    if (!this.haveError) {
+      if (!this.searchResult.length) {
+        this.haveError = true;
+        this.errorMessage = 'No Records';
+      }
+    }
+    return this.haveError;
+  }
+
+  getErrorMessage() {
+    return this.errorMessage;
+  }
+
 }

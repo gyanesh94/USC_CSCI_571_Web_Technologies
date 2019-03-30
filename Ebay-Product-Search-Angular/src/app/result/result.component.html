@@ -1,3 +1,61 @@
-<p>
-  result works!
-</p>
+<div class="row">
+  <div class="col-xs-11 col-md-11 col-lg-11 col-11 warning-error my-3 p-3 mx-auto"
+       *ngIf="haveError">
+    {{ errorMessage }}
+  </div>
+
+  <div class="col-xs-12 col-md-12 col-lg-12 col-12 mx-auto"
+       *ngIf="!haveError">
+    <div style="text-align:right">
+      <button class="btn btn-light"
+              disabled
+              id="details"
+              (click)="displayDetails()">
+        Details
+        <i class="material-icons align-bottom">
+          keyboard_arrow_right
+        </i>
+      </button>
+      <br><br>
+    </div>
+    <div class="col-xs-12 col-md-12 col-lg-12 col-12">
+      <table class="table table-striped table-dark">
+        <thead>
+          <th>#</th>
+          <th>Image</th>
+          <th>Title</th>
+          <th>Price</th>
+          <th>Shipping</th>
+          <th>Zip</th>
+          <th>Seller</th>
+          <th>Wish List</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let content of returnedArray">
+            <td>{{ content.index }}</td>
+            <td>
+              <img class="imgCell"
+                   [src]="content.image"
+                   *ngIf="content.image"
+                   onError="content.image=null">
+              <span *ngIf="!content.image">N/A</span>
+            </td>
+            <td>{{ (content.title | truncate) || 'N/A' }}</td>
+            <td>{{ content.price || 'N/A' }}</td>
+            <td>{{ content.shippingPrice || 'N/A' }}</td>
+            <td>{{ content.zipcode || 'N/A' }}</td>
+            <td>{{ content.sellerName || 'N/A' }}</td>
+            <td>{{ content.index }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="col-xs-12 col-5 mx-auto">
+        <pagination [totalItems]="searchResultData.length"
+                    previousText="&laquo;&nbsp;&nbsp;&nbsp;Previous"
+                    nextText="Next&nbsp;&nbsp;&nbsp;&raquo;"
+                    [(ngModel)]="currentPage"
+                    (pageChanged)="pageChanged($event)"></pagination>
+      </div>
+    </div>
+  </div>
+</div>

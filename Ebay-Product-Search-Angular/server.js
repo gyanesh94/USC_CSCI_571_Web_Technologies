@@ -117,6 +117,7 @@ app.get("/api/search", (req, res) => {
       let searchResultModel = {
         highlighted: false,
         image: null,
+        inWishList: false,
         index: "",
         itemId: null,
         price: null,
@@ -145,7 +146,7 @@ app.get("/api/search", (req, res) => {
           if (sellingStatus.hasOwnProperty("currentPrice") && sellingStatus.currentPrice.length > 0) {
             let currentPrice = sellingStatus.currentPrice[0];
             if (currentPrice.hasOwnProperty("__value__")) {
-              resultItem.price = currentPrice.__value__;
+              resultItem.price = "$" + currentPrice.__value__;
             }
           }
         }
@@ -170,7 +171,7 @@ app.get("/api/search", (req, res) => {
               if (Number(value) === 0) {
                 resultItem.shippingPrice = "Free Shipping";
               } else {
-                resultItem.shippingPrice = "" + value;
+                resultItem.shippingPrice = "$" + value;
               }
             }
           }

@@ -1,2 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.page-link {
+  border: none;
+  color: black;
+}
+
+.page-item.active .page-link {
+  z-index: 2;
+  color: #fff;
+  background-color: black;
+  border: none;
+}
+
+.page-link:hover {
+  z-index: 0;
+  color: black;
+  text-decoration: underline;
+  background-color: #e6e6e6;
+  border: none;
+}
+
+body {
+  font-size: 14px;
+}
+
+.table-dark {
+  background-color: #1e2024;
+}
+
+.table-dark td,
+.table-dark th,
+.table-dark thead th {
+  border-color: #323435;
+}
+
+.table-dark.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #232529;
+}
+
+.imgCell {
+  width: 90px;
+  background-size: cover;
+  padding: 0.5px;
+}
+
+.warning-error {
+  background-color: #fff1c7;
+  color: #6e5b20;
+  border-radius: 2px;
+}

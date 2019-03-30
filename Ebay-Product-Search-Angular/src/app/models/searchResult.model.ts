@@ -8,4 +8,5 @@ export class SearchResultModel {
   zipcode: string | null;
   sellerName: string | null;
   highlighted: boolean;
+  inWishList: boolean;
 }
