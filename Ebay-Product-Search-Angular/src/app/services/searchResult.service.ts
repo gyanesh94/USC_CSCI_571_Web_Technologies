@@ -48,9 +48,9 @@ export class SearchResultService {
 
   fetchResult() {
     const params = new HttpParams().set('data', JSON.stringify(this.searchData));
-
     const apiEndPoint = this.appConfig.getApiEndPoint();
     const url = `${apiEndPoint}/search`;
+    this.searchResult = [];
     this.http.get(url, { params })
       .subscribe(
         (response: { error: string }[] = [
