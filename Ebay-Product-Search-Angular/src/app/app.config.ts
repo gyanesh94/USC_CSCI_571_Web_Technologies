@@ -9,7 +9,7 @@ export class AppConfig {
 
   getApiEndPoint() {
     if (this.onLocal) {
-      return 'http://localhost:8081/api';
+      return 'http://192.168.0.113:8081/api';
     } else {
       return 'http://ebay-product-search-angular.appspot.com/api';
     }

@@ -54,10 +54,8 @@ export class ResultComponent implements OnInit {
     for (const product of this.searchResultData) {
       if (productId === product.productId) {
         if (product.inWishList) {
-          product.inWishList = false;
           this.wishListService.removeProductFromWishList(productId);
         } else {
-          product.inWishList = true;
           this.wishListService.addProductToWishList(product);
         }
         return;

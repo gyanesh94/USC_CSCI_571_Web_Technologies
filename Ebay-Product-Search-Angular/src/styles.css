@@ -4,6 +4,7 @@
 .page-link {
   border: none;
   color: black;
+  font-weight: 500;
 }
 
 .page-item.active .page-link {

@@ -18,7 +18,7 @@ export class WishListService {
 
   getWishListFromLocalStorage() {
     const localData = localStorage.getItem('wishList');
-    if (!localData && localData !== null) {
+    if (localData && localData !== null) {
       for (const res of JSON.parse(localData)) {
         this.wishList.push(
           Object.assign(new SearchResultModel(), res)
@@ -43,6 +43,7 @@ export class WishListService {
   removeProductFromWishList(productId: string) {
     for (let i = 0; i < this.wishList.length; i++) {
       if (this.wishList[i].productId === productId) {
+        this.wishList[i].inWishList = false;
         this.wishList.splice(i, 1);
         this.setWishListToLocalStorage();
         return;
@@ -51,6 +52,7 @@ export class WishListService {
   }
 
   addProductToWishList(product: SearchResultModel) {
+    product.inWishList = true;
     this.wishList.push(product);
     this.setWishListToLocalStorage();
   }
