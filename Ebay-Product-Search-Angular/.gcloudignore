@@ -3,12 +3,12 @@
 .git/**
 .gitignore
 .idea/**
+.vscode/**
 angular.json
-app.yaml
 assignment_description/**
+config.js.bak
 e2e/**
 node_modules/**
-package-lock.json
 README.md
 source-context.json
 src/**
