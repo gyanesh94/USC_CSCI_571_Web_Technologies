@@ -6,6 +6,7 @@ import { LoggingService } from '../services/logging.service';
 import { SearchResultModel } from '../models/searchResult.model';
 import { WishListService } from '../services/wishList.service';
 import { DetailButtonService } from '../services/detailButton.service';
+import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'app-result',
@@ -23,7 +24,8 @@ export class ResultComponent implements OnInit {
     private loggingService: LoggingService,
     private searchResultService: SearchResultService,
     private wishListService: WishListService,
-    private detailButtonService: DetailButtonService
+    private detailButtonService: DetailButtonService,
+    private productService: ProductService
   ) { }
 
   ngOnInit() {
@@ -55,7 +57,7 @@ export class ResultComponent implements OnInit {
       }
     }
     this.disableDetailButton = false;
-    this.loggingService.logToConsole(productId);
+    this.productService.fetchData(productId);
   }
 
   onImageError(i: number) {
@@ -76,7 +78,6 @@ export class ResultComponent implements OnInit {
   }
 
   detailButtonClicked() {
-    this.showProductDetail(this.detailButtonService.getProductId());
+    this.productService.fetchData(this.detailButtonService.getProductId());
   }
-
 }

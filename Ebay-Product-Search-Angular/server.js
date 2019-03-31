@@ -177,4 +177,147 @@ app.get("/api/search", (req, res) => {
     });
 });
 
+app.get("/api/productInfo", (req, res) => {
+  productId = JSON.parse(req.query.productId);
+  let url = `http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=JSON&appid=${config.EBAY_API}&siteid=0&version=967&ItemID=${productId}&IncludeSelector=Description,Details,ItemSpecifics`;
+
+  request.get(url,
+    (errorResponse, response, data) => {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+
+      if (errorResponse) {
+        res.status(404).send("No data Found");
+        return;
+      }
+      data = JSON.parse(data);
+
+      if (!data) {
+        res.status(404).send("No data Found");
+        return;
+      }
+      if (!data.hasOwnProperty("Ack")) {
+        res.status(404).send("No data Found");
+        return;
+      }
+      if (data.Ack !== "Success") {
+        if (data.hasOwnProperty("Errors") && data.Errors.length > 0) {
+          let errors = data.Errors[0];
+          if (errors.hasOwnProperty("LongMessage")) {
+            res.status(404).send(errors.LongMessage.trim());
+            return;
+          }
+          if (errors.hasOwnProperty("ShortMessage")) {
+            res.status(404).send(errors.ShortMessage.trim());
+            return;
+          }
+        }
+        res.status(404).send("No data Found");
+        return;
+      }
+      if (!data.hasOwnProperty("Item")) {
+        res.status(404).send("No data Found");
+        return;
+      }
+
+      let isEmpty = true;
+      let item = data.Item;
+
+      productData = {
+        itemSpecifics: [],
+        location: null,
+        price: null,
+        productId: null,
+        productImages: [],
+        returnPolicy: null,
+        subtitle: null,
+        title: null,
+      };
+
+      if (item.hasOwnProperty("ItemID") && item.ItemID.length > 0) {
+        productData.productId = item.ItemID;
+      }
+
+      if (item.hasOwnProperty("PictureURL") && item.PictureURL.length > 0) {
+        productData.productImages = item.PictureURL;
+        isEmpty = false;
+      }
+
+      if (item.hasOwnProperty("Title") && item.Title.length > 0) {
+        productData.title = item.Title;
+        isEmpty = false;
+      }
+
+      if (item.hasOwnProperty("Subtitle") && item.Subtitle.length > 0) {
+        productData.subtitle = item.Subtitle;
+        isEmpty = false;
+      }
+
+      if (item.hasOwnProperty("CurrentPrice") && item.CurrentPrice.hasOwnProperty("Value")) {
+        productData.price = "$" + item.CurrentPrice.Value;
+        isEmpty = false;
+      }
+
+      if (
+        item.hasOwnProperty("Location") &&
+        item.hasOwnProperty("PostalCode") &&
+        item.Location.length > 0 &&
+        item.PostalCode.length > 0
+      ) {
+        productData.location = item.Location + ", " + item.PostalCode;
+        isEmpty = false;
+      } else if (item.hasOwnProperty("Location") && item.Location.length > 0) {
+        productData.location = item.Location;
+        isEmpty = false;
+      } else if (item.hasOwnProperty("PostalCode") && item.PostalCode.length > 0) {
+        productData.location = item.PostalCode;
+        isEmpty = false;
+      }
+
+      if (item.hasOwnProperty("ReturnPolicy") && item.ReturnPolicy.hasOwnProperty("ReturnsAccepted")) {
+        if (
+          (
+            item.ReturnPolicy.ReturnsAccepted === "Returns Accepted" ||
+            item.ReturnPolicy.ReturnsAccepted === "ReturnsAccepted"
+          ) &&
+          item.ReturnPolicy.hasOwnProperty("ReturnsWithin") &&
+          item.ReturnPolicy.ReturnsWithin.length > 0
+        ) {
+          productData.returnPolicy = "Returns Accepted within " + item.ReturnPolicy.ReturnsWithin;
+        } else if (item.ReturnPolicy.ReturnsAccepted === "ReturnsNotAccepted") {
+          productData.returnPolicy = "Returns not accepted";
+        }
+      }
+
+      if (
+        item.hasOwnProperty("ItemSpecifics") &&
+        item.ItemSpecifics.hasOwnProperty("NameValueList") &&
+        item.ItemSpecifics.NameValueList.length > 0
+      ) {
+        let itemSpecifics = item.ItemSpecifics.NameValueList;
+        for (let i = 0; i < itemSpecifics.length; i++) {
+          let itemSpecific = itemSpecifics[i];
+          if (
+            itemSpecific.hasOwnProperty("Name") &&
+            itemSpecific.hasOwnProperty("Value") &&
+            itemSpecific.Name.length > 0 &&
+            itemSpecific.Value.length > 0
+          ) {
+            productData.itemSpecifics.push({
+              "name": itemSpecific.Name,
+              "value": itemSpecific.Value.join(","),
+            });
+            isEmpty = false;
+          }
+        }
+      }
+
+      if (isEmpty) {
+        res.status(404).send("No data Found");
+        return;
+      }
+
+      res.send(productData);
+    });
+});
+
 app.use(express.static(path.join(__dirname, "dist/Ebay-Product-Search-Angular")));

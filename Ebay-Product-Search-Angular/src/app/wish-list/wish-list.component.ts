@@ -4,6 +4,7 @@ import { LoggingService } from '../services/logging.service';
 import { WishListService } from '../services/wishList.service';
 import { SearchResultModel } from '../models/searchResult.model';
 import { DetailButtonService } from '../services/detailButton.service';
+import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'app-wish-list',
@@ -20,7 +21,8 @@ export class WishListComponent implements OnInit {
   constructor(
     private loggingService: LoggingService,
     private wishListService: WishListService,
-    private detailButtonService: DetailButtonService
+    private detailButtonService: DetailButtonService,
+    private productService: ProductService
   ) { }
 
   ngOnInit() {
@@ -54,7 +56,7 @@ export class WishListComponent implements OnInit {
       }
     }
     this.disableDetailButton = false;
-    this.loggingService.logToConsole(productId);
+    this.productService.fetchData(productId);
   }
 
   removeFromWishList(productId: string) {
@@ -71,6 +73,6 @@ export class WishListComponent implements OnInit {
   }
 
   detailButtonClicked() {
-    this.showProductDetail(this.detailButtonService.getProductId());
+    this.productService.fetchData(this.detailButtonService.getProductId());
   }
 }

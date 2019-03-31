@@ -23,6 +23,7 @@ import { SimilarProductsComponent } from './product/similar-products/similar-pro
 import { StateService } from './services/state.service';
 import { GeoLocationService } from './services/geoLocation.service';
 import { TruncatePipe } from './pipes/truncate.pipe';
+import { ProductService } from './services/product.service';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,12 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     PaginationModule.forRoot(),
     TooltipModule.forRoot()
   ],
-  providers: [LoggingService, AppConfig, StateService, GeoLocationService],
+  providers: [LoggingService,
+    AppConfig,
+    StateService,
+    GeoLocationService,
+    ProductService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
