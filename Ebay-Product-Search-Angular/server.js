@@ -13,7 +13,7 @@ app.get("/api/zipcode", (req, res) => {
     (error, response, body) => {
       res.setHeader("Access-Control-Allow-Origin", "*");
       if (error) {
-        res.send(error);
+        res.status(404).send(error);
         return;
       }
       res.send(body);
@@ -69,23 +69,20 @@ app.get("/api/search", (req, res) => {
       res.setHeader("Access-Control-Allow-Origin", "*");
       let result = [];
       if (errorResponse) {
-        res.send([{
-          error: "No Records.",
-        }]);
+        res.status(404).send("No Records.");
         return;
       }
       data = JSON.parse(data);
 
       if (!data || !data.hasOwnProperty("findItemsAdvancedResponse")) {
-        res.send([{
-          error: "No Records.",
-        }]);
+        res.status(404).send("No Records.");
         return;
       }
 
       data = data.findItemsAdvancedResponse[0];
       if (!data.hasOwnProperty("ack")) {
-        res.send(result);
+        res.status(404).send("No Records.");
+        return;
       }
       if (data.ack[0] !== "Success") {
         if (data.hasOwnProperty("errorMessage") && data.errorMessage.length > 0) {
@@ -93,15 +90,11 @@ app.get("/api/search", (req, res) => {
           if (errorMessage.hasOwnProperty("error") && errorMessage.error.length > 0) {
             let error = errorMessage.error[0];
             if (error.hasOwnProperty("message") && error.message.length > 0) {
-              res.send([{
-                error: error.message[0],
-              }]);
+              res.status(404).send(error.message[0]);
             }
           }
         }
-        res.send([{
-          error: "Data fetching not successful",
-        }]);
+        res.status(404).send("Data fetching not successful.");
         return;
       }
       if (
@@ -109,9 +102,7 @@ app.get("/api/search", (req, res) => {
         data.searchResult.length === 0 ||
         data.searchResult[0]["@count"] === "0"
       ) {
-        res.send([{
-          error: "No Records.",
-        }]);
+        res.status(404).send("No Records.");
         return;
       }
 

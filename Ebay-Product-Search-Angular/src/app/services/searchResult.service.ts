@@ -53,9 +53,7 @@ export class SearchResultService {
     this.searchResult = [];
     this.http.get(url, { params })
       .subscribe(
-        (response: { error: string }[] = [
-          { error: 'No Records.' },
-        ]) => {
+        (response: []) => {
           if (!response.length) {
             this.errorMessage = 'No records.';
             this.haveError = true;
@@ -64,12 +62,6 @@ export class SearchResultService {
           }
           this.haveError = false;
           this.errorMessage = '';
-          if (response.length && response[0].hasOwnProperty('error')) {
-            this.errorMessage = response[0].error;
-            this.haveError = true;
-            this.stateService.updateState(AppState.ResultComponent);
-            return;
-          }
           for (const res of response) {
             this.searchResult.push(
               Object.assign(new SearchResultModel(), res)
@@ -79,7 +71,7 @@ export class SearchResultService {
         },
         (error: HttpErrorResponse) => {
           this.haveError = true;
-          this.errorMessage = error.message;
+          this.errorMessage = error.error;
           this.stateService.updateState(AppState.ResultComponent);
         }
       );
