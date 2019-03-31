@@ -38,6 +38,7 @@ body {
 
 .table-dark tr:hover {
   background-color: #2c2e32;
+  filter: brightness(95%);
 }
 
 .table-dark.table-striped tbody tr:nth-of-type(odd) {

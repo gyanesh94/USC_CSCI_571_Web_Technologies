@@ -1,174 +1,176 @@
-<div class="container-fluid text-white rounded mt-2 p-0 top-level">
-  <div class="row">
-    <div class="mx-auto my-4">
+<div class="container-fluid text-white rounded mt-2 top-level">
+  <div class="row justify-content-center">
+    <div class="my-4">
       <h4>Product Search</h4>
     </div>
   </div>
-  <div class="col-xs-12 col-md-8 col-lg-8 mx-auto m-0">
-    <form (ngSubmit)="onSubmit()"
-          [formGroup]="searchFormGroup">
-      <!--   Keyword Field   -->
-      <div class="row">
-        <div class="form-group col-xs-12 col-md-12 col-lg-12 p-0 mx-0">
-          <label class="col-xs-12 col-md-3 col-lg-3 align-top p-0 m-0">Keyword<span class="text-red">*</span></label>
-          <label class="col-xs-12 col-md-8 col-lg-8 p-0 m-0">
-            <input type="text"
-                   class="form-control check-valid"
-                   placeholder="Enter Product Name (eg. iPhone 8)"
-                   formControlName="keyword"
-                   matInput
-                   [matAutocomplete]="autoKeyword">
-            <mat-autocomplete #autoKeyword="matAutocomplete">
-              <mat-option *ngFor="let history of showHistory"
-                          [value]="history">
-                {{ history }}
-              </mat-option>
-            </mat-autocomplete>
-            <label class="error p-0 m-0"
-                   *ngIf="!searchFormGroup.get('keyword').valid && (searchFormGroup.get('keyword').dirty || searchFormGroup.get('keyword').touched)">
-              Please enter a keyword.
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8">
+      <form (ngSubmit)="onSubmit()"
+            [formGroup]="searchFormGroup">
+        <!--   Keyword Field   -->
+        <div class="row">
+          <div class="form-group col-12 p-0 mx-0">
+            <label class="col-12 col-md-3 align-top px-0 mx-0 my-md-0">Keyword<span class="text-red">*</span></label>
+            <label class="col-12 col-md-8 px-0 mx-0 my-md-0">
+              <input type="text"
+                     class="form-control check-valid"
+                     placeholder="Enter Product Name (eg. iPhone 8)"
+                     formControlName="keyword"
+                     matInput
+                     [matAutocomplete]="autoKeyword">
+              <mat-autocomplete #autoKeyword="matAutocomplete">
+                <mat-option *ngFor="let history of showHistory"
+                            [value]="history">
+                  {{ history }}
+                </mat-option>
+              </mat-autocomplete>
+              <label class="error p-0 m-0"
+                     *ngIf="!searchFormGroup.get('keyword').valid && (searchFormGroup.get('keyword').dirty || searchFormGroup.get('keyword').touched)">
+                Please enter a keyword.
+              </label>
             </label>
-          </label>
+          </div>
         </div>
-      </div>
 
-      <!--   Category Field   -->
-      <div class="row">
-        <div class="form-group col-xs-12 col-md-12 col-lg-12 p-0 mx-0">
-          <label class="col-xs-12 col-md-3 col-lg-3 p-0 m-0">Category</label>
-          <label class="col-xs-12 col-md-3 col-lg-3 p-0 m-0">
-            <select class="form-control"
-                    formControlName="category">
-              <option value="all">All Categories</option>
-              <option value="550">Art</option>
-              <option value="2984">Baby</option>
-              <option value="267">Books</option>
-              <option value="11450">Clothing, Shoes & Accessories</option>
-              <option value="58058">Computers/Tablets & Networking</option>
-              <option value="26395">Health & Beauty</option>
-              <option value="11233">Music</option>
-              <option value="1249">Video Games & Consoles</option>
-            </select>
-          </label>
-        </div>
-      </div>
-
-      <!--   Condition Field   -->
-      <div class="row">
-        <div class="form-group col-xs-12 col-md-12 col-lg-12 p-0 mx-0">
-          <label class="col-xs-12 col-md-3 col-lg-3 p-0 m-0">Condition</label>
-          <label class="col-xs-12 col-md-8 col-lg-8 p-0 m-0">
-            <div formGroupName="condition">
-              <label class="mr-3">
-                <input type="checkbox"
-                       formControlName="New"> New
-              </label>
-              <label class="mr-3">
-                <input type="checkbox"
-                       formControlName="Used"> Used
-              </label>
-              <label>
-                <input type="checkbox"
-                       formControlName="Unspecified"> Unspecified
-              </label>
-            </div>
-          </label>
-        </div>
-      </div>
-
-      <!--   Shipping Field   -->
-      <div class="row">
-        <div class="form-group col-xs-12 col-md-12 col-lg-12 p-0 mx-0">
-          <label class="col-xs-12 col-md-3 col-lg-3 p-0 m-0">Shipping Options</label>
-          <label class="col-xs-12 col-md-8 col-lg-8 p-0 m-0">
-            <div formGroupName="shipping">
-              <label class="mr-3">
-                <input type="checkbox"
-                       formControlName="localPickupOnly"> Local Pickup
-              </label>
-              <label>
-                <input type="checkbox"
-                       formControlName="freeShipping"> Free Shipping
-              </label>
-            </div>
-          </label>
-        </div>
-      </div>
-
-      <!--  Distance Field  -->
-      <div class="row">
-        <div class="form-group col-xs-12 col-md-12 col-lg-12 p-0 mx-0">
-          <label class="col-xs-12 col-md-3 col-lg-3 p-0 m-0">Distance (Miles)</label>
-          <label class="col-xs-12 col-md-3 col-lg-3 p-0 m-0">
-            <input type="number"
-                   class="form-control"
-                   placeholder="10"
-                   formControlName="distance">
-          </label>
-        </div>
-      </div>
-
-      <!--  From Field  -->
-      <div class="row">
-        <div class="form-group col-xs-12 col-md-12 col-lg-12 p-0 mx-0">
-          <label class="col-xs-12 col-md-3 col-lg-3 align-top p-0 m-0">From<span class="text-red">*</span></label>
-          <label class="col-xs-12 col-md-8 col-lg-8 p-0 m-0">
-            <input type="radio"
-                   formControlName="here"
-                   value="here"
-                   (click)="locationMethodChange('here')"> Current Location
-            <br>
-            <input type="radio"
-                   formControlName="here"
-                   value="zipcode"
-                   (click)="locationMethodChange('zipcode')"> Other. Please specify the zip code:
-            <br>
-            <input type="text"
-                   formControlName="zipcode"
-                   class="form-control check-valid mt-1"
-                   placeholder=""
-                   [required]="searchFormGroup.get('zipcode').value === 'other'"
-                   matInput
-                   [matAutocomplete]="autoZipcode">
-            <mat-autocomplete #autoZipcode="matAutocomplete">
-              <mat-option *ngFor="let zipcode of zipcodeOptions"
-                [value]="zipcode">
-                {{ zipcode }}
-              </mat-option>
-            </mat-autocomplete>
-            <label class="error p-0 m-0"
-                  *ngIf="!searchFormGroup.get('zipcode').valid && (searchFormGroup.get('zipcode').dirty || searchFormGroup.get('zipcode').touched)">
-              Please enter a zip code.
+        <!--   Category Field   -->
+        <div class="row">
+          <div class="form-group col-12 p-0 mx-0">
+            <label class="col-12 col-md-3 px-0 mx-0 my-md-0">Category</label>
+            <label class="col-12 col-md-3 px-0 mx-0 my-md-0">
+              <select class="form-control"
+                      formControlName="category">
+                <option value="all">All Categories</option>
+                <option value="550">Art</option>
+                <option value="2984">Baby</option>
+                <option value="267">Books</option>
+                <option value="11450">Clothing, Shoes & Accessories</option>
+                <option value="58058">Computers/Tablets & Networking</option>
+                <option value="26395">Health & Beauty</option>
+                <option value="11233">Music</option>
+                <option value="1249">Video Games & Consoles</option>
+              </select>
             </label>
-          </label>
+          </div>
         </div>
-      </div>
 
-      <!--   Form Buttons   -->
-      <div class="row">
-        <div class="form-group col-xs-12 col-md-12 col-lg-12 mx-0 px-0 mb-3">
-          <label class="mr-4">
-            <button type="submit"
-                    class="btn btn-light"
-                    [disabled]="!isSubmitValid">
-              <i class="material-icons align-bottom">
-                search
-              </i>
-              Search
-            </button>
-          </label>
-          <label>
-            <button type="reset"
-                    class="btn btn-light">
-              <i class="material-icons align-bottom">
-                clear_all
-              </i>
-              Clear
-            </button>
-          </label>
+        <!--   Condition Field   -->
+        <div class="row">
+          <div class="form-group col-12 p-0 mx-0">
+            <label class="col-12 col-md-3 px-0 mx-0 my-md-0">Condition</label>
+            <label class="col-12 col-md-8 px-0 mx-0 my-md-0">
+              <div formGroupName="condition">
+                <label class="mr-3">
+                  <input type="checkbox"
+                         formControlName="New"> New
+                </label>
+                <label class="mr-3">
+                  <input type="checkbox"
+                         formControlName="Used"> Used
+                </label>
+                <label>
+                  <input type="checkbox"
+                         formControlName="Unspecified"> Unspecified
+                </label>
+              </div>
+            </label>
+          </div>
         </div>
-      </div>
 
-    </form>
+        <!--   Shipping Field   -->
+        <div class="row">
+          <div class="form-group col-12 p-0 mx-0">
+            <label class="col-12 col-md-3 px-0 mx-0 my-md-0">Shipping Options</label>
+            <label class="col-12 col-md-8 px-0 mx-0 my-md-0">
+              <div formGroupName="shipping">
+                <label class="mr-3">
+                  <input type="checkbox"
+                         formControlName="localPickupOnly"> Local Pickup
+                </label>
+                <label>
+                  <input type="checkbox"
+                         formControlName="freeShipping"> Free Shipping
+                </label>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!--  Distance Field  -->
+        <div class="row">
+          <div class="form-group col-12 p-0 mx-0">
+            <label class="col-12 col-md-3 px-0 mx-0 my-md-0">Distance (Miles)</label>
+            <label class="col-12 col-md-3 px-0 mx-0 my-md-0">
+              <input type="number"
+                     class="form-control"
+                     placeholder="10"
+                     formControlName="distance">
+            </label>
+          </div>
+        </div>
+
+        <!--  From Field  -->
+        <div class="row">
+          <div class="form-group col-12 p-0 mx-0">
+            <label class="col-12 col-md-3 align-top px-0 mx-0 my-md-0">From<span class="text-red">*</span></label>
+            <label class="col-12 col-md-8 px-0 mx-0 my-md-0">
+              <input type="radio"
+                     formControlName="here"
+                     value="here"
+                     (click)="locationMethodChange('here')"> Current Location
+              <br>
+              <input type="radio"
+                     formControlName="here"
+                     value="zipcode"
+                     (click)="locationMethodChange('zipcode')"> Other. Please specify the zip code:
+              <br>
+              <input type="text"
+                     formControlName="zipcode"
+                     class="form-control check-valid mt-1"
+                     placeholder=""
+                     [required]="searchFormGroup.get('zipcode').value === 'other'"
+                     matInput
+                     [matAutocomplete]="autoZipcode">
+              <mat-autocomplete #autoZipcode="matAutocomplete">
+                <mat-option *ngFor="let zipcode of zipcodeOptions"
+                            [value]="zipcode">
+                  {{ zipcode }}
+                </mat-option>
+              </mat-autocomplete>
+              <label class="error p-0 m-0"
+                     *ngIf="!searchFormGroup.get('zipcode').valid && (searchFormGroup.get('zipcode').dirty || searchFormGroup.get('zipcode').touched)">
+                Please enter a zip code.
+              </label>
+            </label>
+          </div>
+        </div>
+
+        <!--   Form Buttons   -->
+        <div class="row">
+          <div class="form-group col-12 ml-2 mx-md-0 px-0 mb-3">
+            <label class="mr-4">
+              <button type="submit"
+                      class="btn btn-light"
+                      [disabled]="!isSubmitValid">
+                <i class="material-icons align-bottom">
+                  search
+                </i>
+                Search
+              </button>
+            </label>
+            <label>
+              <button type="reset"
+                      class="btn btn-light">
+                <i class="material-icons align-bottom">
+                  clear_all
+                </i>
+                Clear
+              </button>
+            </label>
+          </div>
+        </div>
+
+      </form>
+    </div>
   </div>
 </div>
