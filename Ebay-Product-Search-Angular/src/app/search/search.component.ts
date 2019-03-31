@@ -101,7 +101,8 @@ export class SearchComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.subscriptions.push(this.searchFormGroup.get('zipcode').valueChanges.subscribe(
+    this.subscriptions.push(
+      this.searchFormGroup.get('zipcode').valueChanges.subscribe(
       _ => {
         this.checkSubmitValid();
       }

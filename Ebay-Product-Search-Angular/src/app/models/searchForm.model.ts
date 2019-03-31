@@ -1,4 +1,4 @@
-export class SearchDataModel {
+export class SearchFormModel {
   category: string;
   condition = {
     New: false,

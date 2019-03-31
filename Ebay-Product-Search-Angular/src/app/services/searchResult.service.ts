@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { SearchDataModel } from '../models/searchData.model';
+import { SearchFormModel } from '../models/searchForm.model';
 import { GeoLocationService } from './geoLocation.service';
 import { LoggingService } from './logging.service';
 import { AppConfig } from '../app.config';
@@ -11,7 +11,7 @@ import { AppState } from '../models/appState.model';
 
 @Injectable()
 export class SearchResultService {
-  private searchData: SearchDataModel = new SearchDataModel();
+  private searchForm: SearchFormModel = new SearchFormModel();
   private searchResult: SearchResultModel[] = [];
 
   private haveError = false;
@@ -25,29 +25,29 @@ export class SearchResultService {
     private stateService: StateService
   ) { }
 
-  setData(newData: SearchDataModel) {
-    this.searchData.category = newData.category;
-    this.searchData.keyword = newData.keyword;
+  setData(newData: SearchFormModel) {
+    this.searchForm.category = newData.category;
+    this.searchForm.keyword = newData.keyword;
     if (newData.distance === null) {
-      this.searchData.distance = '10';
+      this.searchForm.distance = '10';
     } else {
-      this.searchData.distance = newData.distance;
+      this.searchForm.distance = newData.distance;
     }
-    this.searchData.condition.New = newData.condition.New;
-    this.searchData.condition.Unspecified = newData.condition.Unspecified;
-    this.searchData.condition.Used = newData.condition.Used;
-    this.searchData.here = newData.here;
+    this.searchForm.condition.New = newData.condition.New;
+    this.searchForm.condition.Unspecified = newData.condition.Unspecified;
+    this.searchForm.condition.Used = newData.condition.Used;
+    this.searchForm.here = newData.here;
     if (newData.here === 'here') {
-      this.searchData.zipcode = this.geoLocationService.getCurrentZipCode();
+      this.searchForm.zipcode = this.geoLocationService.getCurrentZipCode();
     } else {
-      this.searchData.zipcode = newData.zipcode;
+      this.searchForm.zipcode = newData.zipcode;
     }
-    this.searchData.shipping.freeShipping = newData.shipping.freeShipping;
-    this.searchData.shipping.localPickupOnly = newData.shipping.localPickupOnly;
+    this.searchForm.shipping.freeShipping = newData.shipping.freeShipping;
+    this.searchForm.shipping.localPickupOnly = newData.shipping.localPickupOnly;
   }
 
   fetchResult() {
-    const params = new HttpParams().set('data', JSON.stringify(this.searchData));
+    const params = new HttpParams().set('data', JSON.stringify(this.searchForm));
     const apiEndPoint = this.appConfig.getApiEndPoint();
     const url = `${apiEndPoint}/search`;
     this.searchResult = [];
