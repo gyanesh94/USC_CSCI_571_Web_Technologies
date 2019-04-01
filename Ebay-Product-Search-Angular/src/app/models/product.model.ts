@@ -1,3 +1,5 @@
+import { SellerModel } from './seller.model';
+
 export class ProductModel {
   title: string | null;
   productId: string | null;
@@ -10,4 +12,5 @@ export class ProductModel {
     name: string,
     value: string
   }[];
+  seller: SellerModel;
 }

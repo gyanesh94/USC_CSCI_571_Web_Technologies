@@ -106,8 +106,8 @@ app.get("/api/search", (req, res) => {
         return;
       }
 
-      let items = data.searchResult[0].item;
-      let searchResultModel = {
+      const items = data.searchResult[0].item;
+      const searchResultModel = {
         highlighted: false,
         image: null,
         inWishList: false,
@@ -164,12 +164,12 @@ app.get("/api/search", (req, res) => {
 
         if (item.hasOwnProperty("shippingInfo") && item.shippingInfo.length > 0) {
           const shipping = Object.assign({}, searchResultModel.shipping);
-          let shippingInfo = item.shippingInfo[0];
+          const shippingInfo = item.shippingInfo[0];
 
           if (shippingInfo.hasOwnProperty("shippingServiceCost") && shippingInfo.shippingServiceCost.length > 0) {
-            let shippingServiceCost = shippingInfo.shippingServiceCost[0];
+            const shippingServiceCost = shippingInfo.shippingServiceCost[0];
             if (shippingServiceCost.hasOwnProperty("@currencyId") && shippingServiceCost.hasOwnProperty("__value__")) {
-              let value = shippingServiceCost.__value__;
+              const value = shippingServiceCost.__value__;
               if (Number(value) === 0) {
                 shipping.cost = "Free Shipping";
               } else {
@@ -230,8 +230,8 @@ app.get("/api/search", (req, res) => {
 });
 
 app.get("/api/productInfo", (req, res) => {
-  productId = JSON.parse(req.query.productId);
-  let url = `http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=JSON&appid=${config.EBAY_API}&siteid=0&version=967&ItemID=${productId}&IncludeSelector=Description,Details,ItemSpecifics`;
+  const productId = JSON.parse(req.query.productId);
+  const url = `http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=JSON&appid=${config.EBAY_API}&siteid=0&version=967&ItemID=${productId}&IncludeSelector=Description,Details,ItemSpecifics`;
 
   request.get(url,
     (errorResponse, response, data) => {
@@ -272,15 +272,23 @@ app.get("/api/productInfo", (req, res) => {
       }
 
       let isEmpty = true;
-      let item = data.Item;
+      const item = data.Item;
 
-      productData = {
+      const productData = {
         itemSpecifics: [],
         location: null,
         price: null,
         productId: null,
         productImages: [],
         returnPolicy: null,
+        seller: {
+          feedbackScore: null,
+          feedbackStarColor: null,
+          popularity: null,
+          storeName: null,
+          storeUrl: null,
+          topRated: null,
+        },
         subtitle: null,
         title: null,
       };
@@ -345,9 +353,9 @@ app.get("/api/productInfo", (req, res) => {
         item.ItemSpecifics.hasOwnProperty("NameValueList") &&
         item.ItemSpecifics.NameValueList.length > 0
       ) {
-        let itemSpecifics = item.ItemSpecifics.NameValueList;
+        const itemSpecifics = item.ItemSpecifics.NameValueList;
         for (let i = 0; i < itemSpecifics.length; i++) {
-          let itemSpecific = itemSpecifics[i];
+          const itemSpecific = itemSpecifics[i];
           if (
             itemSpecific.hasOwnProperty("Name") &&
             itemSpecific.hasOwnProperty("Value") &&
@@ -360,6 +368,46 @@ app.get("/api/productInfo", (req, res) => {
             });
             isEmpty = false;
           }
+        }
+      }
+
+      if (item.hasOwnProperty("Seller")) {
+        const seller = item.Seller;
+
+        if (seller.hasOwnProperty("UserID") && seller.UserID.length > 0) {
+          productData.seller.sellerName = seller.UserID;
+        }
+
+        if (seller.hasOwnProperty("FeedbackRatingStar") && seller.FeedbackRatingStar.length > 0) {
+          productData.seller.feedbackStarColor = seller.FeedbackRatingStar;
+        }
+
+        if (seller.hasOwnProperty("TopRatedSeller")) {
+          if (seller.TopRatedSeller) {
+            productData.seller.topRated = true;
+          } else {
+            productData.seller.topRated = false;
+          }
+        }
+
+        if (seller.hasOwnProperty("FeedbackScore")) {
+          productData.seller.feedbackScore = seller.FeedbackScore;
+        }
+
+        if (seller.hasOwnProperty("PositiveFeedbackPercent")) {
+          productData.seller.popularity = seller.PositiveFeedbackPercent;
+        }
+      }
+
+      if (item.hasOwnProperty("Storefront")) {
+        const store = item.Storefront;
+
+        if (store.hasOwnProperty("StoreURL") && store.StoreURL.length > 0) {
+          productData.seller.storeUrl = store.StoreURL;
+        }
+
+        if (store.hasOwnProperty("StoreName") && store.StoreName.length > 0) {
+          productData.seller.storeName = store.StoreName;
         }
       }
 

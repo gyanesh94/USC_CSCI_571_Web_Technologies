@@ -63,12 +63,13 @@ export class ProductService {
           this.productData = Object.assign(new ProductModel(), response);
           this.gotProductData = true;
 
-          this.stateService.updateState(AppState.ProductComponent);
+          this.moveToProductPage();
         },
         (error: HttpErrorResponse) => {
           this.haveError = true;
           this.errorMessage = error.error;
-          this.stateService.updateState(AppState.ProductComponent);
+          this.gotProductData = true;
+          this.moveToProductPage();
         }
       );
   }
@@ -79,6 +80,17 @@ export class ProductService {
 
   fetchSimilarItemsDetail() {
 
+  }
+
+  moveToProductPage() {
+    if (
+      this.gotProductData &&
+      this.gotSimilarItemsData &&
+      this.gotGoogleCustomEngineImages
+    ) {
+      this.stateService.updateState(AppState.ProductComponent);
+      return;
+    }
   }
 
   clearData() {
