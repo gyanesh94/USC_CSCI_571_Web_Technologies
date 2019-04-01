@@ -8,6 +8,7 @@ import { LoggingService } from './logging.service';
 import { ProductModel } from '../models/product.model';
 import { ShippingModel } from '../models/shipping.model';
 import { SearchResultModel } from '../models/searchResult.model';
+import { SimilarProductModel } from '../models/similarProduct.model';
 
 @Injectable()
 export class ProductService {
@@ -17,6 +18,9 @@ export class ProductService {
   shippingData: ShippingModel | null;
 
   gotSimilarItemsData = false;
+  similarProductData: SimilarProductModel[];
+  similarProductError: string | null;
+
   gotGoogleCustomEngineImages = false;
 
   errorMessage = '';
@@ -30,7 +34,6 @@ export class ProductService {
   ) { }
 
   fetchData(searchProduct: SearchResultModel) {
-    this.loggingService.logToConsole(searchProduct.productId);
     this.stateService.updateState(AppState.ProgressBar);
     this.clearData();
 
@@ -71,7 +74,27 @@ export class ProductService {
   }
 
   fetchSimilarItemsDetail() {
+    const params = new HttpParams().set('productId', this.productId);
+    const apiEndPoint = this.appConfig.getApiEndPoint();
+    const url = `${apiEndPoint}/similarProduct`;
 
+    this.http.get(url, { params })
+      .subscribe(
+        (response: SimilarProductModel[]) => {
+          this.similarProductError = null;
+
+          this.similarProductData = response;
+          this.gotSimilarItemsData = true;
+
+          this.moveToProductPage();
+        },
+        (error: HttpErrorResponse) => {
+          this.similarProductError = error.error;
+          this.gotSimilarItemsData = true;
+
+          this.moveToProductPage();
+        }
+      );
   }
 
   moveToProductPage() {
@@ -86,10 +109,16 @@ export class ProductService {
   }
 
   clearData() {
-    this.productId = null;
-    this.shippingData = null;
     this.gotProductData = false;
+    this.productId = null;
+    this.productData = null;
+    this.shippingData = null;
+    this.errorMessage = '';
+
     this.gotSimilarItemsData = false;
+    this.similarProductError = null;
+    this.similarProductData = null;
+
     this.gotGoogleCustomEngineImages = false;
   }
 }

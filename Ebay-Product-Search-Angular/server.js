@@ -420,4 +420,96 @@ app.get("/api/productInfo", (req, res) => {
     });
 });
 
+app.get("/api/similarProduct", (req, res) => {
+  const productId = JSON.parse(req.query.productId);
+  const url = `http://svcs.ebay.com/MerchandisingService?OPERATION-NAME=getSimilarItems&SERVICE-NAME=MerchandisingService&SERVICE-VERSION=1.1.0&CONSUMER-ID=${config.EBAY_API}&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&itemId=${productId}&maxResults=20`;
+
+  request.get(url,
+    (errorResponse, response, data) => {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+
+      if (errorResponse) {
+        res.status(404).send("No Records.");
+        return;
+      }
+      data = JSON.parse(data);
+
+      if (
+        !data ||
+        data === null ||
+        !data.hasOwnProperty("getSimilarItemsResponse") ||
+        !data.getSimilarItemsResponse.hasOwnProperty("ack") ||
+        data.getSimilarItemsResponse.ack !== "Success" ||
+        !data.getSimilarItemsResponse.hasOwnProperty("itemRecommendations") ||
+        !data.getSimilarItemsResponse.itemRecommendations.hasOwnProperty("item") ||
+        data.getSimilarItemsResponse.itemRecommendations.item.length <= 0
+      ) {
+        res.status(404).send("No Records.");
+        return;
+      }
+
+      const similarProduct = {
+        daysLeft: null,
+        imageUrl: null,
+        price: null,
+        productId: null,
+        shippingCost: null,
+        title: null,
+      };
+
+      let result = [];
+
+      let items = data.getSimilarItemsResponse.itemRecommendations.item;
+      for (let i = 0; i < items.length; i++) {
+        let item = items[i];
+        const similarProductData = Object.assign({}, similarProduct);
+
+        similarProductData.productId = item.itemId;
+        if (item.hasOwnProperty("imageURL") && item.imageURL.length > 0) {
+          similarProductData.imageUrl = item.imageURL;
+        }
+
+        if (item.hasOwnProperty("title") && item.title.length > 0) {
+          similarProductData.title = item.title;
+        }
+
+        if (
+          item.hasOwnProperty("buyItNowPrice") &&
+          item.buyItNowPrice.hasOwnProperty("__value__") &&
+          item.buyItNowPrice.__value__.length > 0
+        ) {
+          similarProductData.price = Number(item.buyItNowPrice.__value__);
+          if (similarProductData.price === 0.0) {
+            if (
+              item.hasOwnProperty("currentPrice") &&
+              item.currentPrice.hasOwnProperty("__value__") &&
+              item.currentPrice.__value__.length > 0
+            ) {
+              similarProductData.price = Number(item.currentPrice.__value__);
+            }
+          }
+        }
+
+        if (
+          item.hasOwnProperty("shippingCost") &&
+          item.shippingCost.hasOwnProperty("__value__") &&
+          item.shippingCost.__value__.length > 0
+        ) {
+          similarProductData.shippingCost = Number(item.shippingCost.__value__);
+        }
+
+        if (item.hasOwnProperty("timeLeft") && item.timeLeft.length > 0) {
+          const timeLeft = item.timeLeft;
+          const pIndex = timeLeft.indexOf("P") + 1;
+          const dIndex = timeLeft.indexOf("D");
+          similarProductData.daysLeft = Number(timeLeft.substring(pIndex, dIndex));
+        }
+
+        result.push(similarProductData);
+      }
+
+      res.send(result);
+    });
+});
+
 app.use(express.static(path.join(__dirname, "dist/Ebay-Product-Search-Angular")));
