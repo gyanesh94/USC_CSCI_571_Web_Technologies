@@ -12,9 +12,10 @@ app.get("/api/zipcode", (req, res) => {
     `http://api.geonames.org/postalCodeSearchJSON?postalcode_startsWith=${req.query.zipcode}&username=${config.GEONAME_KEY}&country=US&maxRows=5`,
     (error, response, body) => {
       res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Cache-Control", "no-cache");
       if (error) {
-        res.status(304).send(error);
-        return;
+        res.status(404).send(error);
+        return null;
       }
       res.send(body);
     });
@@ -67,22 +68,23 @@ app.get("/api/search", (req, res) => {
   request.get(url,
     (errorResponse, response, data) => {
       res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Cache-Control", "no-cache");
       let result = [];
       if (errorResponse) {
-        res.status(304).send("No Records.");
-        return;
+        res.status(404).send("Error while fetching the result.");
+        return null;
       }
       data = JSON.parse(data);
 
       if (!data || !data.hasOwnProperty("findItemsAdvancedResponse")) {
-        res.status(304).send("No Records.");
-        return;
+        res.status(404).send("Error while fetching the result.");
+        return null;
       }
 
       data = data.findItemsAdvancedResponse[0];
       if (!data.hasOwnProperty("ack")) {
-        res.status(304).send("No Records.");
-        return;
+        res.status(404).send("Error while fetching the result.");
+        return null;
       }
       if (data.ack[0] !== "Success") {
         if (data.hasOwnProperty("errorMessage") && data.errorMessage.length > 0) {
@@ -90,21 +92,21 @@ app.get("/api/search", (req, res) => {
           if (errorMessage.hasOwnProperty("error") && errorMessage.error.length > 0) {
             let error = errorMessage.error[0];
             if (error.hasOwnProperty("message") && error.message.length > 0) {
-              res.status(304).send(error.message[0]);
-              return;
+              res.status(404).send(error.message[0]);
+              return null;
             }
           }
         }
-        res.status(304).send("Data fetching not successful.");
-        return;
+        res.status(404).send("Data fetching not successful.");
+        return null;
       }
       if (
         !data.hasOwnProperty("searchResult") ||
         data.searchResult.length === 0 ||
         data.searchResult[0]["@count"] === "0"
       ) {
-        res.status(304).send("No Records.");
-        return;
+        res.status(404).send("No Records.");
+        return null;
       }
 
       const items = data.searchResult[0].item;
@@ -236,39 +238,40 @@ app.get("/api/productInfo", (req, res) => {
   request.get(url,
     (errorResponse, response, data) => {
       res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Cache-Control", "no-cache");
 
       if (errorResponse) {
-        res.status(304).send("Error while fetching product data");
-        return;
+        res.status(404).send("Error while fetching product data");
+        return null;
       }
       data = JSON.parse(data);
 
       if (!data) {
-        res.status(304).send("Error while fetching product data");
-        return;
+        res.status(404).send("Error while fetching product data");
+        return null;
       }
       if (!data.hasOwnProperty("Ack")) {
-        res.status(304).send("Error while fetching product data");
-        return;
+        res.status(404).send("Error while fetching product data");
+        return null;
       }
       if (data.Ack !== "Success") {
         if (data.hasOwnProperty("Errors") && data.Errors.length > 0) {
           let errors = data.Errors[0];
           if (errors.hasOwnProperty("LongMessage")) {
-            res.status(304).send(errors.LongMessage.trim());
-            return;
+            res.status(404).send(errors.LongMessage.trim());
+            return null;
           }
           if (errors.hasOwnProperty("ShortMessage")) {
-            res.status(304).send(errors.ShortMessage.trim());
-            return;
+            res.status(404).send(errors.ShortMessage.trim());
+            return null;
           }
         }
-        res.status(304).send("Error while fetching product data");
-        return;
+        res.status(404).send("Error while fetching product data");
+        return null;
       }
       if (!data.hasOwnProperty("Item")) {
-        res.status(304).send("No data Found");
-        return;
+        res.status(404).send("No data Found");
+        return null;
       }
 
       let isEmpty = true;
@@ -280,6 +283,7 @@ app.get("/api/productInfo", (req, res) => {
         price: null,
         productId: null,
         productImages: [],
+        productUrl: null,
         returnPolicy: null,
         seller: {
           feedbackScore: null,
@@ -305,6 +309,10 @@ app.get("/api/productInfo", (req, res) => {
       if (item.hasOwnProperty("Title") && item.Title.length > 0) {
         productData.title = item.Title;
         isEmpty = false;
+      }
+
+      if (item.hasOwnProperty("ViewItemURLForNaturalSearch") && item.ViewItemURLForNaturalSearch.length > 0) {
+        productData.productUrl = item.ViewItemURLForNaturalSearch;
       }
 
       if (item.hasOwnProperty("Subtitle") && item.Subtitle.length > 0) {
@@ -412,8 +420,8 @@ app.get("/api/productInfo", (req, res) => {
       }
 
       if (isEmpty) {
-        res.status(304).send("No data Found");
-        return;
+        res.status(404).send("No data Found");
+        return null;
       }
 
       res.send(productData);
@@ -427,10 +435,11 @@ app.get("/api/similarProduct", (req, res) => {
   request.get(url,
     (errorResponse, response, data) => {
       res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Cache-Control", "no-cache");
 
       if (errorResponse) {
-        res.status(304).send("No Records.");
-        return;
+        res.status(404).send("Error while fetching similar items.");
+        return null;
       }
       data = JSON.parse(data);
 
@@ -444,8 +453,8 @@ app.get("/api/similarProduct", (req, res) => {
         !data.getSimilarItemsResponse.itemRecommendations.hasOwnProperty("item") ||
         data.getSimilarItemsResponse.itemRecommendations.item.length <= 0
       ) {
-        res.status(304).send("No Records.");
-        return;
+        res.status(404).send("No Records.");
+        return null;
       }
 
       const similarProduct = {
@@ -515,14 +524,15 @@ app.get("/api/similarProduct", (req, res) => {
 app.get("/api/googleImages", (req, res) => {
   const query = req.query.query;
   const url = `https://www.googleapis.com/customsearch/v1?q=${query}&cx=${config.CX_ENGINE_ID}&imgSize=huge&imgType=news&num=8&searchType=image&key=${config.GOOGLE_SEARCH_ENGINE_KEY}`;
-  
+
   request.get(url,
     (errorResponse, response, data) => {
       res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Cache-Control", "no-cache");
 
       if (errorResponse) {
-        res.status(304).send("No Records.");
-        return;
+        res.status(404).send("Error while fetching images.");
+        return null;
       }
       data = JSON.parse(data);
 
@@ -532,8 +542,8 @@ app.get("/api/googleImages", (req, res) => {
         !data.hasOwnProperty("items") ||
         data.items.length <= 0
       ) {
-        res.status(304).send("No Records.");
-        return;
+        res.status(404).send("No Records.");
+        return null;
       }
 
       let result = [];

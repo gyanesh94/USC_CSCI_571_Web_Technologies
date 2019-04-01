@@ -48,6 +48,14 @@ body {
   background-color: #2c2e32;
 }
 
+.highlight-row {
+  background-color: #bec0c2 !important;
+}
+
+.highlight-row:hover {
+  background-color: #b0b2b6 !important;
+}
+
 .imgCell {
   width: 90px;
   height: 90px;
@@ -88,10 +96,20 @@ body {
   text-shadow: none;
 }
 
-.highlight-row {
-  background-color: #bec0c2 !important;
+.nav-tabs .nav-link.active {
+  color: #ffffff;
+  background-color: #000000;
 }
 
-.highlight-row:hover {
-  background-color: #b0b2b6 !important;
+.nav-tabs .nav-link.active:hover {
+  color: #ffffff;
+}
+
+.product-title {
+  font-weight: 600;
+  font-size: 17px
+}
+
+.nav-tabs {
+  border-bottom: none;
 }

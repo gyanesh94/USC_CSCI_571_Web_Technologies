@@ -12,7 +12,8 @@ import { SimilarProductModel } from '../models/similarProduct.model';
 
 @Injectable()
 export class ProductService {
-  private productId: string | null = null;
+  private searchResultData: SearchResultModel;
+
   private gotProductData = false;
   private productData: ProductModel | null = null;
   private shippingData: ShippingModel | null = null;
@@ -22,7 +23,6 @@ export class ProductService {
   private similarProductError: string | null = null;
 
   private gotGoogleCustomEngineImages = false;
-  private productTitle: string | null = null;
   private googleProductImages: string[] = null;
   private googleProductImagesError: string | null = null;
 
@@ -36,20 +36,19 @@ export class ProductService {
     private http: HttpClient
   ) { }
 
-  fetchData(searchProduct: SearchResultModel) {
+  fetchData(searchResultData: SearchResultModel) {
     this.stateService.updateState(AppState.ProgressBar);
     this.clearData();
 
-    this.productId = searchProduct.productId;
-    this.shippingData = searchProduct.shipping;
-    this.productTitle = searchProduct.title;
+    this.searchResultData = searchResultData;
+    this.shippingData = searchResultData.shipping;
     this.fetchProductInformation();
     this.fetchImages();
     this.fetchSimilarItemsDetail();
   }
 
   fetchProductInformation() {
-    const params = new HttpParams().set('productId', this.productId);
+    const params = new HttpParams().set('productId', this.searchResultData.productId);
     const apiEndPoint = this.appConfig.getApiEndPoint();
     const url = `${apiEndPoint}/productInfo`;
 
@@ -66,7 +65,11 @@ export class ProductService {
         },
         (error: HttpErrorResponse) => {
           this.haveError = true;
-          this.errorMessage = error.error;
+          if (typeof error.error === 'string') {
+            this.errorMessage = error.error;
+          } else {
+            this.errorMessage = 'Server not working.';
+          }
           this.gotProductData = true;
           this.moveToProductPage();
         }
@@ -74,7 +77,10 @@ export class ProductService {
   }
 
   fetchImages() {
-    const params = new HttpParams().set('query', this.productTitle);
+    this.gotGoogleCustomEngineImages = true;
+    this.moveToProductPage();
+    return;
+    const params = new HttpParams().set('query', this.searchResultData.title);
     const apiEndPoint = this.appConfig.getApiEndPoint();
     const url = `${apiEndPoint}/googleImages`;
 
@@ -89,8 +95,11 @@ export class ProductService {
           this.moveToProductPage();
         },
         (error: HttpErrorResponse) => {
-          this.loggingService.logToConsole(error);
-          this.googleProductImagesError = error.error;
+          if (typeof error.error === 'string') {
+            this.googleProductImagesError = error.error;
+          } else {
+            this.googleProductImagesError = 'Server not working.';
+          }
           this.gotGoogleCustomEngineImages = true;
 
           this.moveToProductPage();
@@ -99,7 +108,7 @@ export class ProductService {
   }
 
   fetchSimilarItemsDetail() {
-    const params = new HttpParams().set('productId', this.productId);
+    const params = new HttpParams().set('productId', this.searchResultData.productId);
     const apiEndPoint = this.appConfig.getApiEndPoint();
     const url = `${apiEndPoint}/similarProduct`;
 
@@ -114,7 +123,11 @@ export class ProductService {
           this.moveToProductPage();
         },
         (error: HttpErrorResponse) => {
-          this.similarProductError = error.error;
+          if (typeof error.error === 'string') {
+            this.similarProductError = error.error;
+          } else {
+            this.similarProductError = 'Server not working.';
+          }
           this.gotSimilarItemsData = true;
 
           this.moveToProductPage();
@@ -133,9 +146,27 @@ export class ProductService {
     }
   }
 
+  getProductData() {
+    return this.productData;
+  }
+
+  gotErrors() {
+    return this.haveError;
+  }
+
+  getErrorMessage() {
+    return this.errorMessage;
+  }
+
+  getSearchResultData() {
+    return this.searchResultData;
+  }
+
+
   clearData() {
+    this.searchResultData = null;
+
     this.gotProductData = false;
-    this.productId = null;
     this.productData = null;
     this.shippingData = null;
     this.errorMessage = '';
@@ -145,7 +176,6 @@ export class ProductService {
     this.similarProductData = null;
 
     this.gotGoogleCustomEngineImages = false;
-    this.productTitle = null;
     this.googleProductImages = null;
     this.googleProductImagesError = null;
   }

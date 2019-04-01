@@ -3,6 +3,7 @@ import { SellerModel } from './seller.model';
 export interface ProductModel {
   title: string | null;
   productId: string | null;
+  productUrl: string | null;
   productImages: string[];
   subtitle: string | null;
   price: string | null;

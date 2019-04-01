@@ -67,7 +67,11 @@ export class SearchResultService {
         },
         (error: HttpErrorResponse) => {
           this.haveError = true;
-          this.errorMessage = error.error;
+          if (typeof error.error === 'string') {
+            this.errorMessage = error.error;
+          } else {
+            this.errorMessage = 'Server not working.';
+          }
           this.stateService.updateState(AppState.ResultComponent);
         }
       );
