@@ -6,7 +6,7 @@ import { AppState } from '../models/appState.model';
 
 @Injectable()
 export class DetailButtonService {
-  data: { [id in AppState]?: SearchResultModel } = {};
+  private data: { [id in AppState]?: SearchResultModel } = {};
 
   constructor(
     private loggingService: LoggingService
@@ -25,7 +25,7 @@ export class DetailButtonService {
   }
 
   getProductResultData(state: AppState): SearchResultModel {
-    return this.data[state];
+    return this.data[state] || null;
   }
 
   clearDetailButton(state: AppState) {

@@ -5,7 +5,7 @@ import { LoggingService } from './logging.service';
 
 @Injectable()
 export class WishListService {
-  wishList: SearchResultModel[] = [];
+  private wishList: SearchResultModel[] = [];
 
   constructor(
     private loggingService: LoggingService
@@ -51,5 +51,9 @@ export class WishListService {
     product.inWishList = true;
     this.wishList.push(product);
     this.setWishListToLocalStorage();
+  }
+
+  getWishList() {
+    return this.wishList;
   }
 }

@@ -4,7 +4,7 @@ import { AppState } from '../models/appState.model';
 export class StateService {
   private previousState = AppState.HomeComponent;
   private currentState = AppState.HomeComponent;
-  stateChangeEvent = new EventEmitter<string>();
+  private stateChangeEvent = new EventEmitter<string>();
 
   updateState(newState: AppState) {
     if (newState !== AppState.ProgressBar) {
@@ -20,6 +20,10 @@ export class StateService {
 
   getCurrentState() {
     return this.currentState;
+  }
+
+  getEventsubscription() {
+    return this.stateChangeEvent;
   }
 
   setState(newState: AppState) {

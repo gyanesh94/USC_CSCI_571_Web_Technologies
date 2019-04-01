@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.geoLocationService.callGeoLocationApi();
     this.subscriptions.push(
-      this.stateService.stateChangeEvent.subscribe(
+      this.stateService.getEventsubscription().subscribe(
         (newState: AppState) => this.changeStatus(newState)
       )
     );

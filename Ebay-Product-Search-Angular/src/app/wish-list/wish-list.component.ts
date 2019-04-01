@@ -28,7 +28,7 @@ export class WishListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.wishList = this.wishListService.wishList;
+    this.wishList = this.wishListService.getWishList();
     if (!this.wishList.length) {
       this.haveError = true;
       this.errorMessage = 'No Records.';

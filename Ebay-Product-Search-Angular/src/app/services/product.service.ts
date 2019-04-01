@@ -12,22 +12,22 @@ import { SimilarProductModel } from '../models/similarProduct.model';
 
 @Injectable()
 export class ProductService {
-  productId: string | null = null;
-  gotProductData = false;
-  productData: ProductModel | null = null;
-  shippingData: ShippingModel | null = null;
+  private productId: string | null = null;
+  private gotProductData = false;
+  private productData: ProductModel | null = null;
+  private shippingData: ShippingModel | null = null;
 
-  gotSimilarItemsData = false;
-  similarProductData: SimilarProductModel[] = null;
-  similarProductError: string | null = null;
+  private gotSimilarItemsData = false;
+  private similarProductData: SimilarProductModel[] = null;
+  private similarProductError: string | null = null;
 
-  gotGoogleCustomEngineImages = false;
-  productTitle: string | null = null;
-  googleProductImages: string[] = null;
-  googleProductImagesError: string | null = null;
+  private gotGoogleCustomEngineImages = false;
+  private productTitle: string | null = null;
+  private googleProductImages: string[] = null;
+  private googleProductImagesError: string | null = null;
 
-  errorMessage = '';
-  haveError = false;
+  private errorMessage = '';
+  private haveError = false;
 
   constructor(
     private loggingService: LoggingService,

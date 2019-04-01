@@ -238,17 +238,17 @@ app.get("/api/productInfo", (req, res) => {
       res.setHeader("Access-Control-Allow-Origin", "*");
 
       if (errorResponse) {
-        res.status(304).send("No data Found");
+        res.status(304).send("Error while fetching product data");
         return;
       }
       data = JSON.parse(data);
 
       if (!data) {
-        res.status(304).send("No data Found");
+        res.status(304).send("Error while fetching product data");
         return;
       }
       if (!data.hasOwnProperty("Ack")) {
-        res.status(304).send("No data Found");
+        res.status(304).send("Error while fetching product data");
         return;
       }
       if (data.Ack !== "Success") {
@@ -263,7 +263,7 @@ app.get("/api/productInfo", (req, res) => {
             return;
           }
         }
-        res.status(304).send("No data Found");
+        res.status(304).send("Error while fetching product data");
         return;
       }
       if (!data.hasOwnProperty("Item")) {
