@@ -6,6 +6,7 @@ import { MatAutocompleteModule, MatInputModule, MatFormFieldModule } from '@angu
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -52,7 +53,8 @@ import { ProductService } from './services/product.service';
     BrowserAnimationsModule,
     PaginationModule.forRoot(),
     TooltipModule.forRoot(),
-    FlexLayoutModule
+    FlexLayoutModule,
+    ModalModule.forRoot()
   ],
   providers: [
     LoggingService,

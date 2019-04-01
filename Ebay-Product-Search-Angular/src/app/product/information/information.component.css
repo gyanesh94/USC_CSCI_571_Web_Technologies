@@ -1,0 +1,35 @@
+.image-links-modals {
+  cursor: pointer;
+  color: #5c7d7b;
+}
+
+.modal-button {
+  font-size: 16px;
+  background-color: #5b6064;
+  font-weight: 300;
+  border-radius: 5px;
+  color: white;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.image-border {
+  border: 9px solid black;
+  border-radius: 5px;
+}
+
+.arrow-image {
+  background-color: black
+}
+
+.modal-custom-title {
+  font-weight: 600;
+  font-size: 21px;
+}
+
+.material-icons.close-button {
+  font-size: 18px;
+  font-weight: bolder;
+  color: #727272;
+  cursor: pointer;
+}
