@@ -51,7 +51,7 @@
                 {{ (content.title | truncate) || 'N/A' }}
               </span>
             </td>
-            <td>{{ content.price || 'N/A' }}</td>
+            <td>${{ (content.price | number:'1.2-2') || 'N/A' }}</td>
             <td>
               <span *ngIf="content.shipping; else shippingElse">
                 {{ content.shipping.cost || 'N/A' }}
@@ -75,7 +75,7 @@
             <td>
               Total Shopping
             </td>
-            <td>${{ (totalCost | number:'1.2-4') }}</td>
+            <td>${{ (totalCost | number:'1.2-2') }}</td>
           </tr>
         </tbody>
       </table>

@@ -5,7 +5,7 @@ export interface SearchResultModel {
   image: string | null;
   title: string | null;
   productId: string;
-  price: string | null;
+  price: number | null;
   shipping: ShippingModel | null;
   zipcode: string | null;
   sellerName: string | null;

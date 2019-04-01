@@ -6,7 +6,7 @@ export interface ProductModel {
   productUrl: string | null;
   productImages: string[];
   subtitle: string | null;
-  price: string | null;
+  price: number | null;
   location: string | null;
   returnPolicy: string | null;
   itemSpecifics: {

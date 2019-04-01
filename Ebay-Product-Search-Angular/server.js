@@ -148,7 +148,7 @@ app.get("/api/search", (req, res) => {
           if (sellingStatus.hasOwnProperty("currentPrice") && sellingStatus.currentPrice.length > 0) {
             let currentPrice = sellingStatus.currentPrice[0];
             if (currentPrice.hasOwnProperty("__value__")) {
-              resultItem.price = "$" + currentPrice.__value__;
+              resultItem.price = Number(currentPrice.__value__);
             }
           }
         }
@@ -171,11 +171,11 @@ app.get("/api/search", (req, res) => {
           if (shippingInfo.hasOwnProperty("shippingServiceCost") && shippingInfo.shippingServiceCost.length > 0) {
             const shippingServiceCost = shippingInfo.shippingServiceCost[0];
             if (shippingServiceCost.hasOwnProperty("@currencyId") && shippingServiceCost.hasOwnProperty("__value__")) {
-              const value = shippingServiceCost.__value__;
-              if (Number(value) === 0) {
+              const value = Number(shippingServiceCost.__value__);
+              if (value === 0) {
                 shipping.cost = "Free Shipping";
               } else {
-                shipping.cost = "$" + value;
+                shipping.cost = "$" + value.toFixed(2);
               }
             }
           }
@@ -321,7 +321,7 @@ app.get("/api/productInfo", (req, res) => {
       }
 
       if (item.hasOwnProperty("CurrentPrice") && item.CurrentPrice.hasOwnProperty("Value")) {
-        productData.price = "$" + item.CurrentPrice.Value;
+        productData.price = Number(item.CurrentPrice.Value);
         isEmpty = false;
       }
 

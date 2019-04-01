@@ -60,7 +60,7 @@ export class WishListComponent implements OnInit {
     this.totalCost = 0;
     for (const product of this.wishList) {
       if (product.price && product.price !== null) {
-        this.totalCost += Number(product.price.substring(1));
+        this.totalCost += product.price;
       }
     }
   }
