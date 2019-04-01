@@ -1,4 +1,6 @@
 module.exports = {
+  CX_ENGINE_ID: "",
   EBAY_API: "",
   GEONAME_KEY: "",
+  GOOGLE_SEARCH_ENGINE_KEY: "",
 };

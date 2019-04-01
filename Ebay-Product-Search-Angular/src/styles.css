@@ -38,11 +38,14 @@ body {
 
 .table-dark tr:hover {
   background-color: #2c2e32;
-  filter: brightness(95%);
 }
 
 .table-dark.table-striped tbody tr:nth-of-type(odd) {
   background-color: #27292d;
+}
+
+.table-dark.table-striped tbody tr:nth-of-type(odd):hover {
+  background-color: #2c2e32;
 }
 
 .imgCell {
@@ -87,4 +90,8 @@ body {
 
 .highlight-row {
   background-color: #bec0c2 !important;
+}
+
+.highlight-row:hover {
+  background-color: #b0b2b6 !important;
 }

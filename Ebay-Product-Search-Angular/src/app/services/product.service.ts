@@ -14,14 +14,17 @@ import { SimilarProductModel } from '../models/similarProduct.model';
 export class ProductService {
   productId: string | null = null;
   gotProductData = false;
-  productData: ProductModel | null;
-  shippingData: ShippingModel | null;
+  productData: ProductModel | null = null;
+  shippingData: ShippingModel | null = null;
 
   gotSimilarItemsData = false;
-  similarProductData: SimilarProductModel[];
-  similarProductError: string | null;
+  similarProductData: SimilarProductModel[] = null;
+  similarProductError: string | null = null;
 
   gotGoogleCustomEngineImages = false;
+  productTitle: string | null = null;
+  googleProductImages: string[] = null;
+  googleProductImagesError: string | null = null;
 
   errorMessage = '';
   haveError = false;
@@ -39,6 +42,7 @@ export class ProductService {
 
     this.productId = searchProduct.productId;
     this.shippingData = searchProduct.shipping;
+    this.productTitle = searchProduct.title;
     this.fetchProductInformation();
     this.fetchImages();
     this.fetchSimilarItemsDetail();
@@ -70,7 +74,28 @@ export class ProductService {
   }
 
   fetchImages() {
+    const params = new HttpParams().set('query', this.productTitle);
+    const apiEndPoint = this.appConfig.getApiEndPoint();
+    const url = `${apiEndPoint}/googleImages`;
 
+    this.http.get(url, { params })
+      .subscribe(
+        (response: string[]) => {
+          this.googleProductImagesError = null;
+
+          this.googleProductImages = response;
+          this.gotGoogleCustomEngineImages = true;
+
+          this.moveToProductPage();
+        },
+        (error: HttpErrorResponse) => {
+          this.loggingService.logToConsole(error);
+          this.googleProductImagesError = error.error;
+          this.gotGoogleCustomEngineImages = true;
+
+          this.moveToProductPage();
+        }
+      );
   }
 
   fetchSimilarItemsDetail() {
@@ -120,5 +145,8 @@ export class ProductService {
     this.similarProductData = null;
 
     this.gotGoogleCustomEngineImages = false;
+    this.productTitle = null;
+    this.googleProductImages = null;
+    this.googleProductImagesError = null;
   }
 }

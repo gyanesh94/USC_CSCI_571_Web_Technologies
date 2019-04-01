@@ -13,7 +13,7 @@ app.get("/api/zipcode", (req, res) => {
     (error, response, body) => {
       res.setHeader("Access-Control-Allow-Origin", "*");
       if (error) {
-        res.status(404).send(error);
+        res.status(304).send(error);
         return;
       }
       res.send(body);
@@ -69,19 +69,19 @@ app.get("/api/search", (req, res) => {
       res.setHeader("Access-Control-Allow-Origin", "*");
       let result = [];
       if (errorResponse) {
-        res.status(404).send("No Records.");
+        res.status(304).send("No Records.");
         return;
       }
       data = JSON.parse(data);
 
       if (!data || !data.hasOwnProperty("findItemsAdvancedResponse")) {
-        res.status(404).send("No Records.");
+        res.status(304).send("No Records.");
         return;
       }
 
       data = data.findItemsAdvancedResponse[0];
       if (!data.hasOwnProperty("ack")) {
-        res.status(404).send("No Records.");
+        res.status(304).send("No Records.");
         return;
       }
       if (data.ack[0] !== "Success") {
@@ -90,12 +90,12 @@ app.get("/api/search", (req, res) => {
           if (errorMessage.hasOwnProperty("error") && errorMessage.error.length > 0) {
             let error = errorMessage.error[0];
             if (error.hasOwnProperty("message") && error.message.length > 0) {
-              res.status(404).send(error.message[0]);
+              res.status(304).send(error.message[0]);
               return;
             }
           }
         }
-        res.status(404).send("Data fetching not successful.");
+        res.status(304).send("Data fetching not successful.");
         return;
       }
       if (
@@ -103,7 +103,7 @@ app.get("/api/search", (req, res) => {
         data.searchResult.length === 0 ||
         data.searchResult[0]["@count"] === "0"
       ) {
-        res.status(404).send("No Records.");
+        res.status(304).send("No Records.");
         return;
       }
 
@@ -230,7 +230,7 @@ app.get("/api/search", (req, res) => {
 });
 
 app.get("/api/productInfo", (req, res) => {
-  const productId = JSON.parse(req.query.productId);
+  const productId = req.query.productId;
   const url = `http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=JSON&appid=${config.EBAY_API}&siteid=0&version=967&ItemID=${productId}&IncludeSelector=Description,Details,ItemSpecifics`;
 
   request.get(url,
@@ -238,36 +238,36 @@ app.get("/api/productInfo", (req, res) => {
       res.setHeader("Access-Control-Allow-Origin", "*");
 
       if (errorResponse) {
-        res.status(404).send("No data Found");
+        res.status(304).send("No data Found");
         return;
       }
       data = JSON.parse(data);
 
       if (!data) {
-        res.status(404).send("No data Found");
+        res.status(304).send("No data Found");
         return;
       }
       if (!data.hasOwnProperty("Ack")) {
-        res.status(404).send("No data Found");
+        res.status(304).send("No data Found");
         return;
       }
       if (data.Ack !== "Success") {
         if (data.hasOwnProperty("Errors") && data.Errors.length > 0) {
           let errors = data.Errors[0];
           if (errors.hasOwnProperty("LongMessage")) {
-            res.status(404).send(errors.LongMessage.trim());
+            res.status(304).send(errors.LongMessage.trim());
             return;
           }
           if (errors.hasOwnProperty("ShortMessage")) {
-            res.status(404).send(errors.ShortMessage.trim());
+            res.status(304).send(errors.ShortMessage.trim());
             return;
           }
         }
-        res.status(404).send("No data Found");
+        res.status(304).send("No data Found");
         return;
       }
       if (!data.hasOwnProperty("Item")) {
-        res.status(404).send("No data Found");
+        res.status(304).send("No data Found");
         return;
       }
 
@@ -412,7 +412,7 @@ app.get("/api/productInfo", (req, res) => {
       }
 
       if (isEmpty) {
-        res.status(404).send("No data Found");
+        res.status(304).send("No data Found");
         return;
       }
 
@@ -421,7 +421,7 @@ app.get("/api/productInfo", (req, res) => {
 });
 
 app.get("/api/similarProduct", (req, res) => {
-  const productId = JSON.parse(req.query.productId);
+  const productId = req.query.productId;
   const url = `http://svcs.ebay.com/MerchandisingService?OPERATION-NAME=getSimilarItems&SERVICE-NAME=MerchandisingService&SERVICE-VERSION=1.1.0&CONSUMER-ID=${config.EBAY_API}&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&itemId=${productId}&maxResults=20`;
 
   request.get(url,
@@ -429,7 +429,7 @@ app.get("/api/similarProduct", (req, res) => {
       res.setHeader("Access-Control-Allow-Origin", "*");
 
       if (errorResponse) {
-        res.status(404).send("No Records.");
+        res.status(304).send("No Records.");
         return;
       }
       data = JSON.parse(data);
@@ -444,7 +444,7 @@ app.get("/api/similarProduct", (req, res) => {
         !data.getSimilarItemsResponse.itemRecommendations.hasOwnProperty("item") ||
         data.getSimilarItemsResponse.itemRecommendations.item.length <= 0
       ) {
-        res.status(404).send("No Records.");
+        res.status(304).send("No Records.");
         return;
       }
 
@@ -506,6 +506,45 @@ app.get("/api/similarProduct", (req, res) => {
         }
 
         result.push(similarProductData);
+      }
+
+      res.send(result);
+    });
+});
+
+app.get("/api/googleImages", (req, res) => {
+  const query = req.query.query;
+  const url = `https://www.googleapis.com/customsearch/v1?q=${query}&cx=${config.CX_ENGINE_ID}&imgSize=huge&imgType=news&num=8&searchType=image&key=${config.GOOGLE_SEARCH_ENGINE_KEY}`;
+  
+  request.get(url,
+    (errorResponse, response, data) => {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+
+      if (errorResponse) {
+        res.status(304).send("No Records.");
+        return;
+      }
+      data = JSON.parse(data);
+
+      if (
+        !data ||
+        data === null ||
+        !data.hasOwnProperty("items") ||
+        data.items.length <= 0
+      ) {
+        res.status(304).send("No Records.");
+        return;
+      }
+
+      let result = [];
+
+      let items = data.items;
+      for (let i = 0; i < items.length; i++) {
+        let item = items[i];
+
+        if (item.hasOwnProperty("link") && item.link.length > 0) {
+          result.push(item.link);
+        }
       }
 
       res.send(result);
