@@ -5,6 +5,7 @@ import { WishListService } from '../services/wishList.service';
 import { SearchResultModel } from '../models/searchResult.model';
 import { DetailButtonService } from '../services/detailButton.service';
 import { ProductService } from '../services/product.service';
+import { AppState } from '../models/appState.model';
 
 @Component({
   selector: 'app-wish-list',
@@ -17,6 +18,7 @@ export class WishListComponent implements OnInit {
   errorMessage: string;
   totalCost: number;
   disableDetailButton = true;
+  highLightedProductId: string | null = null;
 
   constructor(
     private loggingService: LoggingService,
@@ -35,8 +37,22 @@ export class WishListComponent implements OnInit {
       this.errorMessage = '';
       this.calculateTotalPrice();
     }
-    if (this.detailButtonService.activateDetailButton()) {
-      this.disableDetailButton = false;
+
+    if (this.detailButtonService.activateDetailButton(AppState.WishListComponent)) {
+      const detailProduct = this.detailButtonService.getProductResultData(AppState.WishListComponent);
+      let flag = true;
+      for (const product of this.wishList) {
+        if (product.productId === detailProduct.productId) {
+          this.disableDetailButton = false;
+          this.highLightedProductId = product.productId;
+          flag = false;
+        }
+      }
+      if (flag) {
+        this.detailButtonService.clearDetailButton(AppState.WishListComponent);
+        this.disableDetailButton = true;
+        this.highLightedProductId = null;
+      }
     }
   }
 
@@ -52,17 +68,20 @@ export class WishListComponent implements OnInit {
   showProductDetail(productId: string) {
     for (const product of this.wishList) {
       if (product.productId === productId) {
-        this.detailButtonService.setDetailButton(product);
+        this.detailButtonService.setDetailButton(product, AppState.WishListComponent);
         this.disableDetailButton = false;
+        this.highLightedProductId = productId;
+
         this.productService.fetchData(product);
+        break;
       }
     }
   }
 
   removeFromWishList(productId: string) {
-    const detailProduct = this.detailButtonService.getProductResultData();
+    const detailProduct = this.detailButtonService.getProductResultData(AppState.WishListComponent);
     if (detailProduct !== null && detailProduct.productId === productId) {
-      this.detailButtonService.clearDetailButton();
+      this.detailButtonService.clearDetailButton(AppState.WishListComponent);
       this.disableDetailButton = true;
     }
     this.wishListService.removeProductFromWishList(productId);
@@ -74,6 +93,6 @@ export class WishListComponent implements OnInit {
   }
 
   detailButtonClicked() {
-    this.productService.fetchData(this.detailButtonService.getProductResultData());
+    this.productService.fetchData(this.detailButtonService.getProductResultData(AppState.WishListComponent));
   }
 }

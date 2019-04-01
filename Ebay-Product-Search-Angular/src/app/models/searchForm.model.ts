@@ -16,14 +16,14 @@ export interface SearchFormModel {
 }
 
 export const emptySearchFormModel = (): SearchFormModel => ({
-  category: '',
+  category: 'all',
   condition: {
     New: false,
     Used: false,
     Unspecified: false
   },
   distance: null,
-  here: '',
+  here: 'here',
   keyword: '',
   shipping: {
     localPickupOnly: false,

@@ -10,6 +10,8 @@ import { StateService } from '../services/state.service';
 import { SearchResultService } from '../services/searchResult.service';
 import { AppState } from '../models/appState.model';
 import { DetailButtonService } from '../services/detailButton.service';
+import { ProductService } from '../services/product.service';
+import { emptySearchFormModel } from '../models/searchForm.model';
 
 @Component({
   selector: 'app-search',
@@ -32,7 +34,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     private zipcodeSuggestionsService: ZipcodeSuggestionsService,
     private stateService: StateService,
     private searchResultService: SearchResultService,
-    private detailButtonService: DetailButtonService
+    private detailButtonService: DetailButtonService,
+    private productService: ProductService
   ) { }
 
   ngOnInit() {
@@ -148,10 +151,20 @@ export class SearchComponent implements OnInit, OnDestroy {
     if (!this.keywordHistory.includes(keywordValue)) {
       this.keywordHistory.push(keywordValue);
     }
-    this.detailButtonService.clearDetailButton();
+    this.detailButtonService.clearDetailButton(AppState.ResultComponent);
     this.searchResultService.setData(this.searchFormGroup.value);
+
     this.stateService.updateState(AppState.ProgressBar);
     this.searchResultService.fetchResult();
   }
 
+  onClearPressed() {
+    this.detailButtonService.clearDetailButton(AppState.ResultComponent);
+    this.searchResultService.clearData();
+    this.searchFormGroup.reset();
+    this.searchFormGroup.get('here').setValue('here');
+    this.searchFormGroup.get('category').setValue('all');
+
+    this.stateService.updateState(AppState.HomeComponent);
+  }
 }

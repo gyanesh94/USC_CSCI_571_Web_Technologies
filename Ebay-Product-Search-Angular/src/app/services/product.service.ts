@@ -30,15 +30,7 @@ export class ProductService {
   ) { }
 
   fetchData(searchProduct: SearchResultModel) {
-    if (
-      this.productId === searchProduct.productId &&
-      this.gotProductData &&
-      this.gotSimilarItemsData &&
-      this.gotGoogleCustomEngineImages
-    ) {
-      this.stateService.updateState(AppState.ProductComponent);
-      return;
-    }
+    this.loggingService.logToConsole(searchProduct.productId);
     this.stateService.updateState(AppState.ProgressBar);
     this.clearData();
 

@@ -15,7 +15,7 @@ export class SearchResultService {
   private searchResult: SearchResultModel[] = [];
 
   private haveError = false;
-  private errorMessage: string;
+  private errorMessage = '';
 
   constructor(
     private geoLocationService: GeoLocationService,
@@ -91,4 +91,11 @@ export class SearchResultService {
     return this.errorMessage;
   }
 
+  clearData() {
+    this.searchForm = emptySearchFormModel();
+    this.searchResult = [];
+
+    this.haveError = false;
+    this.errorMessage = '';
+  }
 }

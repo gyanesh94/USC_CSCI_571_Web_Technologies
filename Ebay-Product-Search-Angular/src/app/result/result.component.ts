@@ -7,6 +7,7 @@ import { SearchResultModel } from '../models/searchResult.model';
 import { WishListService } from '../services/wishList.service';
 import { DetailButtonService } from '../services/detailButton.service';
 import { ProductService } from '../services/product.service';
+import { AppState } from '../models/appState.model';
 
 @Component({
   selector: 'app-result',
@@ -19,6 +20,7 @@ export class ResultComponent implements OnInit {
   errorMessage = 'No Records.';
   returnedArray: SearchResultModel[];
   disableDetailButton = true;
+  highLightedProductId: string | null = null;
 
   constructor(
     private loggingService: LoggingService,
@@ -39,8 +41,9 @@ export class ResultComponent implements OnInit {
       this.wishListService.mapSearchResultToWishList(this.searchResultData);
       this.returnedArray = this.searchResultData.slice(0, 10);
     }
-    if (this.detailButtonService.activateDetailButton()) {
+    if (this.detailButtonService.activateDetailButton(AppState.ResultComponent)) {
       this.disableDetailButton = false;
+      this.highLightedProductId = this.detailButtonService.getProductResultData(AppState.ResultComponent).productId;
     }
   }
 
@@ -53,8 +56,9 @@ export class ResultComponent implements OnInit {
   showProductDetail(productId: string) {
     for (const product of this.returnedArray) {
       if (product.productId === productId) {
-        this.detailButtonService.setDetailButton(product);
+        this.detailButtonService.setDetailButton(product, AppState.ResultComponent);
         this.disableDetailButton = false;
+        this.highLightedProductId = productId;
         this.productService.fetchData(product);
         break;
       }
@@ -79,6 +83,6 @@ export class ResultComponent implements OnInit {
   }
 
   detailButtonClicked() {
-    this.productService.fetchData(this.detailButtonService.getProductResultData());
+    this.productService.fetchData(this.detailButtonService.getProductResultData(AppState.ResultComponent));
   }
 }

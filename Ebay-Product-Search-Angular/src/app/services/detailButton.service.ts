@@ -1,50 +1,34 @@
 import { Injectable } from '@angular/core';
 
-import { AppState } from '../models/appState.model';
-import { StateService } from './state.service';
 import { SearchResultModel } from '../models/searchResult.model';
 import { LoggingService } from './logging.service';
-import { ProductService } from './product.service';
+import { AppState } from '../models/appState.model';
 
 @Injectable()
 export class DetailButtonService {
-  currentState: AppState | null = null;
-  product: SearchResultModel | null = null;
+  data: { [id in AppState]?: SearchResultModel } = {};
 
   constructor(
-    private loggingService: LoggingService,
-    private stateService: StateService,
-    private productService: ProductService
+    private loggingService: LoggingService
   ) { }
 
-  activateDetailButton() {
-    if (this.currentState === null) {
-      return false;
+  activateDetailButton(state: AppState) {
+    if (state in this.data) {
+      return true;
     }
-    if (this.currentState !== this.stateService.getCurrentState()) {
-      this.clearDetailButton();
-      return false;
-    }
-    return true;
+    return false;
   }
 
-  setDetailButton(product: SearchResultModel) {
-    this.clearDetailButton();
-    product.highlighted = true;
-    this.currentState = this.stateService.getCurrentState();
-    this.product = product;
+  setDetailButton(product: SearchResultModel, state: AppState) {
+    this.clearDetailButton(state);
+    this.data[state] = product;
   }
 
-  getProductResultData(): SearchResultModel {
-    return this.product;
+  getProductResultData(state: AppState): SearchResultModel {
+    return this.data[state];
   }
 
-  clearDetailButton() {
-    this.currentState = null;
-    if (this.product !== null) {
-      this.product.highlighted = false;
-      this.product = null;
-    }
-    this.productService.clearData();
+  clearDetailButton(state: AppState) {
+    delete this.data[state];
   }
 }

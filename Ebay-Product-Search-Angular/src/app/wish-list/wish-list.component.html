@@ -30,7 +30,7 @@
           <th>Wish List</th>
         </thead>
         <tbody>
-          <tr [class.highlight-row]="content.highlighted"
+          <tr [class.highlight-row]="highLightedProductId === content.productId"
               *ngFor="let content of wishList; let i = index;">
             <td>{{ i + 1 }}</td>
             <td>

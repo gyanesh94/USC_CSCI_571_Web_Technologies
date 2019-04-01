@@ -9,6 +9,5 @@ export interface SearchResultModel {
   shipping: ShippingModel | null;
   zipcode: string | null;
   sellerName: string | null;
-  highlighted: boolean;
   inWishList: boolean;
 }

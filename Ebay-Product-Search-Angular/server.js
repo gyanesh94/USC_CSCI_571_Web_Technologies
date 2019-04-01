@@ -91,6 +91,7 @@ app.get("/api/search", (req, res) => {
             let error = errorMessage.error[0];
             if (error.hasOwnProperty("message") && error.message.length > 0) {
               res.status(404).send(error.message[0]);
+              return;
             }
           }
         }
@@ -108,7 +109,6 @@ app.get("/api/search", (req, res) => {
 
       const items = data.searchResult[0].item;
       const searchResultModel = {
-        highlighted: false,
         image: null,
         inWishList: false,
         index: "",
