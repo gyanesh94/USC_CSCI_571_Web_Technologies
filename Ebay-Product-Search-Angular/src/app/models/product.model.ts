@@ -1,6 +1,6 @@
 import { SellerModel } from './seller.model';
 
-export class ProductModel {
+export interface ProductModel {
   title: string | null;
   productId: string | null;
   productImages: string[];

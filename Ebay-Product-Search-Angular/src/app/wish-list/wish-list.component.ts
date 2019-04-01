@@ -60,7 +60,8 @@ export class WishListComponent implements OnInit {
   }
 
   removeFromWishList(productId: string) {
-    if (this.detailButtonService.getProductResultData().productId === productId) {
+    const detailProduct = this.detailButtonService.getProductResultData();
+    if (detailProduct !== null && detailProduct.productId === productId) {
       this.detailButtonService.clearDetailButton();
       this.disableDetailButton = true;
     }

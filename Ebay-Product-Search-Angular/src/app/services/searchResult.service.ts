@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { SearchFormModel } from '../models/searchForm.model';
+import { SearchFormModel, emptySearchFormModel } from '../models/searchForm.model';
 import { GeoLocationService } from './geoLocation.service';
 import { LoggingService } from './logging.service';
 import { AppConfig } from '../app.config';
@@ -11,7 +11,7 @@ import { AppState } from '../models/appState.model';
 
 @Injectable()
 export class SearchResultService {
-  private searchForm: SearchFormModel = new SearchFormModel();
+  private searchForm: SearchFormModel = emptySearchFormModel();
   private searchResult: SearchResultModel[] = [];
 
   private haveError = false;
@@ -53,7 +53,7 @@ export class SearchResultService {
     this.searchResult = [];
     this.http.get(url, { params })
       .subscribe(
-        (response: []) => {
+        (response: SearchResultModel[]) => {
           if (!response.length) {
             this.errorMessage = 'No records.';
             this.haveError = true;
@@ -62,11 +62,7 @@ export class SearchResultService {
           }
           this.haveError = false;
           this.errorMessage = '';
-          for (const res of response) {
-            this.searchResult.push(
-              Object.assign(new SearchResultModel(), res)
-            );
-          }
+          this.searchResult = response;
           this.stateService.updateState(AppState.ResultComponent);
         },
         (error: HttpErrorResponse) => {

@@ -1,4 +1,4 @@
-export class ShippingModel {
+export interface ShippingModel {
   cost: string | null;
   locations: string | null;
   handlingTime: string | null;

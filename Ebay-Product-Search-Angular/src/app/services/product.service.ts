@@ -53,14 +53,14 @@ export class ProductService {
     const params = new HttpParams().set('productId', this.productId);
     const apiEndPoint = this.appConfig.getApiEndPoint();
     const url = `${apiEndPoint}/productInfo`;
-    this.loggingService.logToConsole(url + '?' + params.toString());
+
     this.http.get(url, { params })
       .subscribe(
-        (response: {}) => {
+        (response: ProductModel) => {
           this.haveError = false;
           this.errorMessage = '';
 
-          this.productData = Object.assign(new ProductModel(), response);
+          this.productData = response;
           this.gotProductData = true;
 
           this.moveToProductPage();

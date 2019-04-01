@@ -1,6 +1,6 @@
 import { ShippingModel } from './shipping.model';
 
-export class SearchResultModel {
+export interface SearchResultModel {
   index: string;
   image: string | null;
   title: string | null;

@@ -1,4 +1,4 @@
-export class SellerModel {
+export interface SellerModel {
   feedbackScore: number | null;
   popularity: number | null;
   feedbackStarColor: string | null;

@@ -19,11 +19,7 @@ export class WishListService {
   getWishListFromLocalStorage() {
     const localData = localStorage.getItem('wishList');
     if (localData && localData !== null) {
-      for (const res of JSON.parse(localData)) {
-        this.wishList.push(
-          Object.assign(new SearchResultModel(), res)
-        );
-      }
+      this.wishList = JSON.parse(localData);
     }
   }
 
