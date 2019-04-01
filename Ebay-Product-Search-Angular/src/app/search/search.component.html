@@ -5,14 +5,14 @@
     </div>
   </div>
   <div class="row justify-content-center">
-    <div class="col-12 col-md-8">
+    <div class="col-12 col-lg-8">
       <form (ngSubmit)="onSubmit()"
             [formGroup]="searchFormGroup">
         <!--   Keyword Field   -->
         <div class="row">
           <div class="form-group col-12 p-0 mx-0">
-            <label class="col-12 col-md-3 align-top px-0 mx-0 my-md-0">Keyword<span class="text-red">*</span></label>
-            <label class="col-12 col-md-8 px-0 mx-0 my-md-0">
+            <label class="col-12 col-lg-3 align-top px-0 mx-0 my-lg-0">Keyword<span class="text-red">*</span></label>
+            <label class="col-12 col-lg-8 px-0 mx-0 my-lg-0">
               <input type="text"
                      class="form-control check-valid"
                      placeholder="Enter Product Name (eg. iPhone 8)"
@@ -36,8 +36,8 @@
         <!--   Category Field   -->
         <div class="row">
           <div class="form-group col-12 p-0 mx-0">
-            <label class="col-12 col-md-3 px-0 mx-0 my-md-0">Category</label>
-            <label class="col-12 col-md-3 px-0 mx-0 my-md-0">
+            <label class="col-12 col-lg-3 px-0 mx-0 my-lg-0">Category</label>
+            <label class="col-12 col-lg-3 px-0 mx-0 my-lg-0">
               <select class="form-control"
                       formControlName="category">
                 <option value="all">All Categories</option>
@@ -57,8 +57,8 @@
         <!--   Condition Field   -->
         <div class="row">
           <div class="form-group col-12 p-0 mx-0">
-            <label class="col-12 col-md-3 px-0 mx-0 my-md-0">Condition</label>
-            <label class="col-12 col-md-8 px-0 mx-0 my-md-0">
+            <label class="col-12 col-lg-3 px-0 mx-0 my-lg-0">Condition</label>
+            <label class="col-12 col-lg-8 px-0 mx-0 my-lg-0">
               <div formGroupName="condition">
                 <label class="mr-3">
                   <input type="checkbox"
@@ -80,8 +80,8 @@
         <!--   Shipping Field   -->
         <div class="row">
           <div class="form-group col-12 p-0 mx-0">
-            <label class="col-12 col-md-3 px-0 mx-0 my-md-0">Shipping Options</label>
-            <label class="col-12 col-md-8 px-0 mx-0 my-md-0">
+            <label class="col-12 col-lg-3 px-0 mx-0 my-lg-0">Shipping Options</label>
+            <label class="col-12 col-lg-8 px-0 mx-0 my-lg-0">
               <div formGroupName="shipping">
                 <label class="mr-3">
                   <input type="checkbox"
@@ -99,8 +99,8 @@
         <!--  Distance Field  -->
         <div class="row">
           <div class="form-group col-12 p-0 mx-0">
-            <label class="col-12 col-md-3 px-0 mx-0 my-md-0">Distance (Miles)</label>
-            <label class="col-12 col-md-3 px-0 mx-0 my-md-0">
+            <label class="col-12 col-lg-3 px-0 mx-0 my-lg-0">Distance (Miles)</label>
+            <label class="col-12 col-lg-3 px-0 mx-0 my-lg-0">
               <input type="number"
                      class="form-control"
                      placeholder="10"
@@ -112,8 +112,8 @@
         <!--  From Field  -->
         <div class="row">
           <div class="form-group col-12 p-0 mx-0">
-            <label class="col-12 col-md-3 align-top px-0 mx-0 my-md-0">From<span class="text-red">*</span></label>
-            <label class="col-12 col-md-8 px-0 mx-0 my-md-0">
+            <label class="col-12 col-lg-3 align-top px-0 mx-0 my-lg-0">From<span class="text-red">*</span></label>
+            <label class="col-12 col-lg-8 px-0 mx-0 my-lg-0">
               <input type="radio"
                      formControlName="here"
                      value="here"
@@ -147,7 +147,7 @@
 
         <!--   Form Buttons   -->
         <div class="row">
-          <div class="form-group col-12 ml-2 mx-md-0 px-0 mb-3">
+          <div class="form-group col-12 ml-2 mx-lg-0 px-0 mb-3">
             <label class="mr-4">
               <button type="submit"
                       class="btn btn-light"
