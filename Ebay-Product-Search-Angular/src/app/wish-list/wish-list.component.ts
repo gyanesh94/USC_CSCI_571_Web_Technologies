@@ -53,14 +53,14 @@ export class WishListComponent implements OnInit {
     for (const product of this.wishList) {
       if (product.productId === productId) {
         this.detailButtonService.setDetailButton(product);
+        this.disableDetailButton = false;
+        this.productService.fetchData(product);
       }
     }
-    this.disableDetailButton = false;
-    this.productService.fetchData(productId);
   }
 
   removeFromWishList(productId: string) {
-    if (this.detailButtonService.getProductId() === productId) {
+    if (this.detailButtonService.getProductResultData().productId === productId) {
       this.detailButtonService.clearDetailButton();
       this.disableDetailButton = true;
     }
@@ -73,6 +73,6 @@ export class WishListComponent implements OnInit {
   }
 
   detailButtonClicked() {
-    this.productService.fetchData(this.detailButtonService.getProductId());
+    this.productService.fetchData(this.detailButtonService.getProductResultData());
   }
 }

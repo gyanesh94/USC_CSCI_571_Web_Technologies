@@ -35,8 +35,8 @@ export class DetailButtonService {
     this.product = product;
   }
 
-  getProductId(): string {
-    return this.product.productId;
+  getProductResultData(): SearchResultModel {
+    return this.product;
   }
 
   clearDetailButton() {

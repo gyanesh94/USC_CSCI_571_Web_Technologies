@@ -115,7 +115,14 @@ app.get("/api/search", (req, res) => {
         price: null,
         productId: null,
         sellerName: null,
-        shippingPrice: null,
+        shipping: {
+          cost: null,
+          expedited: null,
+          handlingTime: null,
+          locations: null,
+          oneDay: null,
+          returnAccepted: null,
+        },
         title: null,
         zipcode: null,
       };
@@ -156,17 +163,62 @@ app.get("/api/search", (req, res) => {
         }
 
         if (item.hasOwnProperty("shippingInfo") && item.shippingInfo.length > 0) {
+          const shipping = Object.assign({}, searchResultModel.shipping);
           let shippingInfo = item.shippingInfo[0];
+
           if (shippingInfo.hasOwnProperty("shippingServiceCost") && shippingInfo.shippingServiceCost.length > 0) {
             let shippingServiceCost = shippingInfo.shippingServiceCost[0];
             if (shippingServiceCost.hasOwnProperty("@currencyId") && shippingServiceCost.hasOwnProperty("__value__")) {
               let value = shippingServiceCost.__value__;
               if (Number(value) === 0) {
-                resultItem.shippingPrice = "Free Shipping";
+                shipping.cost = "Free Shipping";
               } else {
-                resultItem.shippingPrice = "$" + value;
+                shipping.cost = "$" + value;
               }
             }
+          }
+
+          if (shippingInfo.hasOwnProperty("shipToLocations") && shippingInfo.shipToLocations.length > 0) {
+            shipping.locations = shippingInfo.shipToLocations[0];
+          }
+
+          if (shippingInfo.hasOwnProperty("handlingTime") && shippingInfo.handlingTime.length > 0) {
+            let handlingTime = shippingInfo.handlingTime[0];
+            if (handlingTime === "0" || handlingTime === "1") {
+              handlingTime += " Day";
+            } else {
+              handlingTime += " Days";
+            }
+            shipping.handlingTime = handlingTime;
+          }
+
+          if (shippingInfo.hasOwnProperty("expeditedShipping") && shippingInfo.expeditedShipping.length > 0) {
+            if (shippingInfo.expeditedShipping[0] === "true") {
+              shipping.expedited = true;
+            } else {
+              shipping.expedited = false;
+            }
+          }
+
+          if (
+            shippingInfo.hasOwnProperty("oneDayShippingAvailable") &&
+            shippingInfo.oneDayShippingAvailable.length > 0
+          ) {
+            if (shippingInfo.oneDayShippingAvailable[0] === "true") {
+              shipping.oneDay = true;
+            } else {
+              shipping.oneDay = false;
+            }
+          }
+
+          resultItem.shipping = shipping;
+        }
+
+        if (item.hasOwnProperty("returnsAccepted") && item.returnsAccepted.length > 0) {
+          if (item.returnsAccepted[0] === "true") {
+            resultItem.shipping.returnAccepted = true;
+          } else {
+            resultItem.shipping.returnAccepted = false;
           }
         }
 

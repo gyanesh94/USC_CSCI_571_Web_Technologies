@@ -52,7 +52,14 @@
               </span>
             </td>
             <td>{{ content.price || 'N/A' }}</td>
-            <td>{{ content.shippingPrice || 'N/A' }}</td>
+            <td>
+              <span *ngIf="content.shipping; else shippingElse">
+                {{ content.shipping.cost || 'N/A' }}
+              </span>
+              <ng-template #shippingElse>
+                N/A
+              </ng-template>
+            </td>
             <td>{{ (content.sellerName | uppercase ) || 'N/A' }}</td>
             <td>
               <button class="btn btn-light"

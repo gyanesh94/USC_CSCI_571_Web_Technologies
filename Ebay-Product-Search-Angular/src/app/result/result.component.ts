@@ -54,10 +54,11 @@ export class ResultComponent implements OnInit {
     for (const product of this.returnedArray) {
       if (product.productId === productId) {
         this.detailButtonService.setDetailButton(product);
+        this.disableDetailButton = false;
+        this.productService.fetchData(product);
+        break;
       }
     }
-    this.disableDetailButton = false;
-    this.productService.fetchData(productId);
   }
 
   onImageError(i: number) {
@@ -78,6 +79,6 @@ export class ResultComponent implements OnInit {
   }
 
   detailButtonClicked() {
-    this.productService.fetchData(this.detailButtonService.getProductId());
+    this.productService.fetchData(this.detailButtonService.getProductResultData());
   }
 }

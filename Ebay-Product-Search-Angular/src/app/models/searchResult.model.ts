@@ -1,10 +1,12 @@
+import { ShippingModel } from './shipping.model';
+
 export class SearchResultModel {
   index: string;
   image: string | null;
   title: string | null;
   productId: string;
   price: string | null;
-  shippingPrice: string | null;
+  shipping: ShippingModel | null;
   zipcode: string | null;
   sellerName: string | null;
   highlighted: boolean;

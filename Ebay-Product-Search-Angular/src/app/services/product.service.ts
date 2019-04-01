@@ -6,12 +6,16 @@ import { AppState } from '../models/appState.model';
 import { AppConfig } from '../app.config';
 import { LoggingService } from './logging.service';
 import { ProductModel } from '../models/product.model';
+import { ShippingModel } from '../models/shipping.model';
+import { SearchResultModel } from '../models/searchResult.model';
 
 @Injectable()
 export class ProductService {
   productId: string | null = null;
   gotProductData = false;
-  productData: ProductModel;
+  productData: ProductModel | null;
+  shippingData: ShippingModel | null;
+
   gotSimilarItemsData = false;
   gotGoogleCustomEngineImages = false;
 
@@ -25,9 +29,9 @@ export class ProductService {
     private http: HttpClient
   ) { }
 
-  fetchData(productId: string) {
+  fetchData(searchProduct: SearchResultModel) {
     if (
-      this.productId === productId &&
+      this.productId === searchProduct.productId &&
       this.gotProductData &&
       this.gotSimilarItemsData &&
       this.gotGoogleCustomEngineImages
@@ -38,7 +42,8 @@ export class ProductService {
     this.stateService.updateState(AppState.ProgressBar);
     this.clearData();
 
-    this.productId = productId;
+    this.productId = searchProduct.productId;
+    this.shippingData = searchProduct.shipping;
     this.fetchProductInformation();
     this.fetchImages();
     this.fetchSimilarItemsDetail();
@@ -57,7 +62,7 @@ export class ProductService {
 
           this.productData = Object.assign(new ProductModel(), response);
           this.gotProductData = true;
-          this.loggingService.logToConsole(this.productData);
+
           this.stateService.updateState(AppState.ProductComponent);
         },
         (error: HttpErrorResponse) => {
@@ -78,6 +83,7 @@ export class ProductService {
 
   clearData() {
     this.productId = null;
+    this.shippingData = null;
     this.gotProductData = false;
     this.gotSimilarItemsData = false;
     this.gotGoogleCustomEngineImages = false;
