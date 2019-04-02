@@ -40,8 +40,9 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+config.js
+/src/app/app.config.ts
 
 # System Files
 .DS_Store
 Thumbs.db
-config.js
