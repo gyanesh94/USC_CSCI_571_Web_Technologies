@@ -162,6 +162,20 @@ export class ProductService {
     return this.searchResultData;
   }
 
+  getErrorGooglePhotosErrorMessage() {
+    if (
+      this.googleProductImages == null ||
+      !this.googleProductImages.length
+    ) {
+      this.googleProductImagesError = 'No mages found.';
+    }
+    return this.googleProductImagesError;
+  }
+
+  getGoogleImages() {
+    return this.googleProductImages;
+  }
+
 
   clearData() {
     this.searchResultData = null;
