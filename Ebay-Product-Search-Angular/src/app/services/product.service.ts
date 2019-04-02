@@ -167,7 +167,7 @@ export class ProductService {
       this.googleProductImages == null ||
       !this.googleProductImages.length
     ) {
-      this.googleProductImagesError = 'No mages found.';
+      this.googleProductImagesError = 'No images found.';
     }
     return this.googleProductImagesError;
   }
@@ -182,6 +182,20 @@ export class ProductService {
 
   getSellerData() {
     return this.productData.seller;
+  }
+
+  getSimilarProductErrorMessage() {
+    if (
+      this.similarProductData == null ||
+      !this.similarProductData.length
+    ) {
+      this.similarProductError = 'No Records.';
+    }
+    return this.similarProductError;
+  }
+
+  getSimilarProductData() {
+    return this.similarProductData.slice();
   }
 
   clearData() {

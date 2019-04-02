@@ -463,6 +463,7 @@ app.get("/api/similarProduct", (req, res) => {
         imageUrl: null,
         price: null,
         productId: null,
+        productUrl: null,
         shippingCost: null,
         title: null,
       };
@@ -481,6 +482,10 @@ app.get("/api/similarProduct", (req, res) => {
 
         if (item.hasOwnProperty("title") && item.title.length > 0) {
           similarProductData.title = item.title;
+        }
+
+        if (item.hasOwnProperty("viewItemURL") && item.viewItemURL.length > 0) {
+          similarProductData.productUrl = item.viewItemURL;
         }
 
         if (

@@ -1,3 +1,86 @@
-<p>
-  similar-products works!
-</p>
+<div class="row justify-content-center">
+  <div class="col-12 warning-error p-3 mt-3 mx-0 px-0"
+       *ngIf="haveError">
+    {{ errorMessage }}
+  </div>
+</div>
+
+
+<div class="container"
+     *ngIf="!haveError">
+  <div class="row mt-2 mt-lg-3">
+    <div class="col-12 col-lg-2 pl-lg-0">
+      <select class="form-control"
+              [formControl]="sortByFormControl">
+        <option value="default">Default</option>
+        <option value="title">Product Name</option>
+        <option value="daysLeft">Days Left</option>
+        <option value="price">Price</option>
+        <option value="shippingCost">Shipping Cost</option>
+      </select>
+    </div>
+
+    <div class="col-12 col-lg-2 pl-lg-0">
+      <select class="form-control"
+              [formControl]="orderByFormControl">
+        <option value="-1">Ascending</option>
+        <option value="1">Descending</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row custom-background mt-2 pl-0"
+       *ngFor="let similarItem of resultData">
+    <div class="col-2">
+      <a [href]="similarItem.imageUrl"
+         target="_blank"
+         *ngIf="similarItem.imageUrl != null">
+        <img class="img-fluid image-border image-fill"
+             [src]="similarItem.imageUrl">
+      </a>
+    </div>
+
+    <div class="col-12 col-lg-10">
+      <div class="row mx-0 mt-lg-2">
+        <a [href]="similarItem.productUrl"
+           class="custom-a-link"
+           target="_blank">
+          {{ similarItem.title }}
+        </a>
+      </div>
+
+      <div class="row mx-0">
+        <span class="price-text">
+          Price: ${{ (similarItem.price | number:'1.2-2') || "0.00" }}
+        </span>
+      </div>
+
+      <div class="row mx-0">
+        <span class="shipping-text">
+          Shipping Cost: ${{ (similarItem.shippingCost | number:'1.2-2') || "0.00" }}
+        </span>
+      </div>
+
+      <div class="row mx-0">
+        <span class="daysLeft-text">
+          Days Left: {{ similarItem.daysLeft || "0" }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row"
+       *ngIf="similarProductData.length > 5">
+    <div class="col-12 text-center mt-3 mt-lg-4">
+      <span class="custom-background"
+            (click)="showMoreOrLess()">
+        <span *ngIf="!firstFiveShown">
+          Show Less
+        </span>
+        <span *ngIf="firstFiveShown">
+          Show More
+        </span>
+      </span>
+    </div>
+  </div>
+</div>

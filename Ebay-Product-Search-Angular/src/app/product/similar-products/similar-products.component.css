@@ -1,0 +1,24 @@
+.custom-background {
+  background-color: #1e2024;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+}
+
+.price-text {
+  color: #7f996f;
+}
+
+.shipping-text {
+  color: #beac76;
+}
+
+.daysLeft-text {
+  color: #ffffff;
+}
+
+.image-fill {
+  width: 100%;
+  object-fit: fill;
+  height: 141px;
+}

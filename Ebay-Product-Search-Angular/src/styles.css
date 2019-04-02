@@ -128,3 +128,10 @@ body {
   color: #e30408;
   font-size: 22px;
 }
+
+.custom-a-link,
+.custom-a-link:active,
+.custom-a-link:hover,
+.custom-a-link:visited {
+  color: #5c7d7b;
+}
