@@ -5,4 +5,5 @@ export interface SellerModel {
   topRated: boolean | null;
   storeName: string | null;
   storeUrl: string | null;
+  sellerName: string | null;
 }

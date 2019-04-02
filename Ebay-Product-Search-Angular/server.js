@@ -289,6 +289,7 @@ app.get("/api/productInfo", (req, res) => {
           feedbackScore: null,
           feedbackStarColor: null,
           popularity: null,
+          sellerName: null,
           storeName: null,
           storeUrl: null,
           topRated: null,

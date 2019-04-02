@@ -8,6 +8,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { RoundProgressModule } from 'angular-svg-round-progressbar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -54,7 +55,8 @@ import { ProductService } from './services/product.service';
     PaginationModule.forRoot(),
     TooltipModule.forRoot(),
     FlexLayoutModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    RoundProgressModule
   ],
   providers: [
     LoggingService,

@@ -180,6 +180,9 @@ export class ProductService {
     return this.shippingData;
   }
 
+  getSellerData() {
+    return this.productData.seller;
+  }
 
   clearData() {
     this.searchResultData = null;
