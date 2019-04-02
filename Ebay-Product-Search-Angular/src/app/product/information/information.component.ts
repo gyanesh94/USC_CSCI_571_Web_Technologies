@@ -22,7 +22,6 @@ export class InformationComponent implements OnInit {
 
   ngOnInit() {
     this.productData = this.productService.getProductData();
-    this.loggingService.logToConsole(this.productData);
   }
 
   openModal(template: TemplateRef<any>) {

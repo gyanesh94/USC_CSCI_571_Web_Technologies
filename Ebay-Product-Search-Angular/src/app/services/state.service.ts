@@ -25,11 +25,4 @@ export class StateService {
   getEventsubscription() {
     return this.stateChangeEvent;
   }
-
-  setState(newState: AppState) {
-    if (newState !== AppState.ProgressBar) {
-      this.previousState = this.currentState;
-      this.currentState = newState;
-    }
-  }
 }

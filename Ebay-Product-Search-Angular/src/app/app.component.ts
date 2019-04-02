@@ -34,7 +34,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.geoLocationService.callGeoLocationApi();
     this.subscriptions.push(
       this.stateService.getEventsubscription().subscribe(
-        (newState: AppState) => this.changeStatus(newState)
+        (newState: AppState) => {
+          if (newState === AppState.HomeComponent || newState === AppState.ResultComponent) {
+            this.resultActive = true;
+          } else if (newState === AppState.WishListComponent) {
+            this.resultActive = false;
+          }
+          this.currentStatus = newState;
+        }
       )
     );
     this.wishListService.getWishListFromLocalStorage();
@@ -47,13 +54,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   changeStatus(newState: AppState) {
-    this.stateService.setState(newState);
-    if (newState === AppState.HomeComponent || newState === AppState.ResultComponent) {
-      this.resultActive = true;
-    } else if (newState === AppState.WishListComponent) {
-      this.resultActive = false;
-    }
-    this.currentStatus = newState;
+    this.stateService.updateState(newState);
   }
-
 }
