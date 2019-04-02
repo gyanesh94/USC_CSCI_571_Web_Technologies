@@ -103,6 +103,7 @@ body {
 
 .nav-tabs .nav-link {
   font-weight: 600;
+  padding: .5rem .8rem;
 }
 
 .nav-tabs .nav-link.active:hover {
@@ -116,4 +117,14 @@ body {
 .product-title {
   font-weight: 600;
   font-size: 17px
+}
+
+.material-icons.tick {
+  color: #25662a;
+  font-size: 22px;
+}
+
+.material-icons.cross {
+  color: #e30408;
+  font-size: 22px;
 }

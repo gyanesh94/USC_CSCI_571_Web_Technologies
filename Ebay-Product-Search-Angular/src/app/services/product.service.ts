@@ -176,6 +176,10 @@ export class ProductService {
     return this.googleProductImages;
   }
 
+  getShippingData() {
+    return this.shippingData;
+  }
+
 
   clearData() {
     this.searchResultData = null;
