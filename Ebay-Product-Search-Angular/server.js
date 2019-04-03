@@ -71,19 +71,19 @@ app.get("/api/search", (req, res) => {
       res.setHeader("Cache-Control", "no-cache");
       let result = [];
       if (errorResponse) {
-        res.status(404).send("Error while fetching the result.");
+        res.status(404).send("Error while fetching the result from eBay API.");
         return null;
       }
       data = JSON.parse(data);
 
       if (!data || !data.hasOwnProperty("findItemsAdvancedResponse")) {
-        res.status(404).send("Error while fetching the result.");
+        res.status(404).send("Error while fetching the result from eBay API.");
         return null;
       }
 
       data = data.findItemsAdvancedResponse[0];
       if (!data.hasOwnProperty("ack")) {
-        res.status(404).send("Error while fetching the result.");
+        res.status(404).send("Error while fetching the result from eBay API.");
         return null;
       }
       if (data.ack[0] !== "Success") {
@@ -97,7 +97,7 @@ app.get("/api/search", (req, res) => {
             }
           }
         }
-        res.status(404).send("Data fetching not successful.");
+        res.status(404).send("Data fetching not successful from eBay API.");
         return null;
       }
       if (
@@ -241,17 +241,17 @@ app.get("/api/productInfo", (req, res) => {
       res.setHeader("Cache-Control", "no-cache");
 
       if (errorResponse) {
-        res.status(404).send("Error while fetching product data");
+        res.status(404).send("Error while fetching product data from eBay API");
         return null;
       }
       data = JSON.parse(data);
 
       if (!data) {
-        res.status(404).send("Error while fetching product data");
+        res.status(404).send("Error while fetching product data from eBay API");
         return null;
       }
       if (!data.hasOwnProperty("Ack")) {
-        res.status(404).send("Error while fetching product data");
+        res.status(404).send("Error while fetching product data from eBay API");
         return null;
       }
       if (data.Ack !== "Success") {
@@ -266,7 +266,7 @@ app.get("/api/productInfo", (req, res) => {
             return null;
           }
         }
-        res.status(404).send("Error while fetching product data");
+        res.status(404).send("Error while fetching product data from eBay API");
         return null;
       }
       if (!data.hasOwnProperty("Item")) {
@@ -439,7 +439,7 @@ app.get("/api/similarProduct", (req, res) => {
       res.setHeader("Cache-Control", "no-cache");
 
       if (errorResponse) {
-        res.status(404).send("Error while fetching similar items.");
+        res.status(404).send("Error while fetching similar items from eBay API.");
         return null;
       }
       data = JSON.parse(data);
@@ -449,7 +449,12 @@ app.get("/api/similarProduct", (req, res) => {
         data === null ||
         !data.hasOwnProperty("getSimilarItemsResponse") ||
         !data.getSimilarItemsResponse.hasOwnProperty("ack") ||
-        data.getSimilarItemsResponse.ack !== "Success" ||
+        data.getSimilarItemsResponse.ack !== "Success"
+      ) {
+        res.status(404).send("Error while fetching similar items from eBay API.");
+        return null;
+      }
+      if (
         !data.getSimilarItemsResponse.hasOwnProperty("itemRecommendations") ||
         !data.getSimilarItemsResponse.itemRecommendations.hasOwnProperty("item") ||
         data.getSimilarItemsResponse.itemRecommendations.item.length <= 0
@@ -537,14 +542,20 @@ app.get("/api/googleImages", (req, res) => {
       res.setHeader("Cache-Control", "no-cache");
 
       if (errorResponse) {
-        res.status(404).send("Error while fetching images.");
+        res.status(404).send("Error while fetching images from google.");
         return null;
       }
       data = JSON.parse(data);
 
       if (
         !data ||
-        data === null ||
+        data === null
+      ) {
+        res.status(404).send("Error while fetching images from google.");
+        return null;
+      }
+
+      if (
         !data.hasOwnProperty("items") ||
         data.items.length <= 0
       ) {
