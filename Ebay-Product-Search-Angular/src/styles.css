@@ -117,3 +117,8 @@ body {
 .custom-a-link:visited {
   color: #5c7d7b;
 }
+
+.word-break-all {
+  word-wrap: break-word;
+  word-break: break-all;
+}

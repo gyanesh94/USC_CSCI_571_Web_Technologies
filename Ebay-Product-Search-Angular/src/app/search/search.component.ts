@@ -10,8 +10,6 @@ import { StateService } from '../services/state.service';
 import { SearchResultService } from '../services/searchResult.service';
 import { AppState } from '../models/appState.model';
 import { DetailButtonService } from '../services/detailButton.service';
-import { ProductService } from '../services/product.service';
-import { emptySearchFormModel } from '../models/searchForm.model';
 
 @Component({
   selector: 'app-search',
@@ -35,7 +33,6 @@ export class SearchComponent implements OnInit, OnDestroy {
     private stateService: StateService,
     private searchResultService: SearchResultService,
     private detailButtonService: DetailButtonService,
-    private productService: ProductService
   ) { }
 
   ngOnInit() {
