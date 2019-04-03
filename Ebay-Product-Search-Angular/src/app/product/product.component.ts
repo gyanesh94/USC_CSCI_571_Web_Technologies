@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MediaObserver, MediaChange } from '@angular/flex-layout';
-import { Subscription } from 'rxjs';
+import { Subscription, generate } from 'rxjs';
 
 import { ProductModel } from '../models/product.model';
 import { ProductTabState } from '../models/productTabState.model';
@@ -9,6 +9,8 @@ import { ProductService } from '../services/product.service';
 import { StateService } from '../services/state.service';
 import { SearchResultModel } from '../models/searchResult.model';
 import { WishListService } from '../services/wishList.service';
+import { HttpParams } from '@angular/common/http';
+import { AppConfig } from '../app.config';
 
 @Component({
   selector: 'app-product',
@@ -28,12 +30,15 @@ export class ProductComponent implements OnInit, OnDestroy {
   haveError = false;
   errorMessage = '';
 
+  urlToFacebookShare: string;
+
   constructor(
     private loggingService: LoggingService,
     private productService: ProductService,
     private mediaObserver: MediaObserver,
     private stateService: StateService,
-    private wishListService: WishListService
+    private wishListService: WishListService,
+    private appConfig: AppConfig
   ) { }
 
   ngOnInit() {
@@ -55,6 +60,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     } else {
       this.productData = this.productService.getProductData();
       this.searchResultData = this.productService.getSearchResultData();
+      this.generateShareDialogURL();
     }
   }
 
@@ -76,5 +82,17 @@ export class ProductComponent implements OnInit, OnDestroy {
     } else {
       this.wishListService.addProductToWishList(this.searchResultData);
     }
+  }
+
+  generateShareDialogURL() {
+    const url = 'https://www.facebook.com/dialog/share?';
+    const params = new HttpParams()
+      .set('app_id', this.appConfig.getFacebookAppId())
+      .set('display', 'popup')
+      .set('href', this.productData.productUrl)
+      .set('quote', `Buy ${this.productData.title} at ${this.productData.price} from link below`)
+      .set('redirect_uri', this.appConfig.getFacebookRedirectUri());
+
+    this.urlToFacebookShare = url + params.toString();
   }
 }

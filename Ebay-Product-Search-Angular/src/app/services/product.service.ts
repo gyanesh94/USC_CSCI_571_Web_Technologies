@@ -77,9 +77,6 @@ export class ProductService {
   }
 
   fetchImages() {
-    this.gotGoogleCustomEngineImages = true;
-    this.moveToProductPage();
-    return;
     const params = new HttpParams().set('query', this.searchResultData.title);
     const apiEndPoint = this.appConfig.getApiEndPoint();
     const url = `${apiEndPoint}/googleImages`;

@@ -15,7 +15,7 @@
   </div>
 
   <div class="row justify-content-between mt-3">
-    <div class="col-2 justify-content-start px-0 mx-0">
+    <div class="col justify-content-start px-0 mx-0">
       <button class="btn btn-light"
               (click)="goBackToList()">
         <i class="material-icons align-bottom">
@@ -24,12 +24,12 @@
         List
       </button>
     </div>
-    <div class="col-3 text-right m-0 p-0">
-      <button class="btn btn-light">
-        <i class="material-icons align-bottom">
-          favorite
-        </i>
-      </button>
+    <div class="col text-right m-0 p-0">
+      <a [href]="urlToFacebookShare"
+         target="_blank">
+        <img class="img-fluid facebook-button"
+             src="http://csci571.com/hw/hw8/Images/facebook.png">
+      </a>
       <button class="btn btn-light"
               (click)="addOrRemoveFromWishList(productData.productId)">
         <i class="material-icons align-bottom"
@@ -50,27 +50,27 @@
           id="myTab"
           role="tablist">
         <li class="nav-item">
-          <a class="nav-link cursor active"
+          <a class="nav-link cursor active px-1 px-lg-2"
              [class.active]="activeTabState == productTabState.ProductTab"
              (click)="switchTo(productTabState.ProductTab)">Product</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link cursor"
+          <a class="nav-link cursor px-1 px-lg-2"
              [class.active]="activeTabState == productTabState.PhotosTab"
              (click)="switchTo(productTabState.PhotosTab)">Photos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link cursor"
+          <a class="nav-link cursor px-1 px-lg-2"
              [class.active]="activeTabState == productTabState.ShippingTab"
              (click)="switchTo(productTabState.ShippingTab)">Shipping</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link cursor"
+          <a class="nav-link cursor px-1 px-lg-2"
              [class.active]="activeTabState == productTabState.SellerTab"
              (click)="switchTo(productTabState.SellerTab)">Seller</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link cursor"
+          <a class="nav-link cursor px-1 px-lg-2"
              [class.active]="activeTabState == productTabState.SimilarProductsTab"
              (click)="switchTo(productTabState.SimilarProductsTab)">{{ similarProductTabString }}</a>
         </li>
