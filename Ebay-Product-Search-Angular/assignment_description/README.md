@@ -17,10 +17,11 @@
 - You must replicate the search form displayed in Figure 1 using a **Bootstrap form**. The form fields are similar to Homework #6.
 - Six Inputs:
   - **Keyword**: 
-    - This field is **required**
+    - This field is **required**.
     - Validation is performed on this field.
     - Please refer to **section 3.1.3 for details of validation**.
     - Initially, please **show the placeholder shown in the picture**.
+    - No need to cache keywords, as we did not write on the doc. Caching keywords is an optional function. [@668](https://piazza.com/class/jptzz79d354gb?cid=668).
   - **Category**:
     - The **default value of “Category” is “All Categories”**, which covers most of the “types” provided by the eBay API.
     - The other options are shown in Figure 2.
@@ -139,7 +140,7 @@
 - You can follow this idea to avoid starting a new row for product name:
   - Judge whether the product name’s length is larger than 35 characters. (Or other
     reasonable number)
-  - If yes, please cut the string to the first 35 characters, and if the cut position is not a whitespace, please find the last index of white space before the cut position and use that as the substring’s end index. **Implies Cut to the last word**
+  - If yes, please cut the string to the first 35 characters, and if the cut position is not a whitespace, please find the last index of white space before the cut position and use that as the substring’s end index. **Implies Cut to the last word**.
   - Add ‘…’ to the new string.
   - Show the tooltip of the whole product name (Figure 7).
   - ![](./images/figure_7.png)
@@ -152,6 +153,7 @@
 - If this **button is enabled and clicked**, the **page will be taken to the Product detail tabs**.
 - After a **product details search is performed**, the **corresponding product row in the results table should be highlighted** to indicate the product whose details are displayed in the Details tabs (Figure 8).
 - Once you move to Wish List disable that again
+- Both wish list and results have a separate detail button. If you select a product the detail button in results view remains enabled till clear, because there will always be one product selected. In Wish List view if a product is selected it will remain enabled till a product is selected and selected product is not deleted [@779](https://piazza.com/class/jptzz79d354gb?cid=779).
   - ![](./images/figure_8.png)
 
 
@@ -171,6 +173,7 @@
 - A table containing the detailed info of the product is displayed in this tab. The table has the following fields if they are available in the detail search results [Table 2](./images/table_2.png)
 - **Note**: If any **value is missing**, **don’t display the row** in product info tab.
 - When **clicked on “Product Images”**, **a modal should be popped up** with all product images. If a **particular image in the modal is clicked** it should **open in a new tab**. See video for reference.
+  - The Carousel should wrap around. The previous and next buttons should not been seen if the product has only one image [@689](https://piazza.com/class/jptzz79d354gb?cid=689).
 
 ### 3.3.2 Photos Tab
 
@@ -192,6 +195,7 @@
   - arrange them in the same manner as in [Figure 12](./images/figure_12.png) (from left to right, top to bottom).
   - When a photo is clicked, a new tab is opened to display that photo in its original size.
 - **Note**: **Broken Images** in the Photos tab is fine.
+- If the api does not  return images for certain rare titles, it is fine [@690](https://piazza.com/class/jptzz79d354gb?cid=690).
 
 ### 3.3.3 Shipping Tab
 
@@ -253,7 +257,7 @@
 - After **clicking the “Show More”** button, all upcoming products in the returned JSON should be displayed, and the **button changes to “Show Less”,** like in [Figure 17(b)](./images/figure_17b.png).
 - After **clicking “Show Less”** only **the top 5 similar products in given sorting order should remain**.
 - **Note**: If the number of **products is less than 5, then don’t display “Show More” and “Shore Less” button**.
-- **Note**:If the **API service returns an empty result set**, the page should **display** “**No Records Found**”. [Figure 18](./images/figure_18.png)
+- **Note**:If the **API service returns an empty result set**, the page should **display** “**No Records.**”. [Figure 18](./images/figure_18.png)
 - **Note:** There are two clickable items. One is the title which takes the user to ebay and the other is the image. There is no tooltip as there is big enough space to show the title. This is given in the description as well as the video [@628](https://piazza.com/class/jptzz79d354gb?cid=628).
 
 ### 3.3.6 List Button, Wish List Button and Facebook Button
@@ -443,6 +447,12 @@
 # Important
 
 - All API calls in homework 8 should be asynchronous. If we see the "hourglass", you will get a point deduction for non-async behavior. [@604](https://piazza.com/class/jptzz79d354gb?cid=604).
+- Animating from detail view to results view [@637](https://piazza.com/class/jptzz79d354gb?cid=637).
+  - It's not exactly clear from the video, but is the results view reloading when the details view slides out and the results view comes back in? I'm making this assumption because if the results were still cached and just removed from the DOM, the results would come back instantly without the need for a progress bar, no?
+  - t is implementation based. You should show a progress bar if the results are not yet on the page, if you have the results the progress bar will not be seen.
+- Image, Facebook share and ebay links in a new tab
+- Carousel Yes, that is why even the first image has a left arrow. Think of it as a circular list [@689](https://piazza.com/class/jptzz79d354gb?cid=689).
+- It is implementation based. You should show a progress bar if the results are not yet on the page, if you have the results the progress bar will not be seen [@637](https://piazza.com/class/jptzz79d354gb?cid=637).
 
 # Not Understood
 
