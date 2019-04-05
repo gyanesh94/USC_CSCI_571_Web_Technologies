@@ -10,16 +10,17 @@
       <nav class="nav nav-pills nav-justified justify-content-center">
         <a class="nav-link cursor"
            [class.active]="resultActive"
-           (click)="changeStatus(appStatus.ResultComponent)">Results</a>
+           (click)="changeState(appState.ResultComponent)">Results</a>
         <a class="nav-link cursor"
            [class.active]="!resultActive"
-           (click)="changeStatus(appStatus.WishListComponent)">Wish List</a>
+           (click)="changeState(appState.WishListComponent)">Wish List</a>
       </nav>
     </div>
   </div>
 
   <div class="row justify-content-center"
-       *ngIf="currentStatus == appStatus.ProgressBar">
+       [@otherStates]="progressBarState"
+       *ngIf="currentState == appState.ProgressBar">
     <div class="col-12 col-lg-9 mt-3 px-0 mx-0">
       <div class="progress">
         <div class="progress-bar progress-bar-striped progress-bar-animated w-50"
@@ -33,21 +34,24 @@
   </div>
 
   <div class="row justify-content-center"
-       *ngIf="currentStatus == appStatus.ResultComponent">
+       [@otherStates]="resultWishState"
+       *ngIf="currentState == appState.ResultComponent">
     <div class="col-12 col-lg-9">
       <app-result></app-result>
     </div>
   </div>
 
   <div class="row justify-content-center"
-       *ngIf="currentStatus == appStatus.WishListComponent">
+       [@otherStates]="resultWishState"
+       *ngIf="currentState == appState.WishListComponent">
     <div class="col-12 col-lg-9">
       <app-wish-list></app-wish-list>
     </div>
   </div>
 
   <div class="row justify-content-center"
-       *ngIf="currentStatus == appStatus.ProductComponent">
+       [@productState]
+       *ngIf="currentState == appState.ProductComponent">
     <div class="col-12 col-lg-9">
       <app-product></app-product>
     </div>

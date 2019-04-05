@@ -4,13 +4,15 @@ import { AppState } from '../models/appState.model';
 export class StateService {
   private previousState = AppState.HomeComponent;
   private currentState = AppState.HomeComponent;
+  private nextState: AppState | null = null;
   private stateChangeEvent = new EventEmitter<string>();
 
-  updateState(newState: AppState) {
+  updateState(newState: AppState, nextState = null) {
     if (newState !== AppState.ProgressBar) {
       this.previousState = this.currentState;
       this.currentState = newState;
     }
+    this.nextState = nextState;
     this.stateChangeEvent.emit(newState);
   }
 
@@ -20,6 +22,10 @@ export class StateService {
 
   getCurrentState() {
     return this.currentState;
+  }
+
+  getNextState() {
+    return this.nextState;
   }
 
   getEventsubscription() {

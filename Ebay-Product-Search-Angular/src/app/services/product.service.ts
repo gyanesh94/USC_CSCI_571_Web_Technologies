@@ -37,7 +37,7 @@ export class ProductService {
   ) { }
 
   fetchData(searchResultData: SearchResultModel) {
-    this.stateService.updateState(AppState.ProgressBar);
+    this.stateService.updateState(AppState.ProgressBar, AppState.ProductComponent);
     this.clearData();
 
     this.searchResultData = searchResultData;
