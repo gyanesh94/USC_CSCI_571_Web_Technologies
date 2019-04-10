@@ -26,15 +26,19 @@
 Create a webpage that allows you to search for products information using the *eBay APIs*, and the results will be displayed in a tabular format. The page will also provide product details, seller details and related products.
 
 ## To Run
-- Convert config.js.bak to config.js
-- Add Geonames and Ebay API Key
+- 
+- Convert [config.js.bak](./config.js.bak) to config.js
+  - Add all the keys mentioned in the config
+    - Can be found in the [description](./assignment_description/HW8_Description.pdf) how to get them.
+- Convert [app.config.ts.bak](./src/app/app.config.ts.bak) to app.config.ts
+  - Add all the parameters as mentioned
 
 ## Features
 
 - User can search products on Ebay from current location or a custom location
 - User can view searched products details including features, seller details, shipping details etc.
 - Shows user similar products based on the current product they are viewing
-- User can create their wish list which are accessible at all times even after the website is closed. This is done using LocalStorage.
 - Product Images are obtained using custom Google Search.
+- User can share the item details on Facebook
+- User can create their wish list which are accessible at all times even after the website is closed. This is done using LocalStorage.
 - Bootstrap is used to make the website responsive and mobile friendly.
-- User Can share the item details on Facebook
