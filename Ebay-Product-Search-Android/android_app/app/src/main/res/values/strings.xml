@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Ebay Product Search</string>
+
+    <!-- Main Activity -->
+    <string name="tab_text_1">Search</string>
+    <string name="tab_text_2">Wish List</string>
 </resources>
