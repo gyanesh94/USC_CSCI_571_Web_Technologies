@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3C00CD</color>
-    <color name="colorPrimaryDark">#240092</color>
+    <color name="colorPrimary">#6F3EEB</color>
+    <color name="colorPrimaryDark">#4117B4</color>
     <color name="colorAccent">#9256EE</color>
 
+    <color name="action_menu_text_color">#BD90F1</color>
+
     <color name="shopping_icon_color">#C6373E</color>
+
+    <color name="tab_selected_color">#F0C9F2</color>
+    <color name="tab_normal_color">#BC78E7</color>
 </resources>

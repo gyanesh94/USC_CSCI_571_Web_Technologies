@@ -1,8 +1,232 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <TextView
+        style="@style/SearchHeadingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/search_keyword" />
+
+    <EditText
+        android:id="@+id/search_keyword"
+        style="@style/SearchContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Search"/>
-</RelativeLayout>
+        android:layout_height="wrap_content"
+        android:autofillHints="false"
+        android:hint="@string/search_keyword_hint"
+        android:inputType="text"
+        android:maxLines="1" />
+
+    <TextView
+        android:id="@+id/search_keyword_error"
+        style="@style/SearchErrorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/search_keyword_error"
+        android:visibility="gone" />
+
+    <TextView
+        style="@style/SearchHeadingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/search_category" />
+
+    <Spinner
+        android:id="@+id/search_category"
+        style="@style/SearchContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/search_keyword_hint" />
+
+    <TextView
+        style="@style/SearchHeadingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/search_condition" />
+
+    <LinearLayout
+        style="@style/SearchContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/search_top_margin"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/search_condition_new"
+            style="@style/SearchNormalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_condition_new" />
+
+        <CheckBox
+            android:id="@+id/search_condition_used"
+            style="@style/SearchNormalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/search_checkbox_start_margin"
+            android:text="@string/search_condition_used" />
+
+        <CheckBox
+            android:id="@+id/search_condition_unspecified"
+            style="@style/SearchNormalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/search_checkbox_start_margin"
+            android:text="@string/search_condition_unspecified" />
+    </LinearLayout>
+
+    <TextView
+        style="@style/SearchHeadingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/search_shipping" />
+
+    <LinearLayout
+        style="@style/SearchContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/search_top_margin"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/search_shipping_local"
+            style="@style/SearchNormalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_shipping_local" />
+
+        <CheckBox
+            android:id="@+id/search_shipping_free"
+            style="@style/SearchNormalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/search_checkbox_start_margin"
+            android:text="@string/search_shipping_free" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/SearchContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/SearchHeadingOnlyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_enable_nearby_location" />
+
+        <CheckBox
+            android:id="@+id/search_enable_nearby_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/search_checkbox_start_margin" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/search_location_container"
+        style="@style/SearchContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/search_location_miles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="false"
+            android:hint="@string/search_location_miles_hint"
+            android:inputType="number"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/search_miles_error"
+            style="@style/SearchErrorTextOnly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_miles_error"
+            android:visibility="gone" />
+
+        <TextView
+            style="@style/SearchHeadingOnlyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/search_location_from" />
+
+        <RadioGroup
+            android:id="@+id/fromRadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/radio_here"
+                style="@style/SearchNormalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/search_location_current" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/search_location_zipcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="100dp"
+                    android:autofillHints="false"
+                    android:hint="@string/search_location_zipcode_hint"
+                    android:inputType="text"
+                    android:maxLines="1" />
+            </LinearLayout>
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/search_zipcode_error"
+            style="@style/SearchErrorTextOnly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_zipcode_error"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/search_button"
+            style="@style/SearchButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:text="@string/search_button" />
+
+        <Button
+            android:id="@+id/clear_button"
+            style="@style/SearchButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/search_clear_button" />
+
+    </LinearLayout>
+</LinearLayout>

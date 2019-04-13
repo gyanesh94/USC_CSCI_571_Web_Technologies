@@ -4,4 +4,42 @@
     <!-- Main Activity -->
     <string name="tab_text_1">Search</string>
     <string name="tab_text_2">Wish List</string>
+
+    <!-- Search -->
+    <string name="search_keyword">Keyword</string>
+    <string name="search_keyword_hint">Enter Keyword</string>
+    <string name="search_keyword_error">Please enter mandatory field</string>
+
+    <string name="search_category">Category</string>
+    <string-array name="search_categories">
+        <item>All</item>
+        <item>Art</item>
+        <item>Baby</item>
+        <item>Books</item>
+        <item>Clothing, Shoes &amp; Accessories</item>
+        <item>Computers, Tablets &amp; Networking</item>
+        <item>Health &amp; Beauty</item>
+        <item>Music</item>
+        <item>Video Games &amp; Consoles</item>
+    </string-array>
+
+    <string name="search_condition">Condition</string>
+    <string name="search_condition_new">New</string>
+    <string name="search_condition_used">Used</string>
+    <string name="search_condition_unspecified">Unspecified</string>
+
+    <string name="search_shipping">Shipping</string>
+    <string name="search_shipping_local">Local Pickup</string>
+    <string name="search_shipping_free">Free Shipping</string>
+
+    <string name="search_enable_nearby_location">Enable Nearby Search</string>
+    <string name="search_location_miles_hint">Miles from</string>
+    <string name="search_location_from">From</string>
+    <string name="search_location_current">Current Location</string>
+    <string name="search_location_zipcode_hint">zipcode</string>
+    <string name="search_miles_error">Please enter number greater than 0</string>
+    <string name="search_zipcode_error">Please enter mandatory field</string>
+
+    <string name="search_button">Search</string>
+    <string name="search_clear_button">Clear</string>
 </resources>
