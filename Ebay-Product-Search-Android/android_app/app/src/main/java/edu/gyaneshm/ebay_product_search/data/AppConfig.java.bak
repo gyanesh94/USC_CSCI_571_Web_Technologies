@@ -1,0 +1,15 @@
+package edu.gyaneshm.ebay_product_search.data;
+
+public class AppConfig {
+    public static String getApiEndPoint() {
+        return "";
+    }
+
+    public static String getFacebookAppId() {
+        return "";
+    }
+
+    public static String getFacebookRedirectUri() {
+        return "";
+    }
+}

@@ -11,21 +11,20 @@ import edu.gyaneshm.ebay_product_search.fragments.WishListFragment;
 
 public class MainActivity extends AppCompatActivity {
     private ViewPageAdapter mViewPageAdapter;
-    private ViewPager mViewPager;
-
-    private TabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mViewPager = findViewById(R.id.main_container);
-        setUpViewPager();
-        mViewPager.setAdapter(mViewPageAdapter);
+        getSupportActionBar().setElevation(0);
 
-        mTabLayout = findViewById(R.id.main_tabs);
-        mTabLayout.setupWithViewPager(mViewPager);
+        ViewPager viewPager = findViewById(R.id.main_container);
+        setUpViewPager();
+        viewPager.setAdapter(mViewPageAdapter);
+
+        TabLayout tabLayout = findViewById(R.id.main_tabs);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     private void setUpViewPager() {

@@ -113,7 +113,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:orientation="horizontal">
-
         <TextView
             style="@style/SearchHeadingOnlyText"
             android:layout_width="wrap_content"
@@ -132,7 +131,8 @@
         style="@style/SearchContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <EditText
             android:id="@+id/search_location_miles"
@@ -158,31 +158,42 @@
             android:layout_marginTop="15dp"
             android:text="@string/search_location_from" />
 
-        <RadioGroup
-            android:id="@+id/fromRadioGroup"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <RadioButton
-                android:id="@+id/radio_here"
-                style="@style/SearchNormalText"
+            <RadioGroup
+                android:id="@+id/search_from_radio_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/search_location_current" />
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/search_radio_here"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/search_radio_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RadioGroup>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <RadioButton
-                    android:id="@+id/radio_other"
+                <TextView
+                    style="@style/SearchNormalText"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/search_location_current" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/search_location_zipcode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -192,7 +203,9 @@
                     android:inputType="text"
                     android:maxLines="1" />
             </LinearLayout>
-        </RadioGroup>
+
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/search_zipcode_error"

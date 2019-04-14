@@ -33,3 +33,5 @@ output.json
 #NDK
 obj/
 .externalNativeBuild
+
+app/src/main/java/edu/gyaneshm/ebay_product_search/data/AppConfig.java
