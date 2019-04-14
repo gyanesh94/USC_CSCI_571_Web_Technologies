@@ -1,5 +1,6 @@
 package edu.gyaneshm.ebay_product_search.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,23 +16,29 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import edu.gyaneshm.ebay_product_search.R;
+import edu.gyaneshm.ebay_product_search.SearchResultActivity;
+import edu.gyaneshm.ebay_product_search.data.SearchResultData;
 import edu.gyaneshm.ebay_product_search.data.ZipcodeSuggestionsData;
+import edu.gyaneshm.ebay_product_search.models.SearchFormModel;
 
 public class SearchFragment extends Fragment {
     private EditText mKeywordEditText;
@@ -48,11 +55,10 @@ public class SearchFragment extends Fragment {
     private CheckBox mEnableSearchLocation;
     private LinearLayout mLocationContainer;
     private EditText mMilesEditText;
-    private TextView mMilesErrorTextView;
     private RadioGroup mZipcodePreferenceRadioGroup;
-    private RadioButton mZipcodeRadioButton;
     private AutoCompleteTextView mZipcodeAutoCompleteTextView;
     private TextView mZipcodeErrorTextView;
+    private String mCurrentLocationZipcode = null;
 
     private Button mSearchButton;
     private Button mClearButton;
@@ -83,7 +89,6 @@ public class SearchFragment extends Fragment {
         mEnableSearchLocation = view.findViewById(R.id.search_enable_nearby_location);
         mLocationContainer = view.findViewById(R.id.search_location_container);
         mMilesEditText = view.findViewById(R.id.search_location_miles);
-        mMilesErrorTextView = view.findViewById(R.id.search_miles_error);
         mZipcodePreferenceRadioGroup = view.findViewById(R.id.search_from_radio_group);
         mZipcodeAutoCompleteTextView = view.findViewById(R.id.search_location_zipcode);
         mZipcodeErrorTextView = view.findViewById(R.id.search_zipcode_error);
@@ -102,6 +107,7 @@ public class SearchFragment extends Fragment {
         super.onStop();
         if (mRequestQueue != null) {
             mRequestQueue.cancelAll("zipcode");
+            mRequestQueue.cancelAll("current_zipcode");
         }
     }
 
@@ -124,7 +130,6 @@ public class SearchFragment extends Fragment {
                 } else {
                     mLocationContainer.setVisibility(View.GONE);
                     mMilesEditText.setText("");
-                    mMilesErrorTextView.setVisibility(View.GONE);
                     mZipcodePreferenceRadioGroup.check(R.id.search_radio_here);
                 }
             }
@@ -218,6 +223,79 @@ public class SearchFragment extends Fragment {
     }
 
     private void setUpSearchButton() {
+        mSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean valid = true;
+                String keyword = mKeywordEditText.getText().toString();
+                if (
+                        keyword.length() == 0 ||
+                                keyword.matches("^ +$")
+                ) {
+                    valid = false;
+                    mKeywordErrorTextView.setVisibility(View.VISIBLE);
+                } else {
+                    mKeywordErrorTextView.setVisibility(View.GONE);
+                }
+
+                if (
+                        mEnableSearchLocation.isChecked() &&
+                                mZipcodePreferenceRadioGroup.getCheckedRadioButtonId() == R.id.search_radio_other &&
+                                !mZipcodeAutoCompleteTextView.getText().toString().matches("^\\d{5}$")
+                ) {
+                    valid = false;
+                    mZipcodeErrorTextView.setVisibility(View.VISIBLE);
+                } else {
+                    mZipcodeErrorTextView.setVisibility(View.GONE);
+                }
+
+                if (!valid) {
+                    return;
+                }
+
+                if (
+                        mEnableSearchLocation.isChecked() &&
+                                mZipcodePreferenceRadioGroup.getCheckedRadioButtonId() == R.id.search_radio_here &&
+                                mCurrentLocationZipcode == null
+                ) {
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                            Request.Method.GET,
+                            "http://ip-api.com/json",
+                            null,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    if (!response.has("zip")) {
+                                        showLocationFetchingError();
+                                        return;
+                                    }
+                                    try {
+                                        mCurrentLocationZipcode = response.getString("zip");
+                                        launchSearchResultsActivity();
+                                    } catch (Exception ex) {
+                                        showLocationFetchingError();
+                                    }
+                                }
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    showLocationFetchingError();
+                                }
+                            }
+                    );
+                    jsonObjectRequest.setTag("current_zipcode");
+
+                    if (mRequestQueue == null) {
+                        mRequestQueue = Volley.newRequestQueue(getContext());
+                    }
+                    mRequestQueue.add(jsonObjectRequest);
+                } else {
+                    launchSearchResultsActivity();
+                }
+
+            }
+        });
 
     }
 
@@ -241,10 +319,64 @@ public class SearchFragment extends Fragment {
                 mLocationContainer.setVisibility(View.GONE);
 
                 mMilesEditText.setText("");
-                mMilesErrorTextView.setVisibility(View.GONE);
-
                 mZipcodePreferenceRadioGroup.check(R.id.search_radio_here);
             }
         });
+    }
+
+    private void showLocationFetchingError() {
+        Toast.makeText(getContext(), getString(R.string.search_fetching_location_error), Toast.LENGTH_SHORT).show();
+    }
+
+    private void launchSearchResultsActivity() {
+        SearchFormModel searchFormData = new SearchFormModel();
+
+        searchFormData.setKeyword(mKeywordEditText.getText().toString());
+
+        int categoryPosition = mCategorySpinner.getSelectedItemPosition();
+        if (categoryPosition == 0) {
+            searchFormData.setCategory("all");
+        } else {
+            searchFormData.setCategory(getResources().getStringArray(R.array.search_categories_id)[categoryPosition]);
+        }
+
+        HashMap<String, Boolean> condition = new HashMap<>();
+        condition.put("New", mConditionNewCheckbox.isChecked());
+        condition.put("Used", mConditionUsedCheckbox.isChecked());
+        condition.put("Unspecified", mConditionUnspecifiedCheckbox.isChecked());
+        searchFormData.setCondition(condition);
+
+        HashMap<String, Boolean> shipping = new HashMap<>();
+        shipping.put("localPickupOnly", mShippingLocalCheckbox.isChecked());
+        shipping.put("freeShipping", mShippingFreeCheckbox.isChecked());
+        searchFormData.setShipping(shipping);
+
+
+        if (mEnableSearchLocation.isChecked()) {
+            searchFormData.setUseLocation(true);
+            if (mMilesEditText.getText().toString().equals("")) {
+                searchFormData.setDistance("10");
+            } else {
+                searchFormData.setDistance(mMilesEditText.getText().toString());
+            }
+            switch (mZipcodePreferenceRadioGroup.getCheckedRadioButtonId()) {
+                case R.id.search_radio_here:
+                    searchFormData.setHere("here");
+                    searchFormData.setZipcode(mCurrentLocationZipcode);
+                    break;
+                case R.id.search_radio_other:
+                    searchFormData.setHere("other");
+                    searchFormData.setZipcode(mZipcodeAutoCompleteTextView.getText().toString());
+                    break;
+            }
+        } else {
+            searchFormData.setUseLocation(false);
+        }
+
+        SearchResultData searchResultData = SearchResultData.getInstance();
+        searchResultData.setSearchFormData(searchFormData);
+
+        Intent intent = new Intent(getContext(), SearchResultActivity.class);
+        startActivity(intent);
     }
 }

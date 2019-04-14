@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="search_categories_id">
+    <string-array name="search_categories">
+        <item>All</item>
+        <item>Art</item>
+        <item>Baby</item>
+        <item>Books</item>
+        <item>Clothing, Shoes &amp; Accessories</item>
+        <item>Computers, Tablets &amp; Networking</item>
+        <item>Health &amp; Beauty</item>
+        <item>Music</item>
+        <item>Video Games &amp; Consoles</item>
+    </string-array>
+
+    <string-array name="search_categories_id">
         <item>0</item>
         <item>550</item>
         <item>2984</item>
@@ -10,5 +22,5 @@
         <item>26395</item>
         <item>11233</item>
         <item>1249</item>
-    </array>
+    </string-array>
 </resources>

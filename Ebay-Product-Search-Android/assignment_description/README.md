@@ -387,6 +387,9 @@ This homework is a mobile app version of Homework 8. In this exercise, you will 
 - Working with the AutoCompleteTextView to show the suggestions might be a little challenging.
 - This tutorial goes over how it is done so that you get an idea of how to go about it.
   - https://www.truiton.com/2018/06/android-autocompletetextview-suggestions-from-webservice-call/
+  - https://stackoverflow.com/questions/14618632/how-to-add-dynamic-image-with-horizontal-scrollview-listview
+  - https://www.tutorialspoint.com/how-to-implement-horizontalscrollview-like-gallery-in-android
+  - https://tutorialwing.com/create-android-horizontalscrollview-programmatically-android/
 
 
 
