@@ -10,4 +10,11 @@ public class Utils {
             return String.format(Locale.getDefault(), "%.2f", number);
         }
     }
+
+    public static String truncateString(String str, int len) {
+        if (str.length() > len) {
+            str = str.substring(0, len) + "...";
+        }
+        return str;
+    }
 }

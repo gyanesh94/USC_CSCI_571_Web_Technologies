@@ -25,6 +25,9 @@ public class SearchResultModel {
             sellerName = data.getString("sellerName");
             price = data.getDouble("price");
             shipping = new ShippingModel(data.getJSONObject("shipping"));
+            if (data.has("inWishList")) {
+                inWishList = data.getBoolean("inWishList");
+            }
         } catch (Exception ex) {
         }
     }
@@ -37,17 +40,14 @@ public class SearchResultModel {
             obj.put("title", title);
             obj.put("productId", productId);
             obj.put("condition", condition);
-            obj.put("zipcode", zipcode);
-            obj.put("sellerName", sellerName);
             obj.put("price", price);
             obj.put("shipping", shipping.toJSONObject());
+            obj.put("zipcode", zipcode);
+            obj.put("sellerName", sellerName);
+            obj.put("inWishList", inWishList);
         } catch (Exception ex) {
         }
         return obj;
-    }
-
-    public String getIndex() {
-        return index;
     }
 
     public String getImage() {
@@ -76,10 +76,6 @@ public class SearchResultModel {
 
     public String getZipcode() {
         return zipcode;
-    }
-
-    public String getSellerName() {
-        return sellerName;
     }
 
     public boolean isInWishList() {

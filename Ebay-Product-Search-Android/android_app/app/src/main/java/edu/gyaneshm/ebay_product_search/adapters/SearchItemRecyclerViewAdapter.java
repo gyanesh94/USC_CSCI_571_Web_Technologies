@@ -57,7 +57,7 @@ public class SearchItemRecyclerViewAdapter extends RecyclerView.Adapter<SearchIt
         if (price == null) {
             holder.mPriceTextView.setText(mContext.getString(R.string.n_a));
         } else {
-            holder.mPriceTextView.setText(mContext.getString(R.string.card_view_price, Utils.formatPriceToString(price)));
+            holder.mPriceTextView.setText(mContext.getString(R.string.price, Utils.formatPriceToString(price)));
         }
 
         Double shippingCost = searchResult.getShipping().getCost();
@@ -66,7 +66,7 @@ public class SearchItemRecyclerViewAdapter extends RecyclerView.Adapter<SearchIt
         } else if (shippingCost == 0) {
             holder.mShippingTextView.setText(mContext.getString(R.string.free_shipping));
         } else {
-            holder.mShippingTextView.setText(mContext.getString(R.string.card_view_price, Utils.formatPriceToString(shippingCost)));
+            holder.mShippingTextView.setText(mContext.getString(R.string.price, Utils.formatPriceToString(shippingCost)));
         }
 
         String condition = searchResult.getCondition();

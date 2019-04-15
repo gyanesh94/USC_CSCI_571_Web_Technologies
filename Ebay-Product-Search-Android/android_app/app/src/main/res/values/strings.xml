@@ -43,8 +43,13 @@
 
     <!-- Card View -->
     <string name="card_view_zipcode">Zip: %s</string>
-    <string name="card_view_price">$%s</string>
 
+    <!-- Wish List -->
+    <string name="wish_list_no_records">No Wishes</string>
+    <string name="wish_list_total_items">Wishlist total(%d items):</string>
+
+
+    <string name="price">$%s</string>
     <string name="free_shipping">Free Shipping</string>
     <string name="n_a">N/A</string>
 </resources>

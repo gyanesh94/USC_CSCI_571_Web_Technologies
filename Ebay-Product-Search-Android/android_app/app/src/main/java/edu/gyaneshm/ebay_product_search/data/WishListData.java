@@ -2,6 +2,7 @@ package edu.gyaneshm.ebay_product_search.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,6 +13,7 @@ import edu.gyaneshm.ebay_product_search.EbayProductSearchApplication;
 import edu.gyaneshm.ebay_product_search.R;
 import edu.gyaneshm.ebay_product_search.listeners.WishListChangeListener;
 import edu.gyaneshm.ebay_product_search.models.SearchResultModel;
+import edu.gyaneshm.ebay_product_search.shared.Utils;
 
 public class WishListData {
     private static WishListData mWishListData = null;
@@ -75,6 +77,7 @@ public class WishListData {
         wishList.add(item);
         setWishListToSharedPreference();
         notifyWishListChangeWithPosition(position);
+        showToast(item.getTitle(), true);
     }
 
     public void removeItemFromWishList(SearchResultModel item) {
@@ -89,6 +92,7 @@ public class WishListData {
         wishList.remove(item);
         setWishListToSharedPreference();
         notifyWishListChangeWithPosition(position);
+        showToast(item.getTitle(), false);
     }
 
     public ArrayList<SearchResultModel> getWishList() {
@@ -138,4 +142,21 @@ public class WishListData {
         }
         return false;
     }
+
+    private void showToast(String title, boolean added) {
+        if (added) {
+            title = Utils.truncateString(title, 65);
+            title += " was added to wish list";
+        } else {
+            title = Utils.truncateString(title, 60);
+            title += " was removed from wish list";
+        }
+
+        Toast.makeText(
+                EbayProductSearchApplication.getInstance().getApplicationContext(),
+                title,
+                Toast.LENGTH_SHORT
+        ).show();
+    }
+
 }
