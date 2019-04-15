@@ -65,7 +65,7 @@
                 android:layout_below="@id/card_item_product_title_container"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="center"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="5dp"
                 android:adjustViewBounds="true"
                 android:background="@null"
                 android:paddingHorizontal="5dp"

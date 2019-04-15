@@ -15,6 +15,8 @@ import java.util.ArrayList;
 
 import edu.gyaneshm.ebay_product_search.adapters.SearchItemRecyclerViewAdapter;
 import edu.gyaneshm.ebay_product_search.data.SearchResultData;
+import edu.gyaneshm.ebay_product_search.data.WishListData;
+import edu.gyaneshm.ebay_product_search.listeners.WishListChangeListener;
 import edu.gyaneshm.ebay_product_search.models.SearchFormModel;
 import edu.gyaneshm.ebay_product_search.models.SearchResultModel;
 import edu.gyaneshm.ebay_product_search.listeners.DataFetchingListener;
@@ -30,10 +32,25 @@ public class SearchResultActivity extends AppCompatActivity {
 
     private SearchResultData mSearchResultData;
 
-    private DataFetchingListener mCallback = new DataFetchingListener() {
+    private SearchItemRecyclerViewAdapter searchItemRecyclerViewAdapter = null;
+
+    private DataFetchingListener dataFetchingListener = new DataFetchingListener() {
         @Override
         public void dataSuccessFullyFetched() {
             initiate();
+        }
+    };
+
+    private WishListChangeListener wishListChangeListener = new WishListChangeListener() {
+        @Override
+        public void wishListItemChanged(Integer position) {
+            if(searchItemRecyclerViewAdapter != null) {
+                if (position != null) {
+                    searchItemRecyclerViewAdapter.notifyItemChanged(position);
+                } else {
+                    searchItemRecyclerViewAdapter.notifyDataSetChanged();
+                }
+            }
         }
     };
 
@@ -53,7 +70,9 @@ public class SearchResultActivity extends AppCompatActivity {
         mErrorTextView = findViewById(R.id.search_results_error);
 
         mSearchResultData = SearchResultData.getInstance();
-        mSearchResultData.registerCallback(mCallback);
+        mSearchResultData.registerCallback(dataFetchingListener);
+
+        WishListData.getInstance().registerCallback(wishListChangeListener);
 
         initiate();
     }
@@ -61,8 +80,9 @@ public class SearchResultActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mSearchResultData.unregisterCallback(mCallback);
+        mSearchResultData.unregisterCallback(dataFetchingListener);
         mSearchResultData.cancelRequest();
+        WishListData.getInstance().unregisterCallback(wishListChangeListener);
     }
 
     @Override
@@ -110,8 +130,8 @@ public class SearchResultActivity extends AppCompatActivity {
         mSearchItemsRecyclerView.setHasFixedSize(true);
         mSearchItemsRecyclerView.setLayoutManager(gridLayoutManager);
 
-        SearchItemRecyclerViewAdapter adapter = new SearchItemRecyclerViewAdapter(this, searchResultModels);
-        mSearchItemsRecyclerView.setAdapter(adapter);
+        searchItemRecyclerViewAdapter = new SearchItemRecyclerViewAdapter(this, searchResultModels);
+        mSearchItemsRecyclerView.setAdapter(searchItemRecyclerViewAdapter);
 
         SearchFormModel searchFormModel = mSearchResultData.getSearchFormData();
 

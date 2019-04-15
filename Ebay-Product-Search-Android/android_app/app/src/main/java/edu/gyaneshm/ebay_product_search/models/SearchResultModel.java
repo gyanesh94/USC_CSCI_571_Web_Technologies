@@ -29,6 +29,23 @@ public class SearchResultModel {
         }
     }
 
+    public JSONObject toJSONObject() {
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("index", index);
+            obj.put("image", image);
+            obj.put("title", title);
+            obj.put("productId", productId);
+            obj.put("condition", condition);
+            obj.put("zipcode", zipcode);
+            obj.put("sellerName", sellerName);
+            obj.put("price", price);
+            obj.put("shipping", shipping.toJSONObject());
+        } catch (Exception ex) {
+        }
+        return obj;
+    }
+
     public String getIndex() {
         return index;
     }
@@ -67,6 +84,10 @@ public class SearchResultModel {
 
     public boolean isInWishList() {
         return inWishList;
+    }
+
+    public void setInWishList(boolean inWishList) {
+        this.inWishList = inWishList;
     }
 
     @Override

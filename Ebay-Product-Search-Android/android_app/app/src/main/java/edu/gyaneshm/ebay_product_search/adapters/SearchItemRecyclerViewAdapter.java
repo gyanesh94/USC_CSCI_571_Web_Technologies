@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import edu.gyaneshm.ebay_product_search.R;
+import edu.gyaneshm.ebay_product_search.data.WishListData;
 import edu.gyaneshm.ebay_product_search.models.SearchResultModel;
 import edu.gyaneshm.ebay_product_search.shared.Logger;
 import edu.gyaneshm.ebay_product_search.shared.Utils;
@@ -99,12 +100,6 @@ public class SearchItemRecyclerViewAdapter extends RecyclerView.Adapter<SearchIt
         } else {
             holder.mCartImageButton.setImageDrawable(mContext.getDrawable(R.drawable.cart_add));
         }
-        holder.mCartImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Logger.getInstance().logError(String.valueOf(position));
-            }
-        });
     }
 
     @Override
@@ -122,7 +117,7 @@ public class SearchItemRecyclerViewAdapter extends RecyclerView.Adapter<SearchIt
         ImageButton mItemImageButton;
         ImageButton mCartImageButton;
 
-        public ItemViewHolder(View itemView) {
+        ItemViewHolder(View itemView) {
             super(itemView);
 
             mTitleTextView = itemView.findViewById(R.id.card_item_product_title);
@@ -132,6 +127,18 @@ public class SearchItemRecyclerViewAdapter extends RecyclerView.Adapter<SearchIt
             mConditionTextView = itemView.findViewById(R.id.card_item_product_condition);
             mItemImageButton = itemView.findViewById(R.id.card_item_product_image);
             mCartImageButton = itemView.findViewById(R.id.card_item_cart);
+
+            mCartImageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SearchResultModel item = mSearchResults.get(getAdapterPosition());
+                    if (item.isInWishList()) {
+                        WishListData.getInstance().removeItemFromWishList(item, getAdapterPosition());
+                    } else {
+                        WishListData.getInstance().addItemToWishList(item, getAdapterPosition());
+                    }
+                }
+            });
         }
     }
 }

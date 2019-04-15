@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Ebay Product Search</string>
 
+    <!-- Shared Preference -->
+    <string name="shared_preference_file_key">edu.gyaneshm.ebay_product_search.shared_preference</string>
+
     <!-- Main Activity -->
     <string name="tab_text_1">Search</string>
     <string name="tab_text_2">Wish List</string>

@@ -72,7 +72,9 @@ public class SearchResultData {
                             for (int i = 0; i < response.length(); i++) {
                                 try {
                                     JSONObject result = response.getJSONObject(i);
-                                    searchResults.add(new SearchResultModel(result));
+                                    SearchResultModel item = new SearchResultModel(result);
+                                    item.setInWishList(WishListData.getInstance().itemInWishList(item));
+                                    searchResults.add(item);
                                 } catch (Exception e) {
                                     errorMessage = "No Records.";
                                     break;

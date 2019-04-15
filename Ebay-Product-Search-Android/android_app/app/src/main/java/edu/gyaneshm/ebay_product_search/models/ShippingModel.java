@@ -22,6 +22,20 @@ public class ShippingModel {
         }
     }
 
+    public JSONObject toJSONObject() {
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("cost", cost);
+            obj.put("locations", locations);
+            obj.put("handlingTime", handlingTime);
+            obj.put("expedited", expedited);
+            obj.put("oneDay", oneDay);
+            obj.put("returnAccepted", returnAccepted);
+        } catch (Exception ex) {
+        }
+        return obj;
+    }
+
     public Double getCost() {
         return cost;
     }
