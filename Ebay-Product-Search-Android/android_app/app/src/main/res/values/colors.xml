@@ -10,4 +10,12 @@
 
     <color name="tab_selected_color">#F0C9F2</color>
     <color name="tab_normal_color">#BC78E7</color>
+
+    <color name="search_results_total_items_text_color">#D37159</color>
+
+    <color name="results_price_color">#421296</color>
+    <color name="results_other_text_color">#949595</color>
+
+    <color name="cart_add_color">@color/results_other_text_color</color>
+    <color name="cart_remove_color">@color/search_results_total_items_text_color</color>
 </resources>

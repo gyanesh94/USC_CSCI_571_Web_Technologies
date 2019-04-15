@@ -35,4 +35,13 @@
 
     <!-- Search Results -->
     <string name="search_results_title">Search Results</string>
+    <string name="search_results_searching_products">Searching Products&#8230;</string>
+    <string name="search_results_total_items">Showing &lt;font color=\"%s\">%d&lt;/font> results for &lt;font color=\"%s\">%s&lt;/font></string>
+
+    <!-- Card View -->
+    <string name="card_view_zipcode">Zip: %s</string>
+    <string name="card_view_price">$%s</string>
+
+    <string name="free_shipping">Free Shipping</string>
+    <string name="n_a">N/A</string>
 </resources>

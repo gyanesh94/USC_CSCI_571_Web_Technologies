@@ -61,4 +61,8 @@ public class SearchFormModel {
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
     }
+
+    public String getKeyword() {
+        return keyword;
+    }
 }

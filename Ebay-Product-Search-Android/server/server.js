@@ -27,10 +27,19 @@ app.get("/api/search", (req, res) => {
 
   let filterIndex = 0;
 
-  url = url + "&buyerPostalCode=" + data.zipcode;
-  url = url + `&itemFilter(${filterIndex}).name=MaxDistance`;
-  url = url + `&itemFilter(${filterIndex}).value=` + data.distance;
-  filterIndex++;
+  if (data.hasOwnProperty("useLocation")) {
+    if (data.useLocation) {
+      url = url + "&buyerPostalCode=" + data.zipcode;
+      url = url + `&itemFilter(${filterIndex}).name=MaxDistance`;
+      url = url + `&itemFilter(${filterIndex}).value=` + data.distance;
+      filterIndex++;
+    }
+  } else {
+    url = url + "&buyerPostalCode=" + data.zipcode;
+    url = url + `&itemFilter(${filterIndex}).name=MaxDistance`;
+    url = url + `&itemFilter(${filterIndex}).value=` + data.distance;
+    filterIndex++;
+  }
 
   url = url + `&itemFilter(${filterIndex}).name=HideDuplicateItems`;
   url = url + `&itemFilter(${filterIndex}).value=True`;
@@ -111,6 +120,7 @@ app.get("/api/search", (req, res) => {
 
       const items = data.searchResult[0].item;
       const searchResultModel = {
+        condition: null,
         image: null,
         inWishList: false,
         index: "",
@@ -143,6 +153,13 @@ app.get("/api/search", (req, res) => {
           resultItem.title = item.title[0];
         }
 
+        if (item.hasOwnProperty("condition") && item.condition.length > 0) {
+            let condition = item.condition[0];
+            if (condition.hasOwnProperty("conditionDisplayName") && condition.conditionDisplayName.length > 0) {
+                resultItem.condition = condition.conditionDisplayName[0];
+            }
+        }
+
         if (item.hasOwnProperty("sellingStatus") && item.sellingStatus.length > 0) {
           let sellingStatus = item.sellingStatus[0];
           if (sellingStatus.hasOwnProperty("currentPrice") && sellingStatus.currentPrice.length > 0) {
@@ -171,12 +188,7 @@ app.get("/api/search", (req, res) => {
           if (shippingInfo.hasOwnProperty("shippingServiceCost") && shippingInfo.shippingServiceCost.length > 0) {
             const shippingServiceCost = shippingInfo.shippingServiceCost[0];
             if (shippingServiceCost.hasOwnProperty("@currencyId") && shippingServiceCost.hasOwnProperty("__value__")) {
-              const value = Number(shippingServiceCost.__value__);
-              if (value === 0) {
-                shipping.cost = "Free Shipping";
-              } else {
-                shipping.cost = "$" + value.toFixed(2);
-              }
+              shipping.cost = Number(shippingServiceCost.__value__);
             }
           }
 
