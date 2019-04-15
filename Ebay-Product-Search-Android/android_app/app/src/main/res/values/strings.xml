@@ -48,6 +48,12 @@
     <string name="wish_list_no_records">No Wishes</string>
     <string name="wish_list_total_items">Wishlist total(%d items):</string>
 
+    <!-- Product Activity -->
+    <string name="product_tab_title_product">Product</string>
+    <string name="product_tab_title_shipping">Shipping</string>
+    <string name="product_tab_title_photos">Photos</string>
+    <string name="product_tab_title_similar">Similar</string>
+
 
     <string name="price">$%s</string>
     <string name="free_shipping">Free Shipping</string>
