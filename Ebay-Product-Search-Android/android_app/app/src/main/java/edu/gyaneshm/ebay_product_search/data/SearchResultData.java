@@ -1,6 +1,5 @@
 package edu.gyaneshm.ebay_product_search.data;
 
-import android.content.Context;
 import android.net.Uri;
 
 import com.android.volley.Request;
@@ -16,6 +15,7 @@ import org.json.JSONObject;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
+import edu.gyaneshm.ebay_product_search.EbayProductSearchApplication;
 import edu.gyaneshm.ebay_product_search.models.SearchFormModel;
 import edu.gyaneshm.ebay_product_search.models.SearchResultModel;
 import edu.gyaneshm.ebay_product_search.listeners.DataFetchingListener;
@@ -34,17 +34,6 @@ public class SearchResultData {
     private RequestQueue mRequestQueue = null;
 
     private SearchResultData() {
-    }
-
-    private SearchResultData(Context context) {
-        mRequestQueue = Volley.newRequestQueue(context.getApplicationContext());
-    }
-
-    public static SearchResultData getInstance(Context context) {
-        if (mSearchResultData == null) {
-            mSearchResultData = new SearchResultData(context);
-        }
-        return mSearchResultData;
     }
 
     public static SearchResultData getInstance() {
@@ -110,6 +99,9 @@ public class SearchResultData {
         );
         jsonArrayRequest.setTag("results");
 
+        if (mRequestQueue == null) {
+            mRequestQueue = Volley.newRequestQueue(EbayProductSearchApplication.getInstance().getApplicationContext());
+        }
         mRequestQueue.add(jsonArrayRequest);
     }
 
@@ -140,6 +132,12 @@ public class SearchResultData {
     private void sendNotification() {
         for (int i = 0; i < mCallbacks.size(); i++) {
             mCallbacks.get(i).dataSuccessFullyFetched();
+        }
+    }
+
+    public void cancelRequest() {
+        if (mRequestQueue != null) {
+            mRequestQueue.cancelAll("results");
         }
     }
 }

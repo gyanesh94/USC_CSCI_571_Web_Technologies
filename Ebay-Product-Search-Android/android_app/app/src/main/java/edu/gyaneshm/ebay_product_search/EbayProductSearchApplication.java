@@ -2,13 +2,16 @@ package edu.gyaneshm.ebay_product_search;
 
 import android.app.Application;
 
-import edu.gyaneshm.ebay_product_search.data.SearchResultData;
-
 public class EbayProductSearchApplication extends Application {
+    public static EbayProductSearchApplication ebayProductSearchApplication;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        SearchResultData.getInstance(this);
+        ebayProductSearchApplication = this;
+    }
+
+    public static EbayProductSearchApplication getInstance() {
+        return ebayProductSearchApplication;
     }
 }

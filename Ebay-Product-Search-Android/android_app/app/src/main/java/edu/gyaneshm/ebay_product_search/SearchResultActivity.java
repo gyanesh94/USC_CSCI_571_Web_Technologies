@@ -62,6 +62,7 @@ public class SearchResultActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mSearchResultData.unregisterCallback(mCallback);
+        mSearchResultData.cancelRequest();
     }
 
     @Override
