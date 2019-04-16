@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import edu.gyaneshm.ebay_product_search.R;
+import edu.gyaneshm.ebay_product_search.shared.Utils;
 
 public class PhotosFragment extends Fragment {
 

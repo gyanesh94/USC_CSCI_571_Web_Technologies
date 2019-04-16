@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -39,6 +38,7 @@ import edu.gyaneshm.ebay_product_search.SearchResultActivity;
 import edu.gyaneshm.ebay_product_search.data.SearchResultData;
 import edu.gyaneshm.ebay_product_search.data.ZipcodeSuggestionsData;
 import edu.gyaneshm.ebay_product_search.models.SearchFormModel;
+import edu.gyaneshm.ebay_product_search.shared.Utils;
 
 public class SearchFragment extends Fragment {
     private EditText mKeywordEditText;
@@ -325,7 +325,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void showLocationFetchingError() {
-        Toast.makeText(getContext(), getString(R.string.search_fetching_location_error), Toast.LENGTH_SHORT).show();
+        Utils.showToast(R.string.search_fetching_location_error);
     }
 
     private void launchSearchResultsActivity() {

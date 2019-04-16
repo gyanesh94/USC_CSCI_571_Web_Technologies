@@ -46,6 +46,12 @@ public class ProductDetailActivity extends AppCompatActivity {
         initiateDataFetching();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mProductDataInstance.cancelRequest();
+    }
+
     private void setUpActionBar() {
         SearchResultModel item = mProductDataInstance.getItem();
         mActionBar.setTitle(Utils.truncateString(item.getTitle(), 25));

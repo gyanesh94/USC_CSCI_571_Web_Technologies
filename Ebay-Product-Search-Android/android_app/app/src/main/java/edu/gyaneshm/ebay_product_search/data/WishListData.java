@@ -152,11 +152,7 @@ public class WishListData {
             title += " was removed from wish list";
         }
 
-        Toast.makeText(
-                EbayProductSearchApplication.getInstance().getApplicationContext(),
-                title,
-                Toast.LENGTH_SHORT
-        ).show();
+        Utils.showToast(title);
     }
 
 }

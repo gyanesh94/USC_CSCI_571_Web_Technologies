@@ -2,6 +2,7 @@ package edu.gyaneshm.ebay_product_search.data;
 
 import android.net.Uri;
 
+import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -78,7 +79,9 @@ public class ProductData {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        if (error != null && error.networkResponse != null && error.networkResponse.data != null) {
+                        if (error instanceof NetworkError) {
+                            productDetailError = Utils.getString(R.string.not_connected_to_internet);
+                        } else if (error != null && error.networkResponse != null && error.networkResponse.data != null) {
                             productDetailError = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                         } else {
                             productDetailError = Utils.getString(R.string.no_response_from_server);
@@ -129,7 +132,9 @@ public class ProductData {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        if (error != null && error.networkResponse != null && error.networkResponse.data != null) {
+                        if (error instanceof NetworkError) {
+                            googlePhotosError = Utils.getString(R.string.not_connected_to_internet);
+                        } else if (error != null && error.networkResponse != null && error.networkResponse.data != null) {
                             googlePhotosError = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                         } else {
                             googlePhotosError = Utils.getString(R.string.no_response_from_server);
@@ -182,7 +187,9 @@ public class ProductData {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        if (error != null && error.networkResponse != null && error.networkResponse.data != null) {
+                        if (error instanceof NetworkError) {
+                            similarItemsError = Utils.getString(R.string.not_connected_to_internet);
+                        } else if (error != null && error.networkResponse != null && error.networkResponse.data != null) {
                             similarItemsError = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                         } else {
                             similarItemsError = Utils.getString(R.string.no_response_from_server);

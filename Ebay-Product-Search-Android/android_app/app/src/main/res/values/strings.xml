@@ -63,5 +63,6 @@
     <string name="free_shipping">Free Shipping</string>
     <string name="n_a">N/A</string>
     <string name="no_response_from_server">No response from server</string>
+    <string name="not_connected_to_internet">Not connected to internet</string>
     <string name="horizontal_ellipsis">&#8230;</string>
 </resources>

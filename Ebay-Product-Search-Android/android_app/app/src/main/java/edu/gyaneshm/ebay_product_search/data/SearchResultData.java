@@ -2,6 +2,7 @@ package edu.gyaneshm.ebay_product_search.data;
 
 import android.net.Uri;
 
+import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -16,9 +17,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import edu.gyaneshm.ebay_product_search.EbayProductSearchApplication;
+import edu.gyaneshm.ebay_product_search.R;
 import edu.gyaneshm.ebay_product_search.models.SearchFormModel;
 import edu.gyaneshm.ebay_product_search.models.SearchResultModel;
 import edu.gyaneshm.ebay_product_search.listeners.DataFetchingListener;
+import edu.gyaneshm.ebay_product_search.shared.Utils;
 
 public class SearchResultData {
     private static SearchResultData mSearchResultData = null;
@@ -88,10 +91,12 @@ public class SearchResultData {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        if (error != null && error.networkResponse != null && error.networkResponse.data != null) {
+                        if (error instanceof NetworkError) {
+                            errorMessage = Utils.getString(R.string.not_connected_to_internet);
+                        } else if (error != null && error.networkResponse != null && error.networkResponse.data != null) {
                             errorMessage = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                         } else {
-                            errorMessage = "No Records.";
+                            errorMessage = Utils.getString(R.string.search_results_no_records);
                         }
 
                         dataFetched = true;

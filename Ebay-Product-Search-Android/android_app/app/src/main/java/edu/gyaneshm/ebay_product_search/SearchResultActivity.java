@@ -23,6 +23,7 @@ import edu.gyaneshm.ebay_product_search.listeners.WishListChangeListener;
 import edu.gyaneshm.ebay_product_search.models.SearchFormModel;
 import edu.gyaneshm.ebay_product_search.models.SearchResultModel;
 import edu.gyaneshm.ebay_product_search.listeners.DataFetchingListener;
+import edu.gyaneshm.ebay_product_search.shared.Utils;
 
 public class SearchResultActivity extends AppCompatActivity {
     private ActionBar mActionBar;
@@ -138,7 +139,7 @@ public class SearchResultActivity extends AppCompatActivity {
             return;
         }
 
-        mErrorTextView.setText(errorMessage);
+        Utils.showToast(errorMessage);
         mErrorTextView.setVisibility(View.VISIBLE);
     }
 
