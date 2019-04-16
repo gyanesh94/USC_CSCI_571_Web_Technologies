@@ -21,6 +21,7 @@ import edu.gyaneshm.ebay_product_search.R;
 import edu.gyaneshm.ebay_product_search.listeners.DataFetchingListener;
 import edu.gyaneshm.ebay_product_search.models.ProductModel;
 import edu.gyaneshm.ebay_product_search.models.SearchResultModel;
+import edu.gyaneshm.ebay_product_search.models.SimilarProductModel;
 import edu.gyaneshm.ebay_product_search.shared.Logger;
 import edu.gyaneshm.ebay_product_search.shared.Utils;
 
@@ -39,6 +40,9 @@ public class ProductData {
     private String similarItemsError = null;
 
     private ProductModel mProductDetail;
+    private ArrayList<String> mGooglePhotos;
+    private ArrayList<SimilarProductModel> mSimilarItems;
+
     private ArrayList<DataFetchingListener> mCallbacks = new ArrayList<>();
 
     private ProductData() {
@@ -66,6 +70,7 @@ public class ProductData {
                     @Override
                     public void onResponse(JSONObject response) {
                         mProductDetail = new ProductModel(response);
+                        Logger.getInstance().logError(mProductDetail.toString());
                         productDetailFetched = true;
                         sendNotification();
                     }
@@ -92,23 +97,117 @@ public class ProductData {
     }
 
     public void fetchGooglePhotos() {
+        String apiEndPoint = AppConfig.getApiEndPoint() + "/googleImages";
+        Uri.Builder builder = Uri.parse(apiEndPoint).buildUpon();
+        builder.appendQueryParameter("query", item.getTitle());
 
+        String finalUrl = builder.build().toString();
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                finalUrl,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        if (response.length() == 0) {
+                            googlePhotosError = Utils.getString(R.string.product_tab_no_images);
+                        } else {
+                            try {
+                                mGooglePhotos = new ArrayList<>();
+                                for (int i = 0; i < response.length(); i++) {
+                                    mGooglePhotos.add(response.getString(i));
+                                }
+                            } catch (Exception ex) {
+                                googlePhotosError = Utils.getString(R.string.product_tab_no_images);
+                            }
+                        }
+                        googlePhotosFetched = true;
+                        sendNotification();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error != null && error.networkResponse != null && error.networkResponse.data != null) {
+                            googlePhotosError = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                        } else {
+                            googlePhotosError = Utils.getString(R.string.no_response_from_server);
+                        }
+                        googlePhotosFetched = true;
+                        sendNotification();
+                    }
+                }
+        );
+        jsonArrayRequest.setTag("googleImages");
+
+        if (mRequestQueue == null) {
+            mRequestQueue = Volley.newRequestQueue(EbayProductSearchApplication.getInstance().getApplicationContext());
+        }
+        mRequestQueue.add(jsonArrayRequest);
     }
 
     public void fetchSimilarItems() {
+        String apiEndPoint = AppConfig.getApiEndPoint() + "/similarProduct";
+        Uri.Builder builder = Uri.parse(apiEndPoint).buildUpon();
+        builder.appendQueryParameter("productId", item.getProductId());
 
+        String finalUrl = builder.build().toString();
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                finalUrl,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        if (response.length() == 0) {
+                            similarItemsError = Utils.getString(R.string.product_tab_no_similar_items);
+                        } else {
+                            try {
+                                mSimilarItems = new ArrayList<>();
+                                for (int i = 0; i < response.length(); i++) {
+                                    SimilarProductModel item = new SimilarProductModel(response.getJSONObject(i));
+                                    mSimilarItems.add(item);
+                                }
+                            } catch (Exception ex) {
+                                similarItemsError = Utils.getString(R.string.product_tab_no_similar_items);
+                            }
+                        }
+                        similarItemsFetched = true;
+                        sendNotification();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error != null && error.networkResponse != null && error.networkResponse.data != null) {
+                            similarItemsError = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                        } else {
+                            similarItemsError = Utils.getString(R.string.no_response_from_server);
+                        }
+                        similarItemsFetched = true;
+                        sendNotification();
+                    }
+                }
+        );
+        jsonArrayRequest.setTag("similarItems");
+
+        if (mRequestQueue == null) {
+            mRequestQueue = Volley.newRequestQueue(EbayProductSearchApplication.getInstance().getApplicationContext());
+        }
+        mRequestQueue.add(jsonArrayRequest);
     }
 
     public void setItem(SearchResultModel item) {
-        if (this.item == null || !item.getProductId().equals(this.item.getProductId())) {
-            this.item = item;
-            productDetailFetched = false;
-            googlePhotosFetched = false;
-            similarItemsFetched = false;
-            productDetailError = null;
-            googlePhotosError = null;
-            similarItemsError = null;
-        }
+        this.item = item;
+        productDetailFetched = false;
+        googlePhotosFetched = false;
+        similarItemsFetched = false;
+        productDetailError = null;
+        googlePhotosError = null;
+        similarItemsError = null;
     }
 
     public SearchResultModel getItem() {
@@ -156,6 +255,8 @@ public class ProductData {
     public void cancelRequest() {
         if (mRequestQueue != null) {
             mRequestQueue.cancelAll("productDetail");
+            mRequestQueue.cancelAll("googleImages");
+            mRequestQueue.cancelAll("similarItems");
         }
     }
 }

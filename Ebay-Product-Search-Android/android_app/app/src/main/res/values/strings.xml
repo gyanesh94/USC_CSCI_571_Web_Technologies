@@ -55,6 +55,8 @@
     <string name="product_tab_title_photos">Photos</string>
     <string name="product_tab_title_similar">Similar</string>
     <string name="share_on_facebook">Share</string>
+    <string name="product_tab_no_images">No images.</string>
+    <string name="product_tab_no_similar_items">No similar items.</string>
 
 
     <string name="price">$%s</string>
