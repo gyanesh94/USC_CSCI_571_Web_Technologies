@@ -1,5 +1,6 @@
 package edu.gyaneshm.ebay_product_search.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,9 +14,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import edu.gyaneshm.ebay_product_search.ProductDetailActivity;
 import edu.gyaneshm.ebay_product_search.R;
 import edu.gyaneshm.ebay_product_search.adapters.SearchItemRecyclerViewAdapter;
+import edu.gyaneshm.ebay_product_search.data.ProductData;
 import edu.gyaneshm.ebay_product_search.data.WishListData;
+import edu.gyaneshm.ebay_product_search.listeners.ItemClickListener;
 import edu.gyaneshm.ebay_product_search.listeners.WishListChangeListener;
 import edu.gyaneshm.ebay_product_search.models.SearchResultModel;
 import edu.gyaneshm.ebay_product_search.shared.Utils;
@@ -38,6 +42,15 @@ public class WishListFragment extends Fragment {
             if (searchItemRecyclerViewAdapter != null) {
                 searchItemRecyclerViewAdapter.notifyDataSetChanged();
             }
+        }
+    };
+
+    private ItemClickListener itemClickListener = new ItemClickListener() {
+        @Override
+        public void onItemClicked(int position) {
+            ProductData.getInstance().setItem(wishList.get(position));
+            Intent intent = new Intent(getContext(), ProductDetailActivity.class);
+            startActivity(intent);
         }
     };
 
@@ -70,7 +83,7 @@ public class WishListFragment extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         mWishListRecyclerView.setHasFixedSize(true);
         mWishListRecyclerView.setLayoutManager(gridLayoutManager);
-        searchItemRecyclerViewAdapter = new SearchItemRecyclerViewAdapter(getContext(), wishList);
+        searchItemRecyclerViewAdapter = new SearchItemRecyclerViewAdapter(getContext(), wishList, itemClickListener);
         mWishListRecyclerView.setAdapter(searchItemRecyclerViewAdapter);
 
         refreshView();

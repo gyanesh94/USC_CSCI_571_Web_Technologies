@@ -1,7 +1,6 @@
 package edu.gyaneshm.ebay_product_search.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,21 +12,22 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import edu.gyaneshm.ebay_product_search.ProductDetailActivity;
 import edu.gyaneshm.ebay_product_search.R;
 import edu.gyaneshm.ebay_product_search.data.WishListData;
+import edu.gyaneshm.ebay_product_search.listeners.ItemClickListener;
 import edu.gyaneshm.ebay_product_search.models.SearchResultModel;
-import edu.gyaneshm.ebay_product_search.shared.Logger;
 import edu.gyaneshm.ebay_product_search.shared.Utils;
 
 public class SearchItemRecyclerViewAdapter extends RecyclerView.Adapter<SearchItemRecyclerViewAdapter.ItemViewHolder> {
 
     private Context mContext;
     private ArrayList<SearchResultModel> mSearchResults;
+    private ItemClickListener mItemClickListener;
 
-    public SearchItemRecyclerViewAdapter(Context context, ArrayList<SearchResultModel> searchResults) {
+    public SearchItemRecyclerViewAdapter(Context context, ArrayList<SearchResultModel> searchResults, ItemClickListener itemClickListener) {
         mContext = context;
         mSearchResults = searchResults;
+        mItemClickListener = itemClickListener;
     }
 
     @Override
@@ -139,8 +139,7 @@ public class SearchItemRecyclerViewAdapter extends RecyclerView.Adapter<SearchIt
             mItemImageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext, ProductDetailActivity.class);
-                    mContext.startActivity(intent);
+                    mItemClickListener.onItemClicked(getAdapterPosition());
                 }
             });
         }

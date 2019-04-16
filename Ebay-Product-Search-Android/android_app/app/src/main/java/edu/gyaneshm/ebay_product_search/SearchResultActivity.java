@@ -1,5 +1,6 @@
 package edu.gyaneshm.ebay_product_search;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,8 +15,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import edu.gyaneshm.ebay_product_search.adapters.SearchItemRecyclerViewAdapter;
+import edu.gyaneshm.ebay_product_search.data.ProductData;
 import edu.gyaneshm.ebay_product_search.data.SearchResultData;
 import edu.gyaneshm.ebay_product_search.data.WishListData;
+import edu.gyaneshm.ebay_product_search.listeners.ItemClickListener;
 import edu.gyaneshm.ebay_product_search.listeners.WishListChangeListener;
 import edu.gyaneshm.ebay_product_search.models.SearchFormModel;
 import edu.gyaneshm.ebay_product_search.models.SearchResultModel;
@@ -31,6 +34,7 @@ public class SearchResultActivity extends AppCompatActivity {
     private RecyclerView mSearchItemsRecyclerView;
 
     private SearchResultData mSearchResultData;
+    ArrayList<SearchResultModel> mSearchResults = null;
 
     private SearchItemRecyclerViewAdapter searchItemRecyclerViewAdapter = null;
 
@@ -44,12 +48,23 @@ public class SearchResultActivity extends AppCompatActivity {
     private WishListChangeListener wishListChangeListener = new WishListChangeListener() {
         @Override
         public void wishListItemChanged(Integer position) {
-            if(searchItemRecyclerViewAdapter != null) {
+            if (searchItemRecyclerViewAdapter != null) {
                 if (position != null) {
                     searchItemRecyclerViewAdapter.notifyItemChanged(position);
                 } else {
                     searchItemRecyclerViewAdapter.notifyDataSetChanged();
                 }
+            }
+        }
+    };
+
+    private ItemClickListener itemClickListener = new ItemClickListener() {
+        @Override
+        public void onItemClicked(int position) {
+            if (mSearchResults != null) {
+                ProductData.getInstance().setItem(mSearchResults.get(position));
+                Intent intent = new Intent(getApplicationContext(), ProductDetailActivity.class);
+                startActivity(intent);
             }
         }
     };
@@ -91,6 +106,8 @@ public class SearchResultActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
+            default:
+                return super.onOptionsItemSelected(item);
         }
         return true;
     }
@@ -104,6 +121,7 @@ public class SearchResultActivity extends AppCompatActivity {
         mErrorTextView.setVisibility(View.GONE);
         mSearchResultsContainer.setVisibility(View.GONE);
         mProgressBarContainer.setVisibility(View.GONE);
+        mSearchResults = null;
 
         if (mSearchResultData.isDataFetched()) {
             checkForErrors();
@@ -126,17 +144,17 @@ public class SearchResultActivity extends AppCompatActivity {
 
     private void setUpSearchItemRecycleView() {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
-        ArrayList<SearchResultModel> searchResultModels = mSearchResultData.getSearchResults();
+        mSearchResults = mSearchResultData.getSearchResults();
         mSearchItemsRecyclerView.setHasFixedSize(true);
         mSearchItemsRecyclerView.setLayoutManager(gridLayoutManager);
 
-        searchItemRecyclerViewAdapter = new SearchItemRecyclerViewAdapter(this, searchResultModels);
+        searchItemRecyclerViewAdapter = new SearchItemRecyclerViewAdapter(this, mSearchResults, itemClickListener);
         mSearchItemsRecyclerView.setAdapter(searchItemRecyclerViewAdapter);
 
         SearchFormModel searchFormModel = mSearchResultData.getSearchFormData();
 
         String color = "#" + Integer.toHexString(getColor(R.color.search_results_total_items_text_color)).substring(2);
-        String totalItems = getString(R.string.search_results_total_items, color, searchResultModels.size(), color, searchFormModel.getKeyword());
+        String totalItems = getString(R.string.search_results_total_items, color, mSearchResults.size(), color, searchFormModel.getKeyword());
         mTotalItemsTextView.setText(Html.fromHtml(totalItems, Html.FROM_HTML_MODE_LEGACY));
 
         mSearchResultsContainer.setVisibility(View.VISIBLE);

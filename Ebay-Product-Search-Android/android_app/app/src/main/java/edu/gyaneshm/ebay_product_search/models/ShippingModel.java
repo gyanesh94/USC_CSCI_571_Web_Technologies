@@ -63,6 +63,7 @@ public class ShippingModel {
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
+        str.append("{");
         str.append("cost: ");
         str.append(cost);
         str.append(", ");
@@ -80,6 +81,7 @@ public class ShippingModel {
         str.append(", ");
         str.append("returnAccepted: ");
         str.append(returnAccepted);
+        str.append("}");
         return str.toString();
     }
 }

@@ -40,6 +40,7 @@
     <string name="search_results_title">Search Results</string>
     <string name="search_results_searching_products">Searching Products&#8230;</string>
     <string name="search_results_total_items">Showing &lt;font color=\"%s\">%d&lt;/font> results for &lt;font color=\"%s\">%s&lt;/font></string>
+    <string name="search_results_no_records">No Records</string>
 
     <!-- Card View -->
     <string name="card_view_zipcode">Zip: %s</string>
@@ -53,9 +54,12 @@
     <string name="product_tab_title_shipping">Shipping</string>
     <string name="product_tab_title_photos">Photos</string>
     <string name="product_tab_title_similar">Similar</string>
+    <string name="share_on_facebook">Share</string>
 
 
     <string name="price">$%s</string>
     <string name="free_shipping">Free Shipping</string>
     <string name="n_a">N/A</string>
+    <string name="no_response_from_server">No response from server</string>
+    <string name="horizontal_ellipsis">&#8230;</string>
 </resources>

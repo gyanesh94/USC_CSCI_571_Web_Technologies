@@ -290,13 +290,20 @@ app.get("/api/productInfo", (req, res) => {
       const item = data.Item;
 
       const productData = {
+        condition: null,
+        globalShipping: null,
         itemSpecifics: [],
         location: null,
         price: null,
         productId: null,
         productImages: [],
         productUrl: null,
-        returnPolicy: null,
+        returnDetail: {
+          policy: null,
+          returnWithin: null,
+          refund: null,
+          shippingPaidBy: null
+        },
         seller: {
           feedbackScore: null,
           feedbackStarColor: null,
@@ -354,18 +361,22 @@ app.get("/api/productInfo", (req, res) => {
         isEmpty = false;
       }
 
-      if (item.hasOwnProperty("ReturnPolicy") && item.ReturnPolicy.hasOwnProperty("ReturnsAccepted")) {
-        if (
-          (
-            item.ReturnPolicy.ReturnsAccepted === "Returns Accepted" ||
-            item.ReturnPolicy.ReturnsAccepted === "ReturnsAccepted"
-          ) &&
-          item.ReturnPolicy.hasOwnProperty("ReturnsWithin") &&
-          item.ReturnPolicy.ReturnsWithin.length > 0
-        ) {
-          productData.returnPolicy = "Returns Accepted within " + item.ReturnPolicy.ReturnsWithin;
-        } else if (item.ReturnPolicy.ReturnsAccepted === "ReturnsNotAccepted") {
-          productData.returnPolicy = "Returns not accepted";
+      if (item.hasOwnProperty("ReturnPolicy")) {
+        const returnPolicy = item.ReturnPolicy;
+        if (returnPolicy.hasOwnProperty("ReturnsAccepted") && returnPolicy.ReturnsAccepted.length > 0) {
+          productData.returnDetail.policy = returnPolicy.ReturnsAccepted;
+        }
+
+        if (returnPolicy.hasOwnProperty("ReturnsWithin") && returnPolicy.ReturnsWithin.length > 0) {
+          productData.returnDetail.returnWithin = returnPolicy.ReturnsWithin;
+        }
+
+        if (returnPolicy.hasOwnProperty("Refund") && returnPolicy.Refund.length > 0) {
+          productData.returnDetail.refund = returnPolicy.Refund;
+        }
+
+        if (returnPolicy.hasOwnProperty("ShippingCostPaidBy") && returnPolicy.ShippingCostPaidBy.length > 0) {
+          productData.returnDetail.shippingPaidBy = returnPolicy.ShippingCostPaidBy;
         }
       }
 
@@ -385,7 +396,7 @@ app.get("/api/productInfo", (req, res) => {
           ) {
             productData.itemSpecifics.push({
               "name": itemSpecific.Name,
-              "value": itemSpecific.Value.join(","),
+              "value": itemSpecific.Value[0],
             });
             isEmpty = false;
           }
@@ -430,6 +441,14 @@ app.get("/api/productInfo", (req, res) => {
         if (store.hasOwnProperty("StoreName") && store.StoreName.length > 0) {
           productData.seller.storeName = store.StoreName;
         }
+      }
+
+      if (item.hasOwnProperty("GlobalShipping")) {
+        productData.globalShipping = item.GlobalShipping;
+      }
+
+      if (item.hasOwnProperty("ConditionDisplayName") && item.ConditionDisplayName.length > 0) {
+        productData.condition = item.ConditionDisplayName;
       }
 
       if (isEmpty) {
