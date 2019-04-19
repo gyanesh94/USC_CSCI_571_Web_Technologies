@@ -221,6 +221,18 @@ public class ProductData {
         return item;
     }
 
+    public ProductModel getProductDetail() {
+        return mProductDetail;
+    }
+
+    public ArrayList<String> getGooglePhotos() {
+        return mGooglePhotos;
+    }
+
+    public ArrayList<SimilarProductModel> getSimilarItems() {
+        return mSimilarItems;
+    }
+
     public boolean isProductDetailFetched() {
         return productDetailFetched;
     }

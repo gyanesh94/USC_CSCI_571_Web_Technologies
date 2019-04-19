@@ -38,7 +38,6 @@
 
     <!-- Search Results -->
     <string name="search_results_title">Search Results</string>
-    <string name="search_results_searching_products">Searching Products&#8230;</string>
     <string name="search_results_total_items">Showing &lt;font color=\"%s\">%d&lt;/font> results for &lt;font color=\"%s\">%s&lt;/font></string>
     <string name="search_results_no_records">No Records</string>
 
@@ -55,10 +54,19 @@
     <string name="product_tab_title_photos">Photos</string>
     <string name="product_tab_title_similar">Similar</string>
     <string name="share_on_facebook">Share</string>
+    <string name="product_tab_no_product_details">No product details.</string>
+    <string name="product_tab_no_shipping_details">No shipping details.</string>
     <string name="product_tab_no_images">No images.</string>
     <string name="product_tab_no_similar_items">No similar items.</string>
+    <string name="highlights">Highlights</string>
+    <string name="specifications">Specifications</string>
+    <string name="price_text">Price</string>
+    <string name="brand_text">Brand</string>
+    <string name="with_free_shipping">With Free Shipping</string>
+    <string name="with_extra_shipping">With $%s Shipping</string>
 
 
+    <string name="searching_products">Searching Products&#8230;</string>
     <string name="price">$%s</string>
     <string name="free_shipping">Free Shipping</string>
     <string name="n_a">N/A</string>

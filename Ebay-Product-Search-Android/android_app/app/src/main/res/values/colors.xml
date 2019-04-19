@@ -22,4 +22,8 @@
     <color name="cart_remove_color">@color/app_orange_accent</color>
 
     <color name="wish_list_bottom_color">@color/app_orange_accent</color>
+
+    <color name="icon_tint_color">#828283</color>
+    <color name="section_heading">#000</color>
+    <color name="section_break_line">#D3D3D3</color>
 </resources>
