@@ -201,7 +201,7 @@ public class ShippingFragment extends Fragment {
 
         Double feedbackScore = seller.getFeedbackScore();
         if (feedbackScore != null) {
-            mSoldByFeedbackScoreTextView.setText(String.valueOf(feedbackScore));
+            mSoldByFeedbackScoreTextView.setText(String.valueOf((int) Math.round(feedbackScore)));
             mSoldByFeedbackScoreLinearLayout.setVisibility(View.VISIBLE);
             sectionValid = true;
         }
@@ -210,8 +210,8 @@ public class ShippingFragment extends Fragment {
         if (feedbackScore != null) {
             mSoldByPopularityCircularScoreView.setBackgroundColor(Color.WHITE);
             mSoldByPopularityCircularScoreView.setTextColor(Color.BLACK);
-            mSoldByPopularityCircularScoreView.setPrimaryColor(Color.RED);
-            mSoldByPopularityCircularScoreView.setSecondaryColor(Color.BLACK);
+            mSoldByPopularityCircularScoreView.setPrimaryColor(Color.parseColor("#FFD37159"));
+            mSoldByPopularityCircularScoreView.setSecondaryColor(Color.WHITE);
             mSoldByPopularityCircularScoreView.setScore((int) Math.round(Math.floor(popularity)));
             mSoldByPopularityLinearLayout.setVisibility(View.VISIBLE);
 

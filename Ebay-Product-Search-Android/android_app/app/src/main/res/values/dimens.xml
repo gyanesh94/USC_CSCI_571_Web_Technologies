@@ -11,11 +11,11 @@
     <dimen name="product_page_section_margin_start">5dp</dimen>
     <dimen name="product_page_horizontal_line_margin_start">20dp</dimen>
 
-    <dimen name="product_page_drawable_padding">5dp</dimen>
+    <dimen name="product_page_drawable_padding">8dp</dimen>
 
     <dimen name="section_margin_top">20dp</dimen>
     <dimen name="section_heading_margin_start">5dp</dimen>
     <dimen name="section_heading_margin_top">@dimen/section_margin_top</dimen>
-    <dimen name="section_body_margin_start">35dp</dimen>
-    <dimen name="section_body_margin_top">20dp</dimen>
+    <dimen name="section_body_margin_start">37dp</dimen>
+    <dimen name="section_body_margin_top">23dp</dimen>
 </resources>

@@ -5,7 +5,7 @@
     <item
         android:id="@+id/action_facebook"
         android:icon="@drawable/facebook"
-        android:iconTint="#fff"
+        android:iconTint="#ffffffff"
         android:title="@string/share_on_facebook"
         app:showAsAction="always" />
 </menu>
