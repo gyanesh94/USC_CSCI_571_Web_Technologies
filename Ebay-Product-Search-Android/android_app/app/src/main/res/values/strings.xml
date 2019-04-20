@@ -65,11 +65,31 @@
     <string name="with_free_shipping">With Free Shipping</string>
     <string name="with_extra_shipping">With $%s Shipping</string>
 
+    <string name="sold_by">Sold By</string>
+    <string name="sold_by_store_name">Store Name</string>
+    <string name="sold_by_feedback_score">Feedback Score</string>
+    <string name="sold_by_popularity">Popularity</string>
+    <string name="sold_by_feedback_star">Feedback Star</string>
+
+    <string name="shipping_info">Shipping Info</string>
+    <string name="shipping_info_shipping_cost">Shipping Cost</string>
+    <string name="shipping_info_global_shipping">Global Shipping</string>
+    <string name="shipping_info_handling_time">Handling Time</string>
+    <string name="shipping_info_condition">Condition</string>
+
+    <string name="return_policy">Return Policy</string>
+    <string name="return_policy_policy">Policy</string>
+    <string name="return_policy_returns_within">Returns within</string>
+    <string name="return_policy_refund_mode">Refund Mode</string>
+    <string name="return_policy_shipped_by">Shipped by</string>
+
 
     <string name="searching_products">Searching Products&#8230;</string>
     <string name="price">$%s</string>
     <string name="free_shipping">Free Shipping</string>
     <string name="n_a">N/A</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="no_response_from_server">No response from server</string>
     <string name="not_connected_to_internet">Not connected to internet</string>
     <string name="horizontal_ellipsis">&#8230;</string>

@@ -23,4 +23,24 @@
         <item>11233</item>
         <item>1249</item>
     </string-array>
+
+    <string-array name="colors">
+        <item>Blue</item>
+        <item>Green</item>
+        <item>Purple</item>
+        <item>Turquoise</item>
+        <item>Red</item>
+        <item>Silver</item>
+        <item>Yellow</item>
+    </string-array>
+
+    <string-array name="color_code">
+        <item>#ff0000ff</item>
+        <item>#ff00ff00</item>
+        <item>#ff800080</item>
+        <item>#ff00ffef</item>
+        <item>#ffff0000</item>
+        <item>#ffc0c0c0</item>
+        <item>#ffffff00</item>
+    </string-array>
 </resources>

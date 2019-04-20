@@ -1,11 +1,423 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="shipping" />
+        android:layout_height="wrap_content">
 
-</RelativeLayout>
+        <LinearLayout
+            android:id="@+id/progress_bar_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/searching_products" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/main_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/section_heading_margin_top"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/sold_by_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/product_page_section_margin_start"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/SectionHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/truck"
+                    android:text="@string/sold_by" />
+
+                <LinearLayout
+                    android:id="@+id/sold_by_section_store_name_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/section_body_margin_start"
+                    android:layout_marginTop="@dimen/section_body_margin_top"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="5">
+
+                    <TextView
+                        style="@style/NormalText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/sold_by_store_name" />
+
+                    <TextView
+                        android:id="@+id/sold_by_section_store_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:textColor="#9176BF"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sold_by_section_feedback_score_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/section_body_margin_start"
+                    android:layout_marginTop="@dimen/section_body_margin_top"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="5">
+
+                    <TextView
+                        style="@style/NormalText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/sold_by_feedback_score" />
+
+                    <TextView
+                        android:id="@+id/sold_by_section_feedback_score"
+                        style="@style/OtherText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sold_by_section_popularity_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/section_body_margin_start"
+                    android:layout_marginTop="@dimen/section_body_margin_top"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="5">
+
+                    <TextView
+                        style="@style/NormalText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/sold_by_popularity" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3">
+
+                        <com.wssholmes.stark.circular_score.CircularScoreView
+                            android:id="@+id/sold_by_section_popularity"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sold_by_section_feedback_star_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/section_body_margin_start"
+                    android:layout_marginTop="@dimen/section_body_margin_top"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="5">
+
+                    <TextView
+                        style="@style/NormalText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/sold_by_feedback_star" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/sold_by_section_feedback_star"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:adjustViewBounds="true"
+                            android:background="@null"
+                            android:scaleType="fitCenter" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/shipping_info_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/product_page_section_margin_start"
+                android:layout_marginTop="@dimen/section_margin_top"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/product_page_horizontal_line_margin_start"
+                    android:background="@color/section_break_line" />
+
+                <TextView
+                    style="@style/SectionHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ferry"
+                    android:text="@string/shipping_info" />
+
+                <LinearLayout
+                    android:id="@+id/shipping_info_section_shipping_cost_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/section_body_margin_start"
+                    android:layout_marginTop="@dimen/section_body_margin_top"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="5">
+
+                    <TextView
+                        style="@style/NormalText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/shipping_info_shipping_cost" />
+
+                    <TextView
+                        android:id="@+id/shipping_info_section_shipping_cost"
+                        style="@style/OtherText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/shipping_info_section_global_shipping_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/section_body_margin_start"
+                    android:layout_marginTop="@dimen/section_body_margin_top"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="5">
+
+                    <TextView
+                        style="@style/NormalText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/shipping_info_global_shipping" />
+
+                    <TextView
+                        android:id="@+id/shipping_info_section_global_shipping"
+                        style="@style/OtherText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/shipping_info_section_handling_time_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/section_body_margin_start"
+                    android:layout_marginTop="@dimen/section_body_margin_top"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="5">
+
+                    <TextView
+                        style="@style/NormalText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/shipping_info_handling_time" />
+
+                    <TextView
+                        android:id="@+id/shipping_info_section_handling_time"
+                        style="@style/OtherText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/shipping_info_section_condition_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/section_body_margin_start"
+                    android:layout_marginTop="@dimen/section_body_margin_top"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="5">
+
+                    <TextView
+                        style="@style/NormalText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/shipping_info_condition" />
+
+                    <TextView
+                        android:id="@+id/shipping_info_section_condition"
+                        style="@style/OtherText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/return_policy_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/product_page_section_margin_start"
+                android:layout_marginTop="@dimen/section_margin_top"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/product_page_horizontal_line_margin_start"
+                    android:background="@color/section_break_line" />
+
+                <TextView
+                    style="@style/SectionHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/dump_truck"
+                    android:text="@string/return_policy" />
+
+                <LinearLayout
+                    android:id="@+id/return_policy_section_policy_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/section_body_margin_start"
+                    android:layout_marginTop="@dimen/section_body_margin_top"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="5">
+
+                    <TextView
+                        style="@style/NormalText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/return_policy_policy" />
+
+                    <TextView
+                        android:id="@+id/return_policy_section_policy"
+                        style="@style/OtherText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/return_policy_section_returns_within_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/section_body_margin_start"
+                    android:layout_marginTop="@dimen/section_body_margin_top"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="5">
+
+                    <TextView
+                        style="@style/NormalText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/return_policy_returns_within" />
+
+                    <TextView
+                        android:id="@+id/return_policy_section_returns_within"
+                        style="@style/OtherText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/return_policy_section_refund_mode_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/section_body_margin_start"
+                    android:layout_marginTop="@dimen/section_body_margin_top"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="5">
+
+                    <TextView
+                        style="@style/NormalText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/return_policy_refund_mode" />
+
+                    <TextView
+                        android:id="@+id/return_policy_section_refund_mode"
+                        style="@style/OtherText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/return_policy_section_shipped_by_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/section_body_margin_start"
+                    android:layout_marginTop="@dimen/section_body_margin_top"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="5">
+
+                    <TextView
+                        style="@style/NormalText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/return_policy_shipped_by" />
+
+                    <TextView
+                        android:id="@+id/return_policy_section_shipped_by"
+                        style="@style/OtherText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/error"
+            style="@style/ErrorText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/product_tab_no_product_details"
+            android:visibility="gone" />
+    </RelativeLayout>
+</ScrollView>

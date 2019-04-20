@@ -23,7 +23,6 @@ import edu.gyaneshm.ebay_product_search.listeners.DataFetchingListener;
 import edu.gyaneshm.ebay_product_search.models.ProductModel;
 import edu.gyaneshm.ebay_product_search.models.SearchResultModel;
 import edu.gyaneshm.ebay_product_search.models.SimilarProductModel;
-import edu.gyaneshm.ebay_product_search.shared.Logger;
 import edu.gyaneshm.ebay_product_search.shared.Utils;
 
 public class ProductData {
@@ -71,7 +70,6 @@ public class ProductData {
                     @Override
                     public void onResponse(JSONObject response) {
                         mProductDetail = new ProductModel(response);
-                        Logger.getInstance().logError(mProductDetail.toString());
                         productDetailFetched = true;
                         sendNotification();
                     }

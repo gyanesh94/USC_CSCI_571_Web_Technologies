@@ -13,7 +13,7 @@ public class ProductModel {
     private ArrayList<String> productImages = new ArrayList<>();
     private String subtitle;
     private Double price;
-    private boolean globalShipping;
+    private Boolean globalShipping;
     private String condition;
     private String location;
     private ReturnPolicyModel returnDetail;
@@ -73,7 +73,7 @@ public class ProductModel {
         return location;
     }
 
-    public boolean isGlobalShipping() {
+    public Boolean getGlobalShipping() {
         return globalShipping;
     }
 

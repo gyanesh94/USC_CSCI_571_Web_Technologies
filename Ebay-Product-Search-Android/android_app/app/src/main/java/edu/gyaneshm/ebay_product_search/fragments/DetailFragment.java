@@ -22,7 +22,6 @@ import edu.gyaneshm.ebay_product_search.data.ProductData;
 import edu.gyaneshm.ebay_product_search.listeners.DataFetchingListener;
 import edu.gyaneshm.ebay_product_search.models.ProductModel;
 import edu.gyaneshm.ebay_product_search.models.SearchResultModel;
-import edu.gyaneshm.ebay_product_search.shared.Logger;
 import edu.gyaneshm.ebay_product_search.shared.Utils;
 
 public class DetailFragment extends Fragment {
@@ -143,7 +142,6 @@ public class DetailFragment extends Fragment {
             return;
         }
 
-        Logger.getInstance().logError(images.toString());
         for (int i = 0; i < images.size(); i++) {
             View view = mLayoutInflator.inflate(R.layout.product_image_gallery_item, mGalleryLinearLayout, false);
             ImageView imageView = view.findViewById(R.id.image);
