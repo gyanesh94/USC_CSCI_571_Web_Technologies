@@ -55,6 +55,7 @@
     <string name="product_tab_title_similar">Similar</string>
     <string name="share_on_facebook">Share</string>
     <string name="product_tab_no_product_details">No product details.</string>
+    <string name="product_tab_no_photos">No photos.</string>
     <string name="product_tab_no_shipping_details">No shipping details.</string>
     <string name="product_tab_no_images">No images.</string>
     <string name="product_tab_no_similar_items">No similar items.</string>
@@ -85,6 +86,7 @@
 
 
     <string name="searching_products">Searching Products&#8230;</string>
+    <string name="searching_photos">Searching Photos&#8230;</string>
     <string name="price">$%s</string>
     <string name="free_shipping">Free Shipping</string>
     <string name="n_a">N/A</string>

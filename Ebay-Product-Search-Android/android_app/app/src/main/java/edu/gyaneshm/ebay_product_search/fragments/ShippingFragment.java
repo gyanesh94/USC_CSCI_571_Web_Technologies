@@ -29,7 +29,6 @@ import edu.gyaneshm.ebay_product_search.models.ReturnPolicyModel;
 import edu.gyaneshm.ebay_product_search.models.SearchResultModel;
 import edu.gyaneshm.ebay_product_search.models.SellerModel;
 import edu.gyaneshm.ebay_product_search.models.ShippingModel;
-import edu.gyaneshm.ebay_product_search.shared.Logger;
 import edu.gyaneshm.ebay_product_search.shared.Utils;
 
 public class ShippingFragment extends Fragment {
