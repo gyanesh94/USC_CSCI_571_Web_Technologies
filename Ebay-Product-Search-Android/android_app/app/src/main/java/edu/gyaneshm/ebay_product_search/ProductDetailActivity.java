@@ -54,13 +54,15 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private void setUpActionBar() {
         SearchResultModel item = mProductDataInstance.getItem();
-        mActionBar.setTitle(Utils.truncateString(item.getTitle(), 25));
+        mActionBar.setTitle(item.getTitle());
         mActionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.product_data_menu, menu);
+        MenuItem facebookItem = menu.getItem(0);
+        facebookItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -417,7 +417,7 @@
             style="@style/ErrorText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/product_tab_no_product_details"
+            android:text="@string/product_tab_no_shipping_details"
             android:visibility="gone" />
     </RelativeLayout>
 </ScrollView>
