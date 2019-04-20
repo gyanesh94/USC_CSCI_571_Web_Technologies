@@ -7,6 +7,8 @@ const config = require("./config");
 const port = process.env.PORT || 8081;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
 
+require("./server_mobile")(app, request, config);
+
 app.get("/api/zipcode", (req, res) => {
   request.get(
     `http://api.geonames.org/postalCodeSearchJSON?postalcode_startsWith=${req.query.zipcode}&username=${config.GEONAME_KEY}&country=US&maxRows=5`,

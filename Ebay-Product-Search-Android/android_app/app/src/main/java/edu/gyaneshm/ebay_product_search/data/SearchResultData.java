@@ -54,7 +54,7 @@ public class SearchResultData {
     }
 
     public void fetchData() {
-        String apiEndPoint = AppConfig.getApiEndPoint() + "/search";
+        String apiEndPoint = AppConfig.getApiEndPoint() + "/mobile/search";
         Uri.Builder builder = Uri.parse(apiEndPoint).buildUpon();
         builder.appendQueryParameter("data", searchFormData.toJSONObject().toString());
 

@@ -56,7 +56,7 @@ public class ProductData {
     }
 
     public void fetchProductDetail() {
-        String apiEndPoint = AppConfig.getApiEndPoint() + "/productInfo";
+        String apiEndPoint = AppConfig.getApiEndPoint() + "/mobile/productInfo";
         Uri.Builder builder = Uri.parse(apiEndPoint).buildUpon();
         builder.appendQueryParameter("productId", item.getProductId());
 
