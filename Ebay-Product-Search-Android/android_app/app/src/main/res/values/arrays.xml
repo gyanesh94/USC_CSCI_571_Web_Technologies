@@ -43,4 +43,16 @@
         <item>#ffc0c0c0</item>
         <item>#ffffff00</item>
     </string-array>
+
+    <string-array name="sort_by">
+        <item>Default</item>
+        <item>Name</item>
+        <item>Price</item>
+        <item>Days</item>
+    </string-array>
+
+    <string-array name="order">
+        <item>Descending</item>
+        <item>Ascending</item>
+    </string-array>
 </resources>

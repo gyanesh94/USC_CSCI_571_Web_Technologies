@@ -85,6 +85,8 @@
     <string name="return_policy_shipped_by">Shipped by</string>
 
 
+    <string name="day_left">%s Day Left</string>
+    <string name="days_left">%s Days Left</string>
     <string name="searching_products">Searching Products&#8230;</string>
     <string name="searching_photos">Searching Photos&#8230;</string>
     <string name="price">$%s</string>
