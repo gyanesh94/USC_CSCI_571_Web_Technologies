@@ -6,6 +6,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import edu.gyaneshm.ebay_product_search.shared.Utils;
+
 public class ProductModel {
     private String title;
     private String productId;
@@ -22,23 +24,23 @@ public class ProductModel {
 
     public ProductModel(JSONObject data) {
         try {
-            title = data.getString("title");
-            productId = data.getString("productId");
-            productUrl = data.getString("productUrl");
-            JSONArray images = data.getJSONArray("productImages");
+            title = Utils.optString(data, "title");
+            productId = Utils.optString(data, "productId");
+            productUrl = Utils.optString(data, "productUrl");
+            JSONArray images = Utils.optJSONArray(data, "productImages");
             for (int i = 0; i < images.length(); i++) {
                 productImages.add(images.getString(i));
             }
-            subtitle = data.getString("subtitle");
-            price = data.getDouble("price");
-            globalShipping = data.getBoolean("globalShipping");
-            condition = data.getString("condition");
-            location = data.getString("location");
+            subtitle = Utils.optString(data, "subtitle");
+            price = Utils.optDouble(data, "price");
+            globalShipping = Utils.optBoolean(data, "globalShipping");
+            condition = Utils.optString(data, "condition");
+            location = Utils.optString(data, "location");
             returnDetail = new ReturnPolicyModel(data.getJSONObject("returnDetail"));
-            JSONArray specifics = data.getJSONArray("itemSpecifics");
+            JSONArray specifics = Utils.optJSONArray(data, "itemSpecifics");
             for (int i = 0; i < specifics.length(); i++) {
                 JSONObject item = specifics.getJSONObject(i);
-                itemSpecifics.put(item.getString("name"), item.getString("value"));
+                itemSpecifics.put(Utils.optString(item, "name"), Utils.optString(item, "value"));
             }
             seller = new SellerModel(data.getJSONObject("seller"));
         } catch (Exception ex) {

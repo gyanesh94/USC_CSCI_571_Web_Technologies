@@ -2,6 +2,8 @@ package edu.gyaneshm.ebay_product_search.models;
 
 import org.json.JSONObject;
 
+import edu.gyaneshm.ebay_product_search.shared.Utils;
+
 public class SellerModel {
     private Double feedbackScore;
     private Double popularity;
@@ -13,13 +15,13 @@ public class SellerModel {
 
     SellerModel(JSONObject data) {
         try {
-            feedbackScore = data.getDouble("feedbackScore");
-            popularity = data.getDouble("popularity");
-            feedbackStarColor = data.getString("feedbackStarColor");
-            topRated = data.getBoolean("topRated");
-            storeName = data.getString("storeName");
-            storeUrl = data.getString("storeUrl");
-            sellerName = data.getString("sellerName");
+            feedbackScore = Utils.optDouble(data, "feedbackScore");
+            popularity = Utils.optDouble(data, "popularity");
+            feedbackStarColor = Utils.optString(data, "feedbackStarColor");
+            topRated = Utils.optBoolean(data, "topRated");
+            storeName = Utils.optString(data, "storeName");
+            storeUrl = Utils.optString(data, "storeUrl");
+            sellerName = Utils.optString(data, "sellerName");
         } catch (Exception ex) {
         }
     }

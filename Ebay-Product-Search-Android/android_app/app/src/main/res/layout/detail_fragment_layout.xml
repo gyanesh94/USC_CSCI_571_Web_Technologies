@@ -57,7 +57,7 @@
                 android:layout_marginStart="@dimen/product_page_title_margin_start"
                 android:layout_marginTop="25dp"
                 android:textColor="#000"
-                android:textSize="22sp" />
+                android:textSize="@dimen/product_title_text_size" />
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -2,6 +2,10 @@ package edu.gyaneshm.ebay_product_search.shared;
 
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Locale;
 
 import edu.gyaneshm.ebay_product_search.EbayProductSearchApplication;
@@ -41,5 +45,41 @@ public class Utils {
                 message,
                 Toast.LENGTH_SHORT
         ).show();
+    }
+
+    public static String doubleToString(Double n) {
+        return String.valueOf((int) Math.round(Math.floor(n)));
+    }
+
+    public static int doubleToInt(Double n) {
+        return (int) Math.round(Math.floor(n));
+    }
+
+    public static String optString(JSONObject json, String key) {
+        if (json.isNull(key))
+            return null;
+        else
+            return json.optString(key, null);
+    }
+
+    public static Double optDouble(JSONObject json, String key) {
+        if (json.isNull(key))
+            return null;
+        else
+            return json.optDouble(key);
+    }
+
+    public static Boolean optBoolean(JSONObject json, String key) {
+        if (json.isNull(key))
+            return false;
+        else
+            return json.optBoolean(key, false);
+    }
+
+    public static JSONArray optJSONArray(JSONObject json, String key) {
+        if (json.isNull(key))
+            return new JSONArray();
+        else
+            return json.optJSONArray(key);
     }
 }

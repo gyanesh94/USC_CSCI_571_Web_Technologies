@@ -5,6 +5,7 @@
     <dimen name="search_container_end_margin">50dp</dimen>
     <dimen name="search_top_margin">10dp</dimen>
     <dimen name="search_checkbox_start_margin">30dp</dimen>
+    <dimen name="product_title_text_size">19sp</dimen>
 
     <dimen name="product_page_title_margin_start">10dp</dimen>
 

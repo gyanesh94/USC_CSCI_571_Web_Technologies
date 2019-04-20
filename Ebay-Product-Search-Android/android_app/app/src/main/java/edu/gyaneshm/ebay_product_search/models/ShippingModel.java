@@ -2,6 +2,8 @@ package edu.gyaneshm.ebay_product_search.models;
 
 import org.json.JSONObject;
 
+import edu.gyaneshm.ebay_product_search.shared.Utils;
+
 public class ShippingModel {
     private Double cost;
     private String locations;
@@ -12,12 +14,12 @@ public class ShippingModel {
 
     ShippingModel(JSONObject data) {
         try {
-            cost = data.getDouble("cost");
-            locations = data.getString("locations");
-            handlingTime = data.getString("handlingTime");
-            expedited = data.getBoolean("expedited");
-            oneDay = data.getBoolean("oneDay");
-            returnAccepted = data.getBoolean("returnAccepted");
+            cost = Utils.optDouble(data, "cost");
+            locations = Utils.optString(data, "locations");
+            handlingTime = Utils.optString(data, "handlingTime");
+            expedited = Utils.optBoolean(data, "expedited");
+            oneDay = Utils.optBoolean(data, "oneDay");
+            returnAccepted = Utils.optBoolean(data, "returnAccepted");
         } catch (Exception ex) {
         }
     }

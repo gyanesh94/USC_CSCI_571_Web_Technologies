@@ -2,6 +2,8 @@ package edu.gyaneshm.ebay_product_search.models;
 
 import org.json.JSONObject;
 
+import edu.gyaneshm.ebay_product_search.shared.Utils;
+
 public class SimilarProductModel {
     private String productId;
     private String productUrl;
@@ -13,13 +15,13 @@ public class SimilarProductModel {
 
     public SimilarProductModel(JSONObject data) {
         try {
-            productId = data.getString("productId");
-            productUrl = data.getString("productUrl");
-            title = data.getString("title");
-            price = data.getDouble("price");
-            shippingCost = data.getDouble("shippingCost");
-            daysLeft = data.getDouble("daysLeft");
-            imageUrl = data.getString("imageUrl");
+            productId = Utils.optString(data, "productId");
+            productUrl = Utils.optString(data, "productUrl");
+            title = Utils.optString(data, "title");
+            price = Utils.optDouble(data, "price");
+            shippingCost = Utils.optDouble(data, "shippingCost");
+            daysLeft = Utils.optDouble(data, "daysLeft");
+            imageUrl = Utils.optString(data, "imageUrl");
         } catch (Exception ex) {
         }
     }

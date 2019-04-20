@@ -2,6 +2,8 @@ package edu.gyaneshm.ebay_product_search.models;
 
 import org.json.JSONObject;
 
+import edu.gyaneshm.ebay_product_search.shared.Utils;
+
 public class SearchResultModel {
     private String index;
     private String image;
@@ -16,17 +18,17 @@ public class SearchResultModel {
 
     public SearchResultModel(JSONObject data) {
         try {
-            index = data.getString("index");
-            image = data.getString("image");
-            title = data.getString("title");
-            productId = data.getString("productId");
-            condition = data.getString("condition");
-            zipcode = data.getString("zipcode");
-            sellerName = data.getString("sellerName");
-            price = data.getDouble("price");
+            index = Utils.optString(data, "index");
+            image = Utils.optString(data, "image");
+            title = Utils.optString(data, "title");
+            productId = Utils.optString(data, "productId");
+            condition = Utils.optString(data, "condition");
+            zipcode = Utils.optString(data, "zipcode");
+            sellerName = Utils.optString(data, "sellerName");
+            price = Utils.optDouble(data, "price");
             shipping = new ShippingModel(data.getJSONObject("shipping"));
             if (data.has("inWishList")) {
-                inWishList = data.getBoolean("inWishList");
+                inWishList = Utils.optBoolean(data, "inWishList");
             }
         } catch (Exception ex) {
         }

@@ -180,10 +180,11 @@ public class ShippingFragment extends Fragment {
         SellerModel seller = productDetail.getSeller();
 
         String storeName = seller.getStoreName();
-        final String storeUrl = seller.getStoreUrl();
+
         if (storeName != null) {
             mSoldByStoreNameTextView.setText(storeName);
             mSoldByStoreNameTextView.setPaintFlags(mSoldByStoreNameTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            final String storeUrl = seller.getStoreUrl();
             if (storeUrl != null) {
                 mSoldByStoreNameTextView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -200,7 +201,7 @@ public class ShippingFragment extends Fragment {
 
         Double feedbackScore = seller.getFeedbackScore();
         if (feedbackScore != null) {
-            mSoldByFeedbackScoreTextView.setText(String.valueOf((int) Math.round(feedbackScore)));
+            mSoldByFeedbackScoreTextView.setText(Utils.doubleToString(feedbackScore));
             mSoldByFeedbackScoreLinearLayout.setVisibility(View.VISIBLE);
             sectionValid = true;
         }
@@ -211,7 +212,7 @@ public class ShippingFragment extends Fragment {
             mSoldByPopularityCircularScoreView.setTextColor(Color.BLACK);
             mSoldByPopularityCircularScoreView.setPrimaryColor(Color.parseColor("#FFD37159"));
             mSoldByPopularityCircularScoreView.setSecondaryColor(Color.WHITE);
-            mSoldByPopularityCircularScoreView.setScore((int) Math.round(Math.floor(popularity)));
+            mSoldByPopularityCircularScoreView.setScore(Utils.doubleToInt(popularity));
             mSoldByPopularityLinearLayout.setVisibility(View.VISIBLE);
 
             String feedbackStarColor = seller.getFeedbackStarColor();
@@ -257,7 +258,7 @@ public class ShippingFragment extends Fragment {
             if (shippingCost == 0) {
                 mShippingInfoShippingCostTextView.setText(R.string.free_shipping);
             } else {
-                mShippingInfoShippingCostTextView.setText(Utils.formatPriceToString(shippingCost));
+                mShippingInfoShippingCostTextView.setText(getString(R.string.price, Utils.formatPriceToString(shippingCost)));
             }
             mShippingInfoShippingCostLinearLayout.setVisibility(View.VISIBLE);
             sectionValid = true;
@@ -313,14 +314,14 @@ public class ShippingFragment extends Fragment {
         }
 
         String refund = returnPolicy.getRefund();
-        if (returnWithin != null) {
+        if (refund != null) {
             mReturnPolicyRefundModeTextView.setText(refund);
             mReturnPolicyRefundModeLinearLayout.setVisibility(View.VISIBLE);
             sectionValid = true;
         }
 
         String shippingPaidBy = returnPolicy.getShippingPaidBy();
-        if (returnWithin != null) {
+        if (shippingPaidBy != null) {
             mReturnPolicyShippedByTextView.setText(shippingPaidBy);
             mReturnPolicyShippedByLinearLayout.setVisibility(View.VISIBLE);
             sectionValid = true;

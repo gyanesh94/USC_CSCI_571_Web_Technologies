@@ -2,6 +2,8 @@ package edu.gyaneshm.ebay_product_search.models;
 
 import org.json.JSONObject;
 
+import edu.gyaneshm.ebay_product_search.shared.Utils;
+
 public class ReturnPolicyModel {
     private String policy;
     private String returnWithin;
@@ -10,10 +12,10 @@ public class ReturnPolicyModel {
 
     public ReturnPolicyModel(JSONObject data) {
         try {
-            policy = data.getString("policy");
-            returnWithin = data.getString("returnWithin");
-            refund = data.getString("refund");
-            shippingPaidBy = data.getString("shippingPaidBy");
+            policy = Utils.optString(data, "policy");
+            returnWithin = Utils.optString(data, "returnWithin");
+            refund = Utils.optString(data, "refund");
+            shippingPaidBy = Utils.optString(data, "shippingPaidBy");
         } catch (Exception ex){
         }
     }
