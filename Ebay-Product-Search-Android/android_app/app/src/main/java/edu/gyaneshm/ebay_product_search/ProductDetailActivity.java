@@ -4,20 +4,24 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import edu.gyaneshm.ebay_product_search.adapters.ViewPageAdapter;
 import edu.gyaneshm.ebay_product_search.data.AppConfig;
 import edu.gyaneshm.ebay_product_search.data.ProductData;
+import edu.gyaneshm.ebay_product_search.data.WishListData;
 import edu.gyaneshm.ebay_product_search.fragments.DetailFragment;
 import edu.gyaneshm.ebay_product_search.fragments.PhotosFragment;
 import edu.gyaneshm.ebay_product_search.fragments.ShippingFragment;
 import edu.gyaneshm.ebay_product_search.fragments.SimilarProductFragment;
+import edu.gyaneshm.ebay_product_search.listeners.WishListChangeListener;
 import edu.gyaneshm.ebay_product_search.models.ProductModel;
 import edu.gyaneshm.ebay_product_search.models.SearchResultModel;
 import edu.gyaneshm.ebay_product_search.shared.Utils;
@@ -26,8 +30,20 @@ public class ProductDetailActivity extends AppCompatActivity {
     private ActionBar mActionBar;
     private ViewPageAdapter mViewPageAdapter;
     private TabLayout mTabLayout;
+    private FloatingActionButton mWishListFloatingActionButton;
 
     private ProductData mProductDataInstance;
+
+    private SearchResultModel item;
+
+    private WishListChangeListener wishListChangeListener = new WishListChangeListener() {
+        @Override
+        public void wishListItemChanged(Integer position) {
+            if (item != null) {
+                updateFloatingIconView();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +51,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         setContentView(R.layout.product_activity_layout);
 
         mProductDataInstance = ProductData.getInstance();
+        item = mProductDataInstance.getItem();
 
         mActionBar = getSupportActionBar();
         setUpActionBar();
@@ -47,6 +64,11 @@ public class ProductDetailActivity extends AppCompatActivity {
         mTabLayout.setupWithViewPager(viewPager);
         setTabIcons();
 
+        mWishListFloatingActionButton = findViewById(R.id.wish_list_floating_button);
+        setWishListFloatingActionButton();
+
+        WishListData.getInstance().registerCallback(wishListChangeListener);
+
         initiateDataFetching();
     }
 
@@ -54,10 +76,10 @@ public class ProductDetailActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mProductDataInstance.cancelRequest();
+        WishListData.getInstance().unregisterCallback(wishListChangeListener);
     }
 
     private void setUpActionBar() {
-        SearchResultModel item = mProductDataInstance.getItem();
         mActionBar.setTitle(item.getTitle());
         mActionBar.setDisplayHomeAsUpEnabled(true);
     }
@@ -151,5 +173,27 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, builder.build());
         startActivity(browserIntent);
+    }
+
+    private void setWishListFloatingActionButton() {
+        updateFloatingIconView();
+        mWishListFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (item.isInWishList()){
+                    WishListData.getInstance().removeItemFromWishList(item);
+                } else {
+                    WishListData.getInstance().addItemToWishList(item);
+                }
+            }
+        });
+    }
+
+    private void updateFloatingIconView() {
+        if (item.isInWishList()) {
+            mWishListFloatingActionButton.setImageDrawable(getDrawable(R.drawable.cart_remove));
+        } else {
+            mWishListFloatingActionButton.setImageDrawable(getDrawable(R.drawable.cart_add));
+        }
     }
 }
