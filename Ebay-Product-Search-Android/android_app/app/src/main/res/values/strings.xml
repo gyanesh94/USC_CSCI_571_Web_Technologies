@@ -85,9 +85,9 @@
     <string name="return_policy_refund_mode">Refund Mode</string>
     <string name="return_policy_shipped_by">Shipped by</string>
 
-    <string name="error_while_fetching_product_details">Error while fetching Product Details: </string>
-    <string name="error_while_fetching_photos">Error while fetching Photos: </string>
-    <string name="error_while_fetching_similar_items">Error while fetching similar items: </string>
+    <string name="error_while_fetching_product_details">Error while fetching Product Details:</string>
+    <string name="error_while_fetching_photos">Error while fetching Photos:</string>
+    <string name="error_while_fetching_similar_items">Error while fetching similar items:</string>
 
 
     <string name="day_left">%s Day Left</string>

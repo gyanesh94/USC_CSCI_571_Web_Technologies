@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/progress_bar_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/searching_products" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <LinearLayout
-            android:id="@+id/progress_bar_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-
-            <ProgressBar
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/searching_products" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/main_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
 
             <HorizontalScrollView
                 android:layout_width="wrap_content"
@@ -185,17 +185,15 @@
                     android:layout_marginStart="@dimen/section_body_margin_start"
                     android:layout_marginTop="@dimen/section_body_margin_top"
                     android:lineSpacingExtra="7dp" />
-
             </LinearLayout>
         </LinearLayout>
+    </ScrollView>
 
-        <TextView
-            android:id="@+id/error"
-            style="@style/ErrorText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/product_tab_no_product_details"
-            android:visibility="gone" />
-    </RelativeLayout>
-</ScrollView>
+    <TextView
+        android:id="@+id/error"
+        style="@style/ErrorText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/product_tab_no_product_details"
+        android:visibility="gone" />
+</RelativeLayout>

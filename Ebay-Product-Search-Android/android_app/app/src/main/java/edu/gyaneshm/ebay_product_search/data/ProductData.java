@@ -84,7 +84,7 @@ public class ProductData {
                         } else {
                             productDetailError = Utils.getString(R.string.no_response_from_server);
                         }
-                        Utils.showToast(Utils.getString(R.string.error_while_fetching_product_details) + productDetailError);
+                        Utils.showToast(Utils.getString(R.string.error_while_fetching_product_details), productDetailError);
                         productDetailFetched = true;
                         sendNotification();
                     }
@@ -122,7 +122,7 @@ public class ProductData {
                                 }
                             } catch (Exception ex) {
                                 googlePhotosError = Utils.getString(R.string.product_tab_no_images);
-                                Utils.showToast(Utils.getString(R.string.error_while_fetching_photos) + googlePhotosError);
+                                Utils.showToast(Utils.getString(R.string.error_while_fetching_photos), googlePhotosError);
                             }
                         }
                         googlePhotosFetched = true;
@@ -139,7 +139,7 @@ public class ProductData {
                         } else {
                             googlePhotosError = Utils.getString(R.string.no_response_from_server);
                         }
-                        Utils.showToast(Utils.getString(R.string.error_while_fetching_photos) + googlePhotosError);
+                        Utils.showToast(Utils.getString(R.string.error_while_fetching_photos), googlePhotosError);
                         googlePhotosFetched = true;
                         sendNotification();
                     }
@@ -179,7 +179,7 @@ public class ProductData {
                                 }
                             } catch (Exception ex) {
                                 similarItemsError = Utils.getString(R.string.product_tab_no_similar_items);
-                                Utils.showToast(Utils.getString(R.string.error_while_fetching_similar_items) + similarItemsError);
+                                Utils.showToast(Utils.getString(R.string.error_while_fetching_similar_items), similarItemsError);
                             }
                         }
                         similarItemsFetched = true;
@@ -196,7 +196,7 @@ public class ProductData {
                         } else {
                             similarItemsError = Utils.getString(R.string.no_response_from_server);
                         }
-                        Utils.showToast(Utils.getString(R.string.error_while_fetching_similar_items) + similarItemsError);
+                        Utils.showToast(Utils.getString(R.string.error_while_fetching_similar_items), similarItemsError);
                         similarItemsFetched = true;
                         sendNotification();
                     }

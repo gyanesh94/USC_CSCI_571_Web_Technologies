@@ -32,11 +32,17 @@ public class Utils {
     }
 
     public static void showToast(int id) {
-        Toast.makeText(
-                EbayProductSearchApplication.getInstance(),
-                getString(id),
-                Toast.LENGTH_SHORT
-        ).show();
+        showToast(getString(id));
+    }
+
+    public static void showToast(String... messages) {
+        StringBuilder str = new StringBuilder();
+        for (String s :
+                messages) {
+            str.append(s);
+            str.append(" ");
+        }
+        showToast(str.toString().trim());
     }
 
     public static void showToast(String message) {

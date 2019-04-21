@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.wssholmes.stark.circular_score.CircularScoreView;
@@ -33,7 +34,7 @@ import edu.gyaneshm.ebay_product_search.shared.Utils;
 
 public class ShippingFragment extends Fragment {
     private LinearLayout mProgressBarContainer;
-    private LinearLayout mMainContainer;
+    private ScrollView mMainContainer;
 
     private LinearLayout mSoldByLinearLayout;
     private LinearLayout mSoldByStoreNameLinearLayout;

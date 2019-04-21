@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -28,7 +29,7 @@ public class DetailFragment extends Fragment {
     private LayoutInflater mLayoutInflator;
 
     private LinearLayout mProgressBarContainer;
-    private LinearLayout mMainContainer;
+    private ScrollView mMainContainer;
     private LinearLayout mGalleryLinearLayout;
 
     private TextView mProductTileTextView;

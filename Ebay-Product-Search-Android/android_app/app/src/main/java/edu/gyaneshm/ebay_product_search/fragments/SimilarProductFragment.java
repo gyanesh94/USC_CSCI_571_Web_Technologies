@@ -26,7 +26,6 @@ import edu.gyaneshm.ebay_product_search.data.ProductData;
 import edu.gyaneshm.ebay_product_search.listeners.DataFetchingListener;
 import edu.gyaneshm.ebay_product_search.listeners.ItemClickListener;
 import edu.gyaneshm.ebay_product_search.models.SimilarProductModel;
-import edu.gyaneshm.ebay_product_search.shared.Utils;
 
 public class SimilarProductFragment extends Fragment {
     private LinearLayout mProgressBarContainer;
