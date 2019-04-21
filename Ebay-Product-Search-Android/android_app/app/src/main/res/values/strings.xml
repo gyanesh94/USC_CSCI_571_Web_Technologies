@@ -88,7 +88,12 @@
     <string name="error_while_fetching_product_details">Error while fetching Product Details:</string>
     <string name="error_while_fetching_photos">Error while fetching Photos:</string>
     <string name="error_while_fetching_similar_items">Error while fetching similar items:</string>
+    <string name="error_facebook_share_data_not_fetched">Please try again after product data is fetched</string>
+    <string name="error_facebook_share_data_not_found">Product data not found so can\'t share any details</string>
+    <string name="error_facebook_share_data_product_url_not_found">Product URL not found so can\'t share any details</string>
 
+    <string name="facebook_share_message">Buy %s for $%s from Ebay!</string>
+    <string name="facebook_share_hash_tag">#CSCI571Spring2019Ebay</string>
 
     <string name="day_left">%s Day Left</string>
     <string name="days_left">%s Days Left</string>

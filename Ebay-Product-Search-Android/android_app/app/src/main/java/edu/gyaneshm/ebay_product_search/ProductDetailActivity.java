@@ -1,5 +1,7 @@
 package edu.gyaneshm.ebay_product_search;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -10,11 +12,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import edu.gyaneshm.ebay_product_search.adapters.ViewPageAdapter;
+import edu.gyaneshm.ebay_product_search.data.AppConfig;
 import edu.gyaneshm.ebay_product_search.data.ProductData;
 import edu.gyaneshm.ebay_product_search.fragments.DetailFragment;
 import edu.gyaneshm.ebay_product_search.fragments.PhotosFragment;
 import edu.gyaneshm.ebay_product_search.fragments.ShippingFragment;
 import edu.gyaneshm.ebay_product_search.fragments.SimilarProductFragment;
+import edu.gyaneshm.ebay_product_search.models.ProductModel;
 import edu.gyaneshm.ebay_product_search.models.SearchResultModel;
 import edu.gyaneshm.ebay_product_search.shared.Utils;
 
@@ -72,7 +76,9 @@ public class ProductDetailActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
-
+            case R.id.action_facebook:
+                shareFacebookPost();
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -112,5 +118,38 @@ public class ProductDetailActivity extends AppCompatActivity {
         if (!mProductDataInstance.isSimilarItemsFetched()) {
             mProductDataInstance.fetchSimilarItems();
         }
+    }
+
+    private void shareFacebookPost() {
+        if (!mProductDataInstance.isProductDetailFetched()) {
+            Utils.showToast(R.string.error_facebook_share_data_not_fetched);
+            return;
+        }
+        if (mProductDataInstance.getProductDetailError() != null) {
+            Utils.showToast(R.string.error_facebook_share_data_not_found);
+            return;
+        }
+        ProductModel product = mProductDataInstance.getProductDetail();
+        if (product.getProductUrl() == null) {
+            Utils.showToast(R.string.error_facebook_share_data_product_url_not_found);
+            return;
+        }
+
+        Uri.Builder builder = Uri.parse("https://www.facebook.com/dialog/share").buildUpon();
+        builder.appendQueryParameter("app_id", AppConfig.getFacebookAppId());
+        builder.appendQueryParameter("display", "touch");
+        builder.appendQueryParameter("href", product.getProductUrl());
+        builder.appendQueryParameter(
+                "quote",
+                getString(
+                        R.string.facebook_share_message,
+                        product.getTitle(),
+                        Utils.formatPriceToString(product.getPrice())
+                )
+        );
+        builder.appendQueryParameter("hashtag", getString(R.string.facebook_share_hash_tag));
+
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, builder.build());
+        startActivity(browserIntent);
     }
 }

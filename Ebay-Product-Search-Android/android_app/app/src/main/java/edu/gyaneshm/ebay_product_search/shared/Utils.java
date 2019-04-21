@@ -13,6 +13,9 @@ import edu.gyaneshm.ebay_product_search.R;
 
 public class Utils {
     public static String formatPriceToString(Double number) {
+        if (number == null) {
+            return "";
+        }
         if (Math.floor(number) == number) {
             return String.format(Locale.getDefault(), "%.1f", number);
         } else {
