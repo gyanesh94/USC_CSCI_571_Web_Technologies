@@ -82,8 +82,6 @@ public class PhotosFragment extends Fragment {
             setUpViews();
             return;
         }
-
-        Utils.showToast(errorMessage);
         mErrorTextView.setVisibility(View.VISIBLE);
     }
 

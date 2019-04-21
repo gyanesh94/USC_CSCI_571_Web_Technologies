@@ -35,6 +35,7 @@
     <string name="search_clear_button">Clear</string>
 
     <string name="search_fetching_location_error">Error while fetching the current zipcode. Please manually enter it or try again after sometime.</string>
+    <string name="please_fix_all_fields_with_error">Please fix all fields with errors</string>
 
     <!-- Search Results -->
     <string name="search_results_title">Search Results</string>
@@ -58,7 +59,7 @@
     <string name="product_tab_no_photos">No photos.</string>
     <string name="product_tab_no_shipping_details">No shipping details.</string>
     <string name="product_tab_no_images">No images.</string>
-    <string name="product_tab_no_similar_items">No similar items.</string>
+    <string name="product_tab_no_similar_items">No results</string>
     <string name="highlights">Highlights</string>
     <string name="specifications">Specifications</string>
     <string name="price_text">Price</string>
@@ -83,6 +84,10 @@
     <string name="return_policy_returns_within">Returns within</string>
     <string name="return_policy_refund_mode">Refund Mode</string>
     <string name="return_policy_shipped_by">Shipped by</string>
+
+    <string name="error_while_fetching_product_details">Error while fetching Product Details: </string>
+    <string name="error_while_fetching_photos">Error while fetching Photos: </string>
+    <string name="error_while_fetching_similar_items">Error while fetching similar items: </string>
 
 
     <string name="day_left">%s Day Left</string>

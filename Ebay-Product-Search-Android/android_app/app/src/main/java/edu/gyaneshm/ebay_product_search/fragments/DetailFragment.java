@@ -118,8 +118,6 @@ public class DetailFragment extends Fragment {
             setUpViews();
             return;
         }
-
-        Utils.showToast(errorMessage);
         mErrorTextView.setVisibility(View.VISIBLE);
     }
 
@@ -200,9 +198,17 @@ public class DetailFragment extends Fragment {
         StringBuilder str = new StringBuilder();
 
         HashMap<String, String> itemSpecifics = productDetail.getItemSpecifics();
+        if (itemSpecifics.containsKey("Brand")) {
+            str.append("&#8226; ");
+            str.append(Utils.capitalizeFirstCharacter(itemSpecifics.get("Brand")));
+            str.append("<br>");
+            itemSpecifics.remove("Brand");
+            sectionValid = true;
+        }
+
         for(HashMap.Entry<String, String> entry : itemSpecifics.entrySet()) {
             str.append("&#8226; ");
-            str.append(entry.getValue());
+            str.append(Utils.capitalizeFirstCharacter(entry.getValue()));
             str.append("<br>");
             sectionValid = true;
         }

@@ -82,4 +82,11 @@ public class Utils {
         else
             return json.optJSONArray(key);
     }
+
+    public static String capitalizeFirstCharacter(String str) {
+        if (str == null) {
+            return null;
+        }
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
 }

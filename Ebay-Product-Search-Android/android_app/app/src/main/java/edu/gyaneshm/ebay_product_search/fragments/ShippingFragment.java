@@ -154,8 +154,6 @@ public class ShippingFragment extends Fragment {
             setUpViews();
             return;
         }
-
-        Utils.showToast(errorMessage);
         mErrorTextView.setVisibility(View.VISIBLE);
     }
 

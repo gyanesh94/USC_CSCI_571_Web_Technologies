@@ -250,6 +250,7 @@ public class SearchFragment extends Fragment {
                 }
 
                 if (!valid) {
+                    Utils.showToast(R.string.please_fix_all_fields_with_error);
                     return;
                 }
 

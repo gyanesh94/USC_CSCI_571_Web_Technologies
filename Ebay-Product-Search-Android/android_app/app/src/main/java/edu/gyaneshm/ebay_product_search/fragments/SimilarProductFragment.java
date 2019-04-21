@@ -133,8 +133,6 @@ public class SimilarProductFragment extends Fragment {
             setUpViews();
             return;
         }
-
-        Utils.showToast(errorMessage);
         mErrorTextView.setVisibility(View.VISIBLE);
     }
 
