@@ -152,15 +152,15 @@ public class ProductDetailActivity extends AppCompatActivity {
             return;
         }
         ProductModel product = mProductDataInstance.getProductDetail();
-        if (product.getProductUrl() == null) {
-            Utils.showToast(R.string.error_facebook_share_data_product_url_not_found);
-            return;
+        String productUrl = product.getProductUrl();
+        if (productUrl == null) {
+            productUrl = "https://www.ebay.com/";
         }
 
         Uri.Builder builder = Uri.parse("https://www.facebook.com/dialog/share").buildUpon();
         builder.appendQueryParameter("app_id", AppConfig.getFacebookAppId());
         builder.appendQueryParameter("display", "touch");
-        builder.appendQueryParameter("href", product.getProductUrl());
+        builder.appendQueryParameter("href", productUrl);
         builder.appendQueryParameter(
                 "quote",
                 getString(
@@ -180,7 +180,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         mWishListFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (item.isInWishList()){
+                if (item.isInWishList()) {
                     WishListData.getInstance().removeItemFromWishList(item);
                 } else {
                     WishListData.getInstance().addItemToWishList(item);

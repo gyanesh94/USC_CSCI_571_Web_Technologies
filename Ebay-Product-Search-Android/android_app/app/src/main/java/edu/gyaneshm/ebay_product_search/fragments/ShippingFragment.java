@@ -210,7 +210,7 @@ public class ShippingFragment extends Fragment {
             mSoldByPopularityCircularScoreView.setBackgroundColor(Color.WHITE);
             mSoldByPopularityCircularScoreView.setTextColor(Color.BLACK);
             mSoldByPopularityCircularScoreView.setPrimaryColor(Color.parseColor("#FFD37159"));
-            mSoldByPopularityCircularScoreView.setSecondaryColor(Color.WHITE);
+            mSoldByPopularityCircularScoreView.setSecondaryColor(Color.parseColor("#A69256EE"));
             mSoldByPopularityCircularScoreView.setScore(Utils.doubleToInt(popularity));
             mSoldByPopularityLinearLayout.setVisibility(View.VISIBLE);
 

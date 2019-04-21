@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#FF3D00D1</color>
     <color name="colorPrimaryDark">#FF1D0076</color>
-    <color name="colorAccent">#FF9256EE</color>
+    <color name="colorAccent">#A69256EE</color>
 
     <color name="app_orange_accent">#FFD37159</color>
 
