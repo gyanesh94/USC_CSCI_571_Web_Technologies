@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import edu.gyaneshm.ebay_product_search.ProductDetailActivity;
 import edu.gyaneshm.ebay_product_search.R;
@@ -94,7 +95,7 @@ public class WishListFragment extends Fragment {
         for (int i = 0; i < wishList.size(); i++) {
             totalPrice += wishList.get(i).getPrice();
         }
-        mPriceTextView.setText(getString(R.string.price, Utils.formatPriceToString(totalPrice)));
+        mPriceTextView.setText(getString(R.string.price, String.format(Locale.getDefault(), "%.2f", totalPrice)));
         mTotalItemsTextView.setText(getString(R.string.wish_list_total_items, wishList.size()));
 
         if (wishList.size() == 0) {

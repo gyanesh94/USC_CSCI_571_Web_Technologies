@@ -10,7 +10,7 @@
 
     <color name="shopping_icon_color">#FFC6373E</color>
 
-    <color name="tab_selected_color">#FFF0C9F2</color>
+    <color name="tab_selected_color">#FFFFFFFF</color>
     <color name="tab_normal_color">#FFBC78E7</color>
 
     <color name="search_results_total_items_text_color">@color/app_orange_accent</color>

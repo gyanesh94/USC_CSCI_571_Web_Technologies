@@ -52,7 +52,7 @@
     </string-array>
 
     <string-array name="order">
-        <item>Descending</item>
         <item>Ascending</item>
+        <item>Descending</item>
     </string-array>
 </resources>

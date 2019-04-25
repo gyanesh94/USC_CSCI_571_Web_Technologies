@@ -197,9 +197,9 @@ public class SimilarProductFragment extends Fragment {
 
         final int value;
         if (order == 0) {
-            value = 1;
-        } else {
             value = -1;
+        } else {
+            value = 1;
         }
 
         mSimilarProducts.sort(new Comparator<SimilarProductModel>() {

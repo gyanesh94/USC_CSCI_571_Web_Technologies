@@ -145,10 +145,10 @@ public class WishListData {
 
     private void showToast(String title, boolean added) {
         if (added) {
-            title = Utils.truncateString(title, 65);
+            title = Utils.truncateString(title, 45);
             title += " was added to wish list";
         } else {
-            title = Utils.truncateString(title, 60);
+            title = Utils.truncateString(title, 45);
             title += " was removed from wish list";
         }
 
