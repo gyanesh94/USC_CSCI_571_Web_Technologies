@@ -44,7 +44,7 @@ Using eBay API
 
 
 
-#### Ebay-Product-Search-Angular
+#### Ebay Product Search website using Angular
 
 ------
 
@@ -60,3 +60,19 @@ Using eBay API
 [video (mobile)](Ebay-Product-Search-Angular/assignment_description/hw8%20-%20Spring%202019%20(mobile).mp4)
 
 [Description](Ebay-Product-Search-Angular/assignment_description/HW8_Description.pdf)
+
+
+
+#### Ebay Product Search Android Application
+
+------
+
+- Become familiar with Java, JSON, Android Lifecycle and Android Studio for Android app development
+- Learn the essentials of Google’s Material design rules for designing Android apps
+- Get familiar with third party libraries like Picasso, Glide and Volley
+- Learn to use popular APIs such as eBay API, Google Customized Search API and Facebook API.
+
+[video](Ebay-Product-Search-Android/assignment_description/CSCI%20571%20Spring%202019-%20hw9.mp4)
+
+[Description](Ebay-Product-Search-Android/assignment_description/HW9_Description_Android.pdf)
+
