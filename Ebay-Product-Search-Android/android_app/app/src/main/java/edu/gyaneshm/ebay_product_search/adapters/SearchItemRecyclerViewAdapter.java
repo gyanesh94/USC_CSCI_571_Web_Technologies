@@ -85,7 +85,6 @@ public class SearchItemRecyclerViewAdapter extends RecyclerView.Adapter<SearchIt
         } else {
             Glide.with(mContext)
                     .load(itemUrl)
-                    .error(R.drawable.error_na)
                     .into(holder.mItemImageButton);
 
         }

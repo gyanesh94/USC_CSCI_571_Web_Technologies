@@ -192,7 +192,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="100dp"
                     android:autofillHints="false"
-                    android:dropDownVerticalOffset="-100dp"
+                    android:dropDownVerticalOffset="-80dp"
                     android:hint="@string/search_location_zipcode_hint"
                     android:inputType="text"
                     android:maxLines="1"
