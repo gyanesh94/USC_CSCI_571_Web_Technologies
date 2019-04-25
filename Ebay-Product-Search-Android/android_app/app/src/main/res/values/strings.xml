@@ -62,6 +62,7 @@
     <string name="product_tab_no_similar_items">No results</string>
     <string name="highlights">Highlights</string>
     <string name="specifications">Specifications</string>
+    <string name="subtitle_text">Subtitle</string>
     <string name="price_text">Price</string>
     <string name="brand_text">Brand</string>
     <string name="with_free_shipping">With Free Shipping</string>
@@ -98,6 +99,8 @@
     <string name="day_left">%s Day Left</string>
     <string name="days_left">%s Days Left</string>
     <string name="searching_products">Searching Products&#8230;</string>
+    <string name="searching_product_detail">Searching Product Details&#8230;</string>
+    <string name="searching_similar_items">Searching Similar Items&#8230;</string>
     <string name="searching_photos">Searching Photos&#8230;</string>
     <string name="price">$%s</string>
     <string name="free_shipping">Free Shipping</string>

@@ -143,6 +143,7 @@ This homework is a mobile app version of Homework 8. In this exercise, you will 
   - A textview with Price and shipping cost.
   - If the Shipping cost is \$0 then display “With Free Shipping”, otherwise show “With $XX Shipping” with XX being the shipping cost
 - **Highlights**
+  - **Subtitle**
   - **Price**: price of the product - **CurrentPrice** property in json
   - **Brand**: Brand of the product – **Brand** property in json
 - **Specifications**

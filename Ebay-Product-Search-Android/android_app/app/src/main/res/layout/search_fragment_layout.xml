@@ -113,6 +113,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:orientation="horizontal">
+
         <TextView
             style="@style/SearchHeadingOnlyText"
             android:layout_width="wrap_content"
@@ -188,12 +189,14 @@
                 <AutoCompleteTextView
                     android:id="@+id/search_location_zipcode"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginEnd="100dp"
                     android:autofillHints="false"
+                    android:dropDownVerticalOffset="-100dp"
                     android:hint="@string/search_location_zipcode_hint"
                     android:inputType="text"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:padding="0dp" />
             </LinearLayout>
 
 

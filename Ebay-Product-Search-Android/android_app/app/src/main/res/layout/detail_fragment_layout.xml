@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/searching_products" />
+            android:text="@string/searching_product_detail" />
     </LinearLayout>
 
     <ScrollView
@@ -103,6 +103,31 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/information"
                     android:text="@string/highlights" />
+
+                <LinearLayout
+                    android:id="@+id/highlight_section_subtitle_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/section_body_margin_start"
+                    android:layout_marginTop="@dimen/section_body_margin_top"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="5">
+
+                    <TextView
+                        style="@style/NormalText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/subtitle_text" />
+
+                    <TextView
+                        android:id="@+id/highlight_section_subtitle_text"
+                        style="@style/OtherText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/highlight_section_price_layout"

@@ -37,6 +37,8 @@ public class DetailFragment extends Fragment {
     private TextView mShippingTextView;
 
     private LinearLayout mHighlightsSectionLinearLayout;
+    private LinearLayout mHighLightsSectionSubtitleLayout;
+    private TextView mHighLightsSectionSubtitleTextView;
     private LinearLayout mHighLightsSectionPriceLayout;
     private TextView mHighLightsSectionPriceTextView;
     private LinearLayout mHighLightsSectionBrandLayout;
@@ -77,6 +79,8 @@ public class DetailFragment extends Fragment {
         mShippingTextView = view.findViewById(R.id.shipping);
 
         mHighlightsSectionLinearLayout = view.findViewById(R.id.highlight_section);
+        mHighLightsSectionSubtitleLayout = view.findViewById(R.id.highlight_section_subtitle_layout);
+        mHighLightsSectionSubtitleTextView = view.findViewById(R.id.highlight_section_subtitle_text);
         mHighLightsSectionPriceLayout = view.findViewById(R.id.highlight_section_price_layout);
         mHighLightsSectionPriceTextView = view.findViewById(R.id.highlight_section_price_text);
         mHighLightsSectionBrandLayout = view.findViewById(R.id.highlight_section_brand_layout);
@@ -173,6 +177,13 @@ public class DetailFragment extends Fragment {
 
     private void setUpHighlightsSection() {
         boolean sectionValid = false;
+
+        String subtitle = productDetail.getSubtitle();
+        if (subtitle != null) {
+            mHighLightsSectionSubtitleTextView.setText(subtitle);
+            mHighLightsSectionSubtitleLayout.setVisibility(View.VISIBLE);
+            sectionValid = true;
+        }
 
         Double price = productDetail.getPrice();
         if (price != null) {

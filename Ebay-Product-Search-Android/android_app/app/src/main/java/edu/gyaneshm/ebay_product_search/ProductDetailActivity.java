@@ -59,6 +59,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         ViewPager viewPager = findViewById(R.id.product_container);
         setUpViewPager();
         viewPager.setAdapter(mViewPageAdapter);
+        viewPager.setOffscreenPageLimit(3);
 
         mTabLayout = findViewById(R.id.product_tabs);
         mTabLayout.setupWithViewPager(viewPager);
