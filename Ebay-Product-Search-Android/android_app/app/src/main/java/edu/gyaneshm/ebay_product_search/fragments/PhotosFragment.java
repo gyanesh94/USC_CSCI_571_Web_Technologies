@@ -70,7 +70,7 @@ public class PhotosFragment extends Fragment {
         mMainContainer.setVisibility(View.GONE);
         mErrorTextView.setVisibility(View.GONE);
 
-        isFetched = mProductDataInstance.isProductDetailFetched();
+        isFetched = mProductDataInstance.isGooglePhotosFetched();
         if (isFetched) {
             checkError();
         } else {
