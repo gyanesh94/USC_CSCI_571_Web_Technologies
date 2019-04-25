@@ -35,6 +35,7 @@ import java.util.HashMap;
 
 import edu.gyaneshm.ebay_product_search.R;
 import edu.gyaneshm.ebay_product_search.SearchResultActivity;
+import edu.gyaneshm.ebay_product_search.adapters.ZipCodeAdapter;
 import edu.gyaneshm.ebay_product_search.data.SearchResultData;
 import edu.gyaneshm.ebay_product_search.data.ZipcodeSuggestionsData;
 import edu.gyaneshm.ebay_product_search.models.SearchFormModel;
@@ -66,7 +67,8 @@ public class SearchFragment extends Fragment {
     private ZipcodeSuggestionsData mZipcodeSuggestionsData = null;
     private RequestQueue mRequestQueue = null;
 
-    private ArrayAdapter<String> mZipcodeAdapter;
+    private ZipCodeAdapter mZipcodeAdapter;
+    private ArrayList<String> mZipCodeSuggestionsList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -135,10 +137,10 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        mZipcodeAdapter = new ArrayAdapter<>(
+        mZipcodeAdapter = new ZipCodeAdapter(
                 getContext(),
                 android.R.layout.simple_spinner_dropdown_item,
-                new String[]{}
+                mZipCodeSuggestionsList
         );
 
         mZipcodeAutoCompleteTextView.setEnabled(false);
@@ -176,8 +178,8 @@ public class SearchFragment extends Fragment {
                                 } catch (Exception e) {
                                 }
                             }
-                            mZipcodeAdapter.clear();
-                            mZipcodeAdapter.addAll(suggestions);
+                            mZipCodeSuggestionsList.clear();
+                            mZipCodeSuggestionsList.addAll(suggestions);
                             mZipcodeAdapter.notifyDataSetChanged();
                         }
                     };
