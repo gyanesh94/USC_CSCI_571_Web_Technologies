@@ -26,3 +26,4 @@ Create a webpage that allows you to search for products information using the *e
 1. Can search products on Ebay from current location or a custom location
 2. Can view searched products details including features, seller details, shipping details etc.
 3. Also show similar products
+4. **Tested on Firefox and Chrome**

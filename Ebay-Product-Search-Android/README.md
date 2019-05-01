@@ -22,7 +22,7 @@ Ebay Product Search application allows you to search for products information so
 ## To Run
 - Convert [AppConfig.java.bak](android_app/app/src/main/java/edu/gyaneshm/ebay_product_search/data/AppConfig.java.bak) to AppConfig.java
   - Add all the parameters as mentioned
-- Run the server mentioned in [Ebay Product Search Angular](../Ebay-Product-Search-Angular)
+- Run the server given in [Ebay Product Search Angular](../Ebay-Product-Search-Angular)
 
 ## Features
 

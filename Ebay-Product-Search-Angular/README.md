@@ -41,3 +41,4 @@ Create a webpage that allows you to search for products information using the *e
 - User can share the item details on Facebook
 - User can create their wish list which are accessible at all times even after the website is closed. This is done using LocalStorage.
 - Bootstrap is used to make the website responsive and mobile friendly.
+- **Tested on Firefox, Chrome, Safari and Mobile browsers (Chrome, Safari)**

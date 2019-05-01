@@ -9,6 +9,8 @@ Homework Assignments for Master's Course CSCI 571 Web Technologies
 
 Creating a static webpage having parallax effect using HTML and CSS only
 
+(**Tested on Firefox**)
+
 
 
 #### Homework 4
@@ -16,6 +18,8 @@ Creating a static webpage having parallax effect using HTML and CSS only
 ------
 
 Familarize with JavaSript and create website that fecth JSON file and parse the data into the table.
+
+(**Tested on Firefox**)
 
 
 
@@ -36,6 +40,8 @@ Using eBay API
 - Also search based on location near by or given zip code
 - Get a product detail, show seller's message as well as similar products
 
+(**Tested on Firefox and Chrome**)
+
 
 
 #### Ebay Product Search website using Angular
@@ -48,6 +54,8 @@ Using eBay API
 - Get familiar with Bootstrap to enhance the user experience using responsive design
 - Get hands-on experience of Google Cloud Platform App Engine
 - Learn to use popular APIs such as eBay API, Google Customized Search API and Facebook API.
+
+(**Tested on Firefox, Chrome, Safari and Mobile browsers (Chrome, Safari)**)
 
 
 
