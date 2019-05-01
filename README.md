@@ -7,9 +7,7 @@ Homework Assignments for Master's Course CSCI 571 Web Technologies
 
 ------
 
-Creating a static webpage having parallax effect using HTML and CSS only as shown in [screenshots](Homework%203/assignment_description/screenshots) and [video](Homework%203/assignment_description/hw3%20-%20Spring%202019.mp4).
-
-[Description](Homework%203/assignment_description/HW3_Description.pdf)
+Creating a static webpage having parallax effect using HTML and CSS only
 
 
 
@@ -18,8 +16,6 @@ Creating a static webpage having parallax effect using HTML and CSS only as show
 ------
 
 Familarize with JavaSript and create website that fecth JSON file and parse the data into the table.
-
-[video](Homework%204/assignment_description/hw4%20-%20Spring%202019.mp4) [Description](Homework%204/assignment_description/HW4_Description.pdf)
 
 
 
@@ -40,8 +36,6 @@ Using eBay API
 - Also search based on location near by or given zip code
 - Get a product detail, show seller's message as well as similar products
 
-[video](Homework%206/assignment_description/hw6%20-%20Spring%202019.mp4) [Description](Homework%206/assignment_description/HW6_Description.pdf)
-
 
 
 #### Ebay Product Search website using Angular
@@ -55,12 +49,6 @@ Using eBay API
 - Get hands-on experience of Google Cloud Platform App Engine
 - Learn to use popular APIs such as eBay API, Google Customized Search API and Facebook API.
 
-[video (desktop)](Ebay-Product-Search-Angular/assignment_description/hw8%20-%20Spring%202019%20(desktop).mp4)
-
-[video (mobile)](Ebay-Product-Search-Angular/assignment_description/hw8%20-%20Spring%202019%20(mobile).mp4)
-
-[Description](Ebay-Product-Search-Angular/assignment_description/HW8_Description.pdf)
-
 
 
 #### Ebay Product Search Android Application
@@ -71,8 +59,4 @@ Using eBay API
 - Learn the essentials of Google’s Material design rules for designing Android apps
 - Get familiar with third party libraries like Picasso, Glide and Volley
 - Learn to use popular APIs such as eBay API, Google Customized Search API and Facebook API.
-
-[video](Ebay-Product-Search-Android/assignment_description/CSCI%20571%20Spring%202019-%20hw9.mp4)
-
-[Description](Ebay-Product-Search-Android/assignment_description/HW9_Description_Android.pdf)
 
