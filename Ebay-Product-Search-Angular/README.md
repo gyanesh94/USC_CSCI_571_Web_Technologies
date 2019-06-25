@@ -1,4 +1,4 @@
-# Ebay Product Search Angular
+# eBay Product Search Angular
 
 1. The project is live and deployed on Google Cloud Platform.
 

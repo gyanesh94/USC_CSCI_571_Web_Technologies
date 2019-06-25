@@ -1,10 +1,10 @@
-# Ebay Product Search Android Application
+# eBay Product Search Android Application
 
 ## Overview
 
 This Android application serves as the Mobile counterpart of the project found at [Ebay Product Search Angular](../Ebay-Product-Search-Angular).
 
-Ebay Product Search application allows you to search for products information sold on ebay based on current location or any other location entered by the user. Users can also know more about the provide product details, seller details and related products.
+eBay Product Search application allows you to search for products information sold on eBay based on current location or any other location entered by the user. Users can also know more about product details, seller details, and related products.
 
 ## Technologies used
 
